@@ -1,0 +1,240 @@
+/* Estilos del componente Tarjeta de Producto (ProductCard) */
+
+.producto {
+    /* Contenedor principal de la tarjeta blanca */
+    background-color: white;
+    color: black;
+    padding: 12px;
+    border-radius: 12px;
+    width: 160px;
+    min-height: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+/* Efecto de elevación al pasar el mouse */
+.producto:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Línea decorativa superior que aparece al hacer hover */
+.producto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #ffcc00, #ff9900);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+}
+
+.producto:hover::before {
+    transform: scaleX(1);
+}
+
+/* Contenedor de la imagen del producto */
+.producto-img-container {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+/* Ajuste de la imagen para que quepa proporcionalmente */
+.producto-img-container img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+}
+
+/* Zoom suave en la imagen al hacer hover */
+.producto:hover .producto-img-container img {
+    transform: scale(1.05);
+}
+
+/* Título del producto con límite de 3 líneas y puntos suspensivos */
+.producto-title {
+    font-size: 13px;
+    font-weight: 600 !important;
+    line-height: 1.25;
+    color: black;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 35px;
+    text-align: left;
+}
+
+/* Estilo para el precio regular (sin oferta) */
+.producto-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+/* Bloque contenedor de precios (usado para alinear nuevo y viejo) */
+.price-block-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 4px 0 0 0;
+    min-height: 24px;
+    width: 100%;
+}
+
+.producto-unit-format {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
+    margin: 2px 0;
+}
+
+/* Precio actual/nuevo (específicamente negro y sin negrita extra) */
+.precio-nuevo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    text-decoration: none;
+}
+
+/* Precio antiguo tachado y más pequeño */
+.precio-antiguo {
+    font-size: 13px;
+    text-decoration: line-through;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* Overlay Link para navegar al producto al hacer clic en cualquier parte de la card */
+.product-card__overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1; /* Por debajo de la imagen y texto, pero por debajo de btn-agregar (z-index: 2) */
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   OFFER BADGE - Estilos del Badge de Oferta (migrados de OfferBadge.css)
+   ========================================================================== */
+.offer-badge {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    z-index: 10;
+    background: linear-gradient(135deg, #ff6b35 0%, hsl(33, 100%, 50%) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+}
+
+.offer-badge__text {
+    line-height: 1;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   BTN AGREGAR - Estilos del botón de acción (migrados de AddToCartButton.css)
+   ========================================================================== */
+.btn-agregar {
+    width: 100%;
+    max-width: 120px;
+    align-self: center;
+    padding: 8px 0;
+    margin-top: auto;
+    background-color: #ffcc00;
+    color: black;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.btn-agregar:hover {
+    background-color: #ff9900;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES - Ajustes responsive para desktop
+   ========================================================================== */
+@media (min-width: 768px) {
+    .producto {
+        width: 220px;
+        min-height: 350px;
+        padding: 20px;
+    }
+
+    .producto-img-container {
+        height: 150px;
+    }
+
+    .producto-title {
+        -webkit-line-clamp: 3;
+        line-clamp: 3;
+        font-size: 16px;
+    }
+
+    .precio-nuevo,
+    .producto-price {
+        font-size: 18px;
+    }
+
+    .precio-antiguo {
+        font-size: 14px;
+    }
+
+    .offer-badge {
+        padding: 4px 10px;
+        font-size: 12px;
+        top: 12px;
+        left: 14px;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-agregar {
+        max-width: 140px;
+        font-size: 14px;
+        padding: 10px 0;
+    }
+}

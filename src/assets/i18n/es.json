@@ -1,0 +1,2529 @@
+{
+  "categories": {
+    "_documentation": {
+      "namespace": "categories",
+      "description": "Traducción de nombres de categorías de productos (alimentos, electrodomésticos, ropa, etc). Responsable de traducir breadcrumb items y títulos de ProductCarouselSection en páginas de categoría, así como meta tags de SEO y datos estructurados JSON-LD.",
+      "usage": "Usado en navegación, menús de categorías, filtros de búsqueda y componentes de páginas de categoría",
+      "contains": "8 categorías principales + 25+ subcategorías",
+      "responsible_for": [
+        "Breadcrumb items en páginas de categoría (category.id y sub.{slug})",
+        "Títulos dinámicos de ProductCarouselSection en Category.tsx",
+        "Meta tags SEO y JSON-LD estructurado en páginas de categoría"
+      ],
+      "usage_pattern": "t('categories:{categoryId}') para categorías, t('categories:sub.{slug}') para subcategorías"
+    },
+    "alimentos": "Alimentos",
+    "electrodomesticos": "Electrodomésticos",
+    "tecnologia": "Tecnología",
+    "ropa": "Ropa",
+    "muebles-y-decoracion": "Muebles y Decoración",
+    "farmacia": "Farmacia",
+    "ferreteria": "Ferretería",
+    "juguetes": "Juguetes",
+    "sub": {
+      "frutas-y-verduras": "Frutas y Verduras",
+      "despensa": "Despensa",
+      "carnes-pescados-mariscos": "Carnes, Pescados y Mariscos",
+      "lacteos-y-huevos": "Lácteos y Huevos",
+      "bebidas": "Bebidas",
+      "enlatados": "Enlatados",
+      "cocina": "Cocina",
+      "lavado": "Lavado",
+      "climatizacion": "Climatización",
+      "televisores": "Televisores",
+      "laptops": "Laptops",
+      "tablets": "Tablets",
+      "celulares": "Celulares",
+      "bocinas": "Bocinas",
+      "pantalones-para-hombres": "Pantalones para Hombres",
+      "pantalones-para-mujeres": "Pantalones para Mujeres",
+      "pantalones-para-ninos": "Pantalones para Niños",
+      "trajes-para-hombres": "Trajes para Hombres",
+      "vestidos": "Vestidos",
+      "sofas": "Sofás",
+      "sillones": "Sillones",
+      "mesas": "Mesas",
+      "floreros": "Floreros",
+      "analgesicos": "Analgésicos",
+      "dermocosmetica": "Dermocosmética",
+      "vitaminas-y-minerales": "Vitaminas y Minerales",
+      "antigripales-y-resfriado": "Antigripales y Resfriado",
+      "herramientas-manuales": "Herramientas Manuales",
+      "pinturas-y-acabados": "Pinturas y Acabados",
+      "electricidad": "Electricidad",
+      "plomeria": "Plomería",
+      "juguetes-para-ninos": "Juguetes para Niños",
+      "juguetes-para-ninas": "Juguetes para Niñas"
+    },
+    "seo": {
+      "description_template": "Explora nuestra selección de {category} en Hipermercado Superior: {subcategories}. Los mejores productos al mejor precio.",
+      "keywords_template": "{category}, {subcategories}, hipermercado, compras online"
+    }
+  },
+  "common": {
+    "_documentation": {
+      "namespace": "common",
+      "description": "Elementos comunes reutilizables en toda la aplicación (botones, etiquetas, mensajes genéricos)",
+      "usage": "Barra de navegación, botones de acción, tooltips, breadcrumb, datos SEO comunes",
+      "contains": "Selección de idioma, breadcrumb, producto, carrito, unidades de medida, SEO"
+    },
+    "select_language": "Seleccionar idioma",
+    "switch_to_es": "Cambiar a Español",
+    "switch_to_en": "Cambiar a Inglés",
+    "breadcrumb": {
+      "home": "Inicio",
+      "categories": "Categorías"
+    },
+    "product": {
+      "view_details": "Ver detalles de {name}",
+      "add_to_cart": "Agregar al Carrito",
+      "price_prefix": "Precio: ",
+      "similar_products": "Productos Similares",
+      "not_found": "Producto no encontrado",
+      "click_to_enlarge": "Haz clic para ampliar",
+      "close_modal": "Cerrar modal (ESC)",
+      "expanded_image": "Imagen ampliada de {name}",
+      "remove": "Eliminar"
+    },
+    "cart": {
+      "add_button": "Agregar",
+      "header_title": "Tu Carrito",
+      "decrease_qty": "Disminuir cantidad",
+      "increase_qty": "Aumentar cantidad",
+      "summary": {
+        "title": "Resumen de la Compra",
+        "total_items": "Total de productos:",
+        "total_price": "Total a pagar:",
+        "pay_button": "Pagar Ahora"
+      },
+      "empty": {
+        "title": "Tu Carrito está vacío",
+        "message": "¡Explora nuestros productos y llena tu carrito!",
+        "button": "Volver a la Tienda"
+      },
+      "seo": {
+        "title": "Mi Carrito",
+        "description": "Revisa los productos en tu carrito de compras de Hipermercado Superior y completa tu pedido al mejor precio.",
+        "empty_title": "Carrito Vacío",
+        "empty_description": "Tu carrito de compras en Hipermercado Superior está vacío. ¡Explora nuestras ofertas y llena tu carrito!",
+        "jsonld_name": "Mi Carrito - Hipermercado Superior",
+        "jsonld_description": "Página del carrito de compras de Hipermercado Superior."
+      }
+    },
+    "units": {
+      "unidad": "unidad",
+      "kg": "kg",
+      "lb": "lb",
+      "litro": "litro",
+      "paquete": "paquete"
+    },
+    "seo": {
+      "keywords": "{name}, {category}, hipermercado, oferta, república dominicana"
+    },
+    "error": {
+      "title": "Algo salió mal",
+      "description": "Ha ocurrido un error inesperado. Por favor, intenta nuevamente.",
+      "retry": "Intentar de nuevo"
+    }
+  },
+  "contact": {
+    "_documentation": {
+      "namespace": "contact",
+      "description": "Contenido específico de la página de contacto (información, formularios, ubicación)",
+      "usage": "Página /contact, modal de contacto, formularios de comunicación",
+      "contains": "Información de empresa, emails, teléfonos, direcciones, redes sociales"
+    },
+    "seo": {
+      "title": "Contacto",
+      "description": "Contáctanos en Hipermercado Superior. Estamos disponibles por correo, teléfono o formulario de contacto. Atención de lunes a domingo, 8:00 AM – 10:00 PM.",
+      "json_ld_name": "Contacto - Hipermercado Superior",
+      "json_ld_description": "Página de contacto de Hipermercado Superior.",
+      "keywords": "contacto hipermercado, atención al cliente, soporte, teléfono supermercado, correo hipermercado"
+    },
+    "form": {
+      "title": "Contacto",
+      "labels": {
+        "name": "Nombre Completo",
+        "email": "Correo Electrónico",
+        "phone": "Teléfono (Opcional)",
+        "message": "Tu Mensaje"
+      },
+      "placeholders": {
+        "name": "Escribe tu nombre aquí...",
+        "email": "juan@ejemplo.com",
+        "phone": "Escribe tu teléfono aquí...",
+        "message": "¿En qué podemos ayudarte?"
+      },
+      "buttons": {
+        "submit": "Enviar",
+        "submitting": "Enviando..."
+      },
+      "success_toast": "✓ ¡Mensaje enviado con éxito!"
+    },
+    "validation": {
+      "name": {
+        "required": "El nombre es obligatorio.",
+        "length": "El nombre debe tener entre 2 y 50 caracteres.",
+        "format": "El nombre solo puede contener letras y espacios."
+      },
+      "email": {
+        "required": "El correo es obligatorio.",
+        "format": "El formato del correo no es válido."
+      },
+      "phone": {
+        "format": "El formato del teléfono no es válido. Use 8-15 dígitos (ej: 8095555555 o (809) 555-5555)."
+      },
+      "message": {
+        "required": "El mensaje es obligatorio.",
+        "length": "El mensaje debe tener entre 10 y 500 caracteres."
+      }
+    },
+    "info": {
+      "title": "Otros medios de contacto:",
+      "email_label": "Correo:",
+      "phone_label": "Teléfono:",
+      "hours_label": "Horario:",
+      "hours_text": "Lunes a Domingo, 8:00 AM – 10:00 PM"
+    }
+  },
+  "footer": {
+    "_documentation": {
+      "namespace": "footer",
+      "description": "Contenido del pie de página (footer) presente en todas las páginas",
+      "usage": "Footer de la aplicación, información legal, redes sociales",
+      "contains": "Nombre de empresa, copyright, enlaces a redes sociales, políticas legales"
+    },
+    "company_name": "Hipermercado Superior",
+    "rights_reserved": "Todos los derechos reservados.",
+    "social": {
+      "facebook": "Visítanos en Facebook",
+      "x": "Visítanos en X (antes Twitter)",
+      "instagram": "Visítanos en Instagram"
+    },
+    "links": {
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Uso"
+    }
+  },
+  "header": {
+    "_documentation": {
+      "namespace": "header",
+      "description": "Contenido del encabezado y navegación principal de la aplicación",
+      "usage": "Barra superior, logo, menú principal, zona de usuario y carrito",
+      "contains": "Brand, menú de navegación, opciones de usuario, etiqueta del carrito",
+      "responsible_for": [
+        "Header brand name and menu labels: brand, menu_open, menu_close, nav_aria",
+        "Navigation menu items: nav.home, nav.categories, nav.offers, nav.contact",
+        "Cart action: cart_label"
+      ],
+      "note": "Las claves relacionadas con búsqueda han sido movidas a search.json para mejor escalabilidad"
+    },
+    "brand": "Hipermercado Superior",
+    "menu_open": "Abrir menú",
+    "menu_close": "Cerrar menú",
+    "cart_label": "Ver carrito",
+    "nav_aria": "Menú principal",
+    "nav": {
+      "home": "Inicio",
+      "categories": "Categorías",
+      "offers": "Ofertas",
+      "contact": "Contacto"
+    },
+    "language": "Idioma"
+  },
+  "home": {
+    "_documentation": {
+      "namespace": "home",
+      "description": "Contenido específico de la página de inicio (hero, featured, about)",
+      "usage": "Página / (inicio), secciones destacadas, carrusel",
+      "contains": "Titulo hero, subtitulo, descripción de oferta, sección about, datos SEO"
+    },
+    "hero": {
+      "title": "Hipermercado Superior",
+      "subtitle": "Los mejores precios en un solo lugar",
+      "alt_fruits": "Ofertas en frutas y verduras",
+      "alt_tech": "Promociones en tecnología e iPhone",
+      "alt_wine": "Selección premium de vinos",
+      "prev": "Imagen anterior",
+      "next": "Siguiente imagen",
+      "go_to": "Ir a imagen {index}"
+    },
+    "sections": {
+      "offers": "Ofertas de la Semana",
+      "featured": "Productos Destacados"
+    },
+    "about_us": {
+      "title": "Sobre Nosotros",
+      "description": "En Hipermercado Superior trabajamos para ofrecerte calidad, variedad y precios justos. Nuestro compromiso es brindarte la mejor experiencia de compra tanto en tienda física como online.",
+      "logo_alt": "Logo del Hipermercado Superior"
+    },
+    "seo": {
+      "title": "Compras inteligentes y productos de calidad",
+      "description": "Hipermercado Superior: tu destino para compras inteligentes. Encuentra la mejor selección de alimentos, electrónica, hogar y más con ofertas exclusivas y precios imbatibles.",
+      "keywords": "hipermercado, compras online, supermercado, ofertas, productos frescos, calidad, ahorro, electrodomésticos, alimentos"
+    },
+    "category_banners": {
+      "section_title": "Explora Nuestras Categorías",
+      "section_subtitle": "Todo lo que necesitas en un solo lugar, con la mejor calidad y los mejores precios.",
+      "alimentos": {
+        "title": "Alimentos",
+        "description": "Productos frescos, carnes, frutas, lácteos y todo lo que necesitas para tu cocina.",
+        "button": "Ver productos"
+      },
+      "electrodomesticos": {
+        "title": "Electrodomésticos",
+        "description": "Neveras, lavadoras, aires acondicionados y más para equipar tu hogar.",
+        "button": "Ver productos"
+      },
+      "tecnologia": {
+        "title": "Tecnología",
+        "description": "Celulares, laptops, tablets, bocinas y lo último en innovación tecnológica.",
+        "button": "Ver productos"
+      },
+      "ropa": {
+        "title": "Ropa",
+        "description": "Moda para toda la familia: hombres, mujeres y niños con estilo y calidad.",
+        "button": "Ver productos"
+      },
+      "muebles": {
+        "title": "Muebles",
+        "description": "Sofás, mesas, sillones y decoración para transformar tu hogar.",
+        "button": "Ver productos"
+      },
+      "farmacia": {
+        "title": "Farmacia",
+        "description": "Medicamentos, vitaminas, cuidado personal y bienestar para toda la familia.",
+        "button": "Ver productos"
+      },
+      "ferreteria": {
+        "title": "Ferretería",
+        "description": "Herramientas, pinturas, plomería y electricidad para tus proyectos.",
+        "button": "Ver productos"
+      },
+      "juguetes": {
+        "title": "Juguetes",
+        "description": "Diversión garantizada para niños y niñas de todas las edades.",
+        "button": "Ver productos"
+      }
+    }
+  },
+  "legal": {
+    "_documentation": {
+      "namespace": "legal",
+      "description": "Contenido legal y de privacidad (términos, privacidad, aviso legal)",
+      "usage": "Páginas /privacy, /terms, modales legales, cookie consent",
+      "contains": "Política de privacidad, términos y condiciones, aviso legal, información de cookies"
+    },
+    "last_updated": "Última actualización",
+    "terms": {
+      "title": "Términos de Uso",
+      "date": "16 de mayo de 2026",
+      "intro": "Estos Términos de Uso regulan el acceso y utilización de la plataforma digital de Hipermercado Superior. Al navegar o emplear nuestros servicios, aceptas estas condiciones en su totalidad. Si no estás de acuerdo, te recomendamos no utilizar nuestro sitio web.",
+      "seo": {
+        "title": "Términos de Uso",
+        "description": "Consulta los Términos de Uso de Hipermercado Superior. Conoce las condiciones de acceso, compras, propiedad intelectual y responsabilidades al usar nuestra plataforma.",
+        "keywords": "términos de uso, condiciones de uso, términos y condiciones, reglas del sitio, compras online",
+        "json_ld_desc": "Términos y condiciones de uso de la plataforma de Hipermercado Superior."
+      },
+      "sections": {
+        "1": {
+          "title": "1. Uso permitido",
+          "content": "El usuario se compromete a utilizar la plataforma únicamente para fines legales y de acuerdo con las normas establecidas en estos Términos. Está prohibido el uso del sitio para actividades fraudulentas, distribución de contenido malicioso o cualquier acción que afecte negativamente a otros usuarios o a la integridad del sistema."
+        },
+        "2": {
+          "title": "2. Registro y autenticidad de la información",
+          "content": "Para realizar compras u otros servicios, el usuario puede necesitar registrarse. La información proporcionada debe ser verdadera, completa y actualizada. Hipermercado Superior no se hace responsable por datos incorrectos suministrados por el usuario."
+        },
+        "3": {
+          "title": "3. Compras y transacciones",
+          "content": "Todos los precios y productos están sujetos a disponibilidad y pueden cambiar sin previo aviso. El usuario debe verificar cuidadosamente el contenido del pedido antes de completarlo."
+        },
+        "4": {
+          "title": "4. Propiedad intelectual",
+          "content": "Todo el contenido disponible en el sitio, incluyendo textos, imágenes, logotipos, íconos, gráficos y diseño, pertenece a Hipermercado Superior o a sus respectivos titulares. Está prohibida la reproducción parcial o total sin autorización previa."
+        },
+        "5": {
+          "title": "5. Limitación de responsabilidad",
+          "content": "Hipermercado Superior no garantiza la disponibilidad continua del sitio ni la ausencia de errores técnicos. No asumimos responsabilidad por daños derivados del uso incorrecto de la plataforma."
+        },
+        "6": {
+          "title": "6. Enlaces externos",
+          "content": "Nuestro sitio puede incluir enlaces a páginas externas. No tenemos control sobre su contenido y no asumimos responsabilidad por información o prácticas ajenas a nuestra plataforma."
+        },
+        "7": {
+          "title": "7. Modificaciones a los Términos",
+          "content": "Nos reservamos el derecho de actualizar o modificar estos Términos en cualquier momento. Se recomienda revisarlos periódicamente para estar informado sobre los cambios."
+        },
+        "8": {
+          "title": "8. Contacto",
+          "content": "Si tienes preguntas o inquietudes relacionadas con estos Términos de Uso, puedes comunicarte con nosotros en",
+          "email": "soporte@hipermercadosuperior.com"
+        }
+      }
+    },
+    "privacy": {
+      "title": "Política de Privacidad",
+      "date": "16 de mayo de 2026",
+      "intro": "En Hipermercado Superior valoramos la privacidad de cada uno de nuestros usuarios. Esta política explica qué información recopilamos, cómo la utilizamos y las medidas que tomamos para protegerla.",
+      "seo": {
+        "title": "Política de Privacidad",
+        "description": "Conoce cómo Hipermercado Superior recopila, utiliza y protege tu información personal. Tu privacidad es nuestra prioridad.",
+        "keywords": "política de privacidad, protección de datos, privacidad, cookies, derechos del usuario",
+        "json_ld_desc": "Política de privacidad y protección de datos personales de Hipermercado Superior."
+      },
+      "sections": {
+        "1": {
+          "title": "1. Información que recopilamos",
+          "content": "Podemos recopilar información personal que el usuario nos proporciona de forma directa, como su nombre completo, correo electrónico, número de teléfono, dirección de envío y detalles relacionados con sus compras realizadas en nuestra plataforma. Esta información es necesaria para garantizar un servicio adecuado y ofrecer una mejor experiencia de usuario."
+        },
+        "2": {
+          "title": "2. Uso de la información",
+          "content": "La información recopilada se utiliza para procesar pedidos, ofrecer atención al cliente, mejorar nuestros servicios, personalizar la experiencia de navegación y enviar avisos o promociones relacionadas con el interés del usuario. También empleamos estos datos para reforzar la seguridad de nuestras operaciones y prevenir actividades fraudulentas."
+        },
+        "3": {
+          "title": "3. Protección de datos",
+          "content": "Implementamos medidas técnicas y administrativas para proteger los datos personales contra accesos no autorizados, alteraciones o pérdidas. Aunque ningún sistema es totalmente infalible, nos comprometemos a aplicar prácticas de seguridad actualizadas y efectivas para resguardar tu información."
+        },
+        "4": {
+          "title": "4. Cookies",
+          "content": "Utilizamos cookies con el fin de mejorar la experiencia del usuario, recordar preferencias, analizar estadísticas de navegación y mostrar contenido adaptado. El usuario puede desactivar el uso de cookies directamente desde la configuración de su navegador si así lo prefiere."
+        },
+        "5": {
+          "title": "5. Derechos del usuario",
+          "content": "El usuario puede solicitar acceso a su información personal, así como pedir la corrección o eliminación de sus datos cuando sea aplicable. Asimismo, tiene la posibilidad de retirar su consentimiento para el uso de su información en cualquier momento, de acuerdo con la legislación vigente."
+        },
+        "6": {
+          "title": "6. Contacto",
+          "content": "Si tienes preguntas o inquietudes sobre esta Política de Privacidad, puedes comunicarte con nosotros a través del correo",
+          "email": "soporte@hipermercadosuperior.com"
+        }
+      }
+    }
+  },
+  "offers": {
+    "_documentation": {
+      "namespace": "offers",
+      "description": "Contenido de la página de ofertas y promociones semanales. Responsable de traducir títulos de filtros, mensajes de ofertas vacías y etiquetas en componentes EmptyOffers y OfferFilters.",
+      "usage": "Página /offers, secciones de promoción, componentes OfferFilters y EmptyOffers",
+      "contains": "Títulos de ofertas, descripciones, información de descuentos, datos SEO, textos de filtros",
+      "responsible_for": [
+        "EmptyOffers component: empty.title y empty.message (cuando no hay ofertas)",
+        "OfferFilters component: filters.title, filters.all_categories, filters.info, drawer_btn_one/other",
+        "Offers page SEO: seo.title, seo.description, seo.json_ld_name, seo.json_ld_description",
+        "Header section: header.title, header.filter_btn"
+      ],
+      "usage_pattern": "t('offers:{key}') o t('offers:filters.{key}') para acceso anidado"
+    },
+    "seo": {
+      "title": "Ofertas y Promociones",
+      "description": "Descubre las mejores ofertas y promociones en Hipermercado Superior. Ahorra en productos de calidad con descuentos exclusivos en alimentos, bebidas, limpieza y más.",
+      "json_ld_name": "Ofertas y Promociones - Hipermercado Superior",
+      "json_ld_description": "Catálogo de ofertas y promociones activas con descuentos exclusivos en productos de calidad.",
+      "keywords": "ofertas hipermercado, promociones supermercado, descuentos productos, ofertas semanales, ahorro compras, mega ofertas"
+    },
+    "header": {
+      "title": "Ofertas",
+      "filter_btn": "Filtrar"
+    },
+    "filters": {
+      "title": "Filtros",
+      "all_categories": "Todas las categorías",
+      "info": "Mostrando <strong>{filtered}</strong> de <strong>{total}</strong> ofertas activas",
+      "drawer_btn_one": "Ver 1 resultado",
+      "drawer_btn_other": "Ver {count} resultados"
+    },
+    "empty": {
+      "title": "No hay ofertas disponibles",
+      "message": "Selecciona otra categoría o intenta más tarde"
+    },
+    "badge": {
+      "aria_label": "Producto en oferta {discount}",
+      "fallback": "OFERTA"
+    }
+  },
+  "products": {
+    "_documentation": {
+      "namespace": "products",
+      "description": "Información detallada de todos los 184 productos (nombre, descripción, especificaciones)",
+      "usage": "Página de detalle /product/:id, tarjetas de producto, resultados de búsqueda",
+      "products": "184 productos completamente internacionalizados en 8 categorías",
+      "structure": "Cada producto contiene: name, description, specs (array de 5 detalles)"
+    },
+    "televisor_samsung_75_pulgadas": {
+      "name": "Televisor Samsung 75 pulgadas",
+      "description": "Experimenta una resolución 4K impresionante y colores vibrantes con la tecnología Crystal UHD de Samsung. Pantalla gigante de 75 pulgadas para una experiencia de cine en casa.",
+      "specs": [
+        "Resolución: 4K UHD (3840 x 2160)",
+        "Tecnología: HDR10+ y PurColor",
+        "Smart TV: Tizen OS con apps integradas",
+        "Conectividad: 3 HDMI, 1 USB, Wi-Fi, Bluetooth",
+        "Diseño: Slim Look casi sin bordes"
+      ]
+    },
+    "nevera_lg": {
+      "name": "Nevera LG Grande Moderna",
+      "description": "Mantén tus alimentos frescos por más tiempo con el enfriamiento uniforme y rápido de Door Cooling+. Compresor Smart Inverter para un funcionamiento silencioso y ahorro de energía.",
+      "specs": [
+        "Capacidad: 18 pies cúbicos",
+        "Tecnología: Door Cooling+ y Multi Air Flow",
+        "Compresor: Smart Inverter (10 años de garantía)",
+        "Material: Acero inoxidable acabado plata",
+        "Iluminación: LED interior de alta eficiencia"
+      ]
+    },
+    "ventilador_daiwa": {
+      "name": "Ventilador Daiwa",
+      "description": "Disfruta de una brisa fresca en cualquier habitación. Con 3 velocidades y oscilación automática, este ventilador de pedestal es la solución ideal para el calor.",
+      "specs": [
+        "Tamaño: 16 pulgadas de diámetro",
+        "Velocidades: 3 niveles de potencia",
+        "Oscilación: Automática y ajustable",
+        "Altura: Regulable",
+        "Motor: Silencioso de alta duración"
+      ]
+    },
+    "sofa_cama_blanco": {
+      "name": "Sofá Cama Blanco por unidad",
+      "description": "Elegancia y funcionalidad en una sola pieza. Este sofá cama de diseño minimalista se convierte fácilmente en una cómoda cama para visitas. Tapizado en tela de alta calidad.",
+      "specs": [
+        "Tipo: Sofá Cama convertible",
+        "Material: Tela resistente de alta calidad",
+        "Color: Blanco crema / Hueso",
+        "Capacidad: 3 puestos sentado",
+        "Patas: Madera sólida resistente"
+      ]
+    },
+    "carne_de_res_para_hamburguesas": {
+      "name": "Carne de Res para Hamburguesas",
+      "description": "Carne de res de primera calidad, molida con el porcentaje ideal de grasa para lograr hamburguesas jugosas y sabrosas. Frescura garantizada diariamente.",
+      "specs": [
+        "Caliad: Premium",
+        "Presentación: Molida fresca",
+        "Ideal para: Hamburguesas, albóndigas y rellenos",
+        "Almacenamiento: Mantener refrigerado",
+        "Origen: Local seleccionado"
+      ]
+    },
+    "pollo_entero_don_pollo": {
+      "name": "Pollo Entero Don Pollo",
+      "description": "Pollo entero de granja, alimentado naturalmente para garantizar un sabor auténtico y nutritivo. Perfecto para asados familiares o caldos tradicionales.",
+      "specs": [
+        "Marca: Don Pollo",
+        "Estado: Fresco (no congelado)",
+        "Incluye: Menudos (hígado, molleja)",
+        "Venta: Por unidad (peso promedio 3-4 lbs)",
+        "Calidad: Grado A"
+      ]
+    },
+    "atun_dimar": {
+      "name": "Atún Dimar",
+      "description": "Lomos de atún seleccionados en aceite vegetal. Una excelente fuente de proteínas y Omega-3, lista para consumir en ensaladas, pastas o sándwiches.",
+      "specs": [
+        "Ingredientes: Atún, aceite vegetal, sal",
+        "Peso: 170g",
+        "Beneficios: Rico en proteínas y Omega-3",
+        "Empaque: Lata con abre fácil",
+        "Vida útil: Larga duración"
+      ]
+    },
+    "manzanas_verdes": {
+      "name": "Manzanas verdes por libras",
+      "description": "Manzanas verdes frescas de variedad Granny Smith. Conocidas por su sabor ácido y textura crujiente, ideales para snacks saludables o repostería.",
+      "specs": [
+        "Variedad: Granny Smith",
+        "Sabor: Ácido refrescante",
+        "Textura: Firme y crujiente",
+        "Venta: Por unidad",
+        "Origen: Importación seleccionada"
+      ]
+    },
+    "huevos_don_pancho": {
+      "name": "Huevos Don Pancho",
+      "description": "Huevos blancos grandes de granja, recolectados diariamente para garantizar la máxima frescura en tu mesa. Presentación económica para el hogar.",
+      "specs": [
+        "Cantidad: 30 unidades",
+        "Tamaño: Grande (L)",
+        "Color: Blanco",
+        "Marca: Don Pancho",
+        "Beneficios: Alto contenido proteico"
+      ]
+    },
+    "freezer_7_pies": {
+      "name": "Freezer 7 Pies",
+      "description": "Congelador horizontal tipo baúl con amplia capacidad. Ideal para almacenar carnes y alimentos por largos periodos con control de temperatura ajustable.",
+      "specs": [
+        "Capacidad: 7 pies cúbicos",
+        "Tipo: Horizontal / Baúl",
+        "Control: Termostato ajustable",
+        "Incluye: Canasta organizadora",
+        "Seguridad: Cerradura con llave"
+      ]
+    },
+    "celular_samsung_a26": {
+      "name": "Celular Samsung A26",
+      "description": "El nuevo Galaxy A26 redefine la eficiencia. Con una pantalla fluida, gran almacenamiento y un sistema de cámaras triple para capturar cada detalle de tu vida.",
+      "specs": [
+        "Pantalla: 6.6\" Super AMOLED 120Hz",
+        "Memoria: 128GB ROM / 6GB RAM",
+        "Cámara: Triple 50MP + 8MP + 2MP",
+        "Batería: 5000 mAh con carga rápida",
+        "Sistema: Android 14 con One UI"
+      ]
+    },
+    "cilindro_de_gas_duragas": {
+      "name": "Cilindro de gas Duragas",
+      "description": "Cilindro de gas propano de 25 libras, fabricado bajo normas internacionales de seguridad. El estándar de confianza para la cocina dominicana.",
+      "specs": [
+        "Capacidad: 25 libras de GLP",
+        "Material: Acero reforzado",
+        "Certificación: Normas de seguridad vigentes",
+        "Peso vacío: ~22 lbs",
+        "Uso: Doméstico certificado"
+      ]
+    },
+    "coca_cola_zero": {
+      "name": "Coca Cola Zero",
+      "description": "Coca Cola Zero es la elección perfecta para quienes quieren el sabor original de Coca-Cola sin azúcar ni calorías. Refréscate con el mismo chispa, ahora más ligero.",
+      "specs": [
+        "Sabor: Original (Cero Azúcar)",
+        "Calorías: 0 kcal",
+        "Azúcares: 0g",
+        "Presentación: Botella de 2 litros",
+        "Ideal para: Cualquier ocasión"
+      ]
+    },
+    "equate_analgesico": {
+      "name": "Equate Analgésico",
+      "description": "Equate Analgésico proporciona un alivio eficaz contra el dolor y la fiebre. Una opción económica y de alta calidad para tu botiquín casero.",
+      "specs": [
+        "Marca: Equate",
+        "Uso: Alivio del dolor y la fiebre",
+        "Presentación: Tabletas",
+        "Eficacia comprobada",
+        "Excelente relación calidad-precio"
+      ]
+    },
+    "flanax": {
+      "name": "Flanax Analgésico",
+      "description": "Flanax Analgésico ofrece un alivio rápido y duradero del dolor. Su fórmula avanzada es ideal para dolores moderados a severos.",
+      "specs": [
+        "Marca: Flanax",
+        "Uso: Alivio del dolor",
+        "Presentación: Tabletas",
+        "Acción rápida",
+        "Alivio duradero"
+      ]
+    },
+    "thera_gesic": {
+      "name": "Thera-Gesic Analgésico",
+      "description": "Thera-Gesic Analgésico es una solución terapéutica para el manejo del dolor crónico y agudo con máxima eficacia.",
+      "specs": [
+        "Marca: Thera-Gesic",
+        "Uso: Manejo del dolor",
+        "Presentación: Tabletas",
+        "Fórmula terapéutica",
+        "Máxima eficacia"
+      ]
+    },
+    "tylenol": {
+      "name": "Tylenol Analgésico",
+      "description": "Tylenol Analgésico es una de las marcas más confiables para el alivio del dolor y la fiebre, seguro para toda la familia.",
+      "specs": [
+        "Marca: Tylenol",
+        "Uso: Alivio del dolor y fiebre",
+        "Presentación: Tabletas",
+        "Marca confiable",
+        "Seguro para la familia"
+      ]
+    },
+    "vaporizing": {
+      "name": "Vaporizing Analgésico",
+      "description": "Vaporizing Analgésico proporciona alivio mediante vapores terapéuticos, ideal para congestión y dolores musculares.",
+      "specs": [
+        "Marca: Vaporizing",
+        "Uso: Alivio por vapor",
+        "Presentación: Inhalador",
+        "Vapores terapéuticos",
+        "Ideal para congestión"
+      ]
+    },
+    "antiflu_des": {
+      "name": "Antiflu-Des",
+      "description": "Antiflu-Des es un medicamento de múltiples acciones contra el resfriado y la gripe que combate los síntomas del resfriado, incluyendo fiebre y malestar general.",
+      "specs": [
+        "Múltiples acciones",
+        "Combate la fiebre y el malestar",
+        "Dosis: 1 cápsula cada 8 horas",
+        "Marca reconocida",
+        "Alivio integral"
+      ]
+    },
+    "coldyflu": {
+      "name": "Coldyflu",
+      "description": "Coldyflu es una fórmula efectiva para el alivio rápido de los síntomas del resfriado común y la gripe.",
+      "specs": [
+        "Marca: Coldyflu",
+        "Uso: Alivio del resfriado",
+        "Presentación: Cápsulas",
+        "Alivio rápido",
+        "Fórmula efectiva"
+      ]
+    },
+    "mucinex": {
+      "name": "Mucinex",
+      "description": "Mucinex es un expectorante potente que ayuda a descongestionar las vías respiratorias y aliviar la tos productiva.",
+      "specs": [
+        "Marca: Mucinex",
+        "Uso: Expectorante",
+        "Presentación: Tabletas",
+        "Descongestiona vías respiratorias",
+        "Alivia la tos productiva"
+      ]
+    },
+    "nyquil": {
+      "name": "NyQuil",
+      "description": "NyQuil proporciona alivio nocturno de los síntomas del resfriado y la gripe, ayudando a descansar mejor.",
+      "specs": [
+        "Marca: NyQuil",
+        "Uso: Alivio nocturno",
+        "Presentación: Líquido",
+        "Ayuda a descansar",
+        "Alivio sintomas nocturnos"
+      ]
+    },
+    "theraflu": {
+      "name": "Theraflu",
+      "description": "Theraflu es una terapia completa contra la gripe y el resfriado con acción rápida y prolongada.",
+      "specs": [
+        "Marca: Theraflu",
+        "Uso: Terapia contra gripe",
+        "Presentación: Sobres",
+        "Acción rápida",
+        "Efecto prolongado"
+      ]
+    },
+    "acido_hialuronico": {
+      "name": "CeraVe Ácido Hialurónico",
+      "description": "El suero de ácido hialurónico ayuda a mantener la piel hidratada y firme mientras proporciona una apariencia más juvenil y reduce las líneas de expresión.",
+      "specs": [
+        "Hidratación intensa",
+        "Reduce líneas de expresión",
+        "Para todo tipo de piel",
+        "Textura ligera de rápida absorción",
+        "Efecto firmeador"
+      ]
+    },
+    "hidratante_cerave": {
+      "name": "Hidratante Cerave",
+      "description": "Crema hidratante Cerave desarrollada con dermatólogos para restaurar la barrera protectora de la piel y mantenerla hidratada todo el día.",
+      "specs": [
+        "Marca: Cerave",
+        "Uso: Hidratación diaria",
+        "Presentación: Crema",
+        "Desarrollada con dermatólogos",
+        "Restaura barrera protectora"
+      ]
+    },
+    "hidratante_eucerin": {
+      "name": "Hidratante Eucerin",
+      "description": "Loción hidratante Eucerin con fórmula avanzada para pieles sensibles que proporciona hidratación duradera sin irritar.",
+      "specs": [
+        "Marca: Eucerin",
+        "Uso: Hidratación sensible",
+        "Presentación: Loción",
+        "Fórmula avanzada",
+        "No irrita la piel"
+      ]
+    },
+    "hidratante_grande": {
+      "name": "Hidratante Cerave Grande",
+      "description": "Formato económico de la crema hidratante Cerave, ideal para uso prolongado y para toda la familia.",
+      "specs": [
+        "Marca: Cerave",
+        "Uso: Hidratación familiar",
+        "Presentación: Crema grande",
+        "Formato económico",
+        "Uso prolongado"
+      ]
+    },
+    "retinol": {
+      "name": "Retinol",
+      "description": "Tratamiento con retinol para reducir arrugas y mejorar la textura de la piel, proporcionando un aspecto más joven y saludable.",
+      "specs": [
+        "Marca: Retinol",
+        "Uso: Antiarrugas",
+        "Presentación: Crema",
+        "Reduce arrugas",
+        "Mejora textura de la piel"
+      ]
+    },
+    "serum_vitaminac": {
+      "name": "Serum Vitamina C",
+      "description": "Serum concentrado de vitamina C que ilumina la piel, reduce manchas y proporciona antioxidantes para una piel radiante.",
+      "specs": [
+        "Marca: Vitamina C",
+        "Uso: Iluminador",
+        "Presentación: Serum",
+        "Reduce manchas",
+        "Proporciona antioxidantes"
+      ]
+    },
+    "flintstones": {
+      "name": "Flintstones Multivitamínico para niños",
+      "description": "Gomitas multivitamínicas Flintstones diseñadas específicamente para niños para asegurar que reciban las vitaminas necesarias para un crecimiento saludable.",
+      "specs": [
+        "Ideal para niños",
+        "Presentación: Gomitas masticables",
+        "Delicioso sabor a frutas",
+        "Apoya el crecimiento saludable",
+        "Contiene vitaminas A, C, D, E"
+      ]
+    },
+    "multivitaminico": {
+      "name": "Multivitamínico",
+      "description": "Multivitamínico completo que proporciona todos los nutrientes esenciales para mantener el cuerpo funcionando óptimamente.",
+      "specs": [
+        "Marca: Multivitamínico",
+        "Uso: Nutrición completa",
+        "Presentación: Tabletas",
+        "Nutrientes esenciales",
+        "Funcionamiento óptimo"
+      ]
+    },
+    "vitafusion": {
+      "name": "Vitafusion",
+      "description": "Gomitas vitamínicas Vitafusion con deliciosos sabores que hacen que tomar vitaminas diarias sea un placer.",
+      "specs": [
+        "Marca: Vitafusion",
+        "Uso: Suplemento diario",
+        "Presentación: Gomitas",
+        "Deliciosos sabores",
+        "Fáciles de tomar"
+      ]
+    },
+    "omega3": {
+      "name": "Omega 3",
+      "description": "Los suplementos de Omega 3 son esenciales para la salud cardiovascular y cerebral. Ayudan a reducir la inflamación y mejoran la función cognitiva.",
+      "specs": [
+        "Fuente de ácidos grasos esenciales",
+        "Apoya la salud cardiovascular",
+        "Mejora la función cerebral",
+        "Reduce la inflamación",
+        "Beneficios antioxidantes"
+      ]
+    },
+    "vitaminac": {
+      "name": "Vitamina C",
+      "description": "La Vitamina C fortalece el sistema inmunológico y actúa como un poderoso antioxidante para proteger las células de tu cuerpo.",
+      "specs": [
+        "Fortalece el sistema inmunológico",
+        "Antioxidante esencial",
+        "Tabletas masticables",
+        "Ayuda en la absorción de hierro",
+        "Protección diaria"
+      ]
+    },
+    "muneca_baby_doll": {
+      "name": "Muñeca Baby Doll",
+      "description": "Una adorable muñeca bebé con accesorios de cuidado. Fomenta la empatía y el juego imaginativo mientras los niños aprenden a cuidar de otros.",
+      "specs": [
+        "Tipo: Muñeca de cuidado",
+        "Incluye: Biberón y sonajero",
+        "Material: Vinil suave",
+        "Edad: 2+ años",
+        "Marca: Little Hearts"
+      ]
+    },
+    "auto_azul": {
+      "name": "Auto Deportivo Azul",
+      "description": "Un coche deportivo azul brillante con ruedas de fricción y detalles realistas para horas de diversión y juego rápido.",
+      "specs": [
+        "Color: Azul brillante",
+        "Material: Plástico duradero",
+        "Sistema: Ruedas de fricción",
+        "Edad: 3+ años",
+        "Marca: Speed Master"
+      ]
+    },
+    "autos_hot_wheels": {
+      "name": "Colección Hot Wheels",
+      "description": "Colección de 5 coches clásicos Hot Wheels. Diseños rápidos, colores vibrantes y acabados metálicos de alta calidad para coleccionistas y niños por igual.",
+      "specs": [
+        "Cantidad: 5 coches clásicos",
+        "Diseños: Rápidos y modernos",
+        "Acabados: Metálicos de alta calidad",
+        "Ideal para: Coleccionistas y niños",
+        "Marca: Hot Wheels / Mattel"
+      ]
+    },
+    "avion_de_juguete": {
+      "name": "Avión de Juguete",
+      "description": "Un avión de juguete con luces realistas y sonidos de despegue. Perfecto para pequeños pilotos que aman las aventuras en el cielo.",
+      "specs": [
+        "Tipo: Avión con efectos",
+        "Características: Luces LED y sonido",
+        "Material: Plástico ABS duradero",
+        "Edad: 4+ años",
+        "Marca: Fly High"
+      ]
+    },
+    "legos_de_minecraft": {
+      "name": "LEGO Minecraft Casa de Abejas",
+      "description": "LEGO Minecraft: El set Casa de Abejas. Una aventura de construcción llena de posibilidades, con miel, abejas zumbadoras y figuras de personajes para recrear el juego en la vida real.",
+      "specs": [
+        "Set: Casa de Abejas",
+        "Piezas: 251 bloques",
+        "Incluye: Apicultor, Zombie, 3 Abejas",
+        "Edad: 8+ años",
+        "Marca: LEGO / Minecraft"
+      ]
+    },
+    "muneca_barbie": {
+      "name": "Muñeca Barbie",
+      "description": "La muñeca Barbie es un clásico que inspira la imaginación y el juego de roles. Con su estilo icónico y accesorios, permite crear infinitas historias de moda y aventuras.",
+      "specs": [
+        "Tipo: Muñeca de moda",
+        "Estilo: Icónico Barbie",
+        "Accesorios: Incluye ropa y peinado",
+        "Edad: 3+ años",
+        "Marca: Mattel"
+      ]
+    },
+    "juguetes_de_peluqueria": {
+      "name": "Juguete de Peluquería",
+      "description": "Un juego completo de juguete de peluquería. Incluye un secador que emite aire suave, peines, clips coloridos y un espejo para crear peinados fantásticos y divertidos.",
+      "specs": [
+        "Tipo: Juego de peluquería",
+        "Incluye: Secador, peines, clips",
+        "Función: Aire suave y seguro",
+        "Edad: 3+ años",
+        "Marca: Style Stars"
+      ]
+    },
+    "kit_de_maquillaje": {
+      "name": "Kit de Maquillaje Artístico",
+      "description": "Un kit de maquillaje artístico para niños que es completamente lavable y seguro. Incluye sombras de ojos, rubor y aplicadores, ideal para fiestas, cumpleaños y juegos de disfraces.",
+      "specs": [
+        "Tipo: Kit de maquillaje",
+        "Incluye: Sombras, rubor, aplicadores",
+        "Característica: Completamente lavable",
+        "Edad: 5+ años",
+        "Seguridad: No tóxico"
+      ]
+    },
+    "pinta_unas": {
+      "name": "Set de Esmalte de Uñas",
+      "description": "Set de esmaltes de uñas vibrantes con calcomanías decorativas. No tóxico, a base de agua y fácil de remover. Perfecto para una tarde de spa y creatividad.",
+      "specs": [
+        "Tipo: Set de esmaltes",
+        "Incluye: Esmaltes y calcomanías",
+        "Característica: A base de agua",
+        "Seguridad: No tóxico",
+        "Edad: 5+ años"
+      ]
+    },
+    "legos_de_creeper": {
+      "name": "LEGO Creeper",
+      "description": "Las figuras LEGO Creeper son ideales para niños que aman construir y Minecraft. Permiten desarrollar creatividad, habilidades motoras finas y capacidad de resolución de problemas mientras construyes uno de los personajes más icónicos del juego.",
+      "specs": [
+        "Serie: Minecraft",
+        "Tema: Creeper BigFigure",
+        "Edad recomendada: 7+ años",
+        "Material: Plástico ABS de alta calidad",
+        "Marca: LEGO"
+      ]
+    },
+    "country_club_frambuesa": {
+      "name": "Country Club Frambuesa",
+      "description": "Country Club Frambuesa es un refresco dominicano clásico con su característico sabor a frambuesa que a todos les encanta. Ideal para compartir en familia y con amigos.",
+      "specs": [
+        "Sabor: Frambuesa",
+        "Presentación: Botella de 2 litros",
+        "Beneficios: Sabor único y refrescante",
+        "Ideal para: Fiestas, comidas y snacks",
+        "Tamaño: 2 litros"
+      ]
+    },
+    "country_club_uva": {
+      "name": "Country Club Uva",
+      "description": "Country Club Uva ofrece un sabor intenso y dulce que a todos les encanta. Disfruta la frescura de la uva en cada sorbo. Perfecto para cualquier ocasión.",
+      "specs": [
+        "Sabor: Uva",
+        "Presentación: Botella de 2 litros",
+        "Beneficios: Sabor dulce y natural",
+        "Ideal para: Cualquier momento",
+        "Tamaño: 2 litros"
+      ]
+    },
+    "gatorade_uva": {
+      "name": "Gatorade Uva",
+      "description": "Gatorade Uva es una bebida deportiva formulada científicamente para reponer los electrolitos perdidos durante la actividad física. Mantente hidratado y rinde al máximo.",
+      "specs": [
+        "Sabor: Uva",
+        "Tipo: Bebida deportiva",
+        "Beneficios: Repone electrolitos y energía",
+        "Ideal para: Deportes y actividad física intensa",
+        "Presentación: Botella de 600ml"
+      ]
+    },
+    "jugo_de_naranja_rica": {
+      "name": "Jugo de Naranja Rica",
+      "description": "Jugo de Naranja Rica es 100% natural, sin conservantes y lleno de vitaminas. La mejor opción para empezar tu día con energía y el verdadero sabor a fruta.",
+      "specs": [
+        "Tipo: Jugo de naranja",
+        "Característica: 100% natural",
+        "Beneficios: Sin conservantes, rico en vitaminas",
+        "Ideal para: Desayuno y energía diaria",
+        "Presentación: Botella de 1 litro"
+      ]
+    },
+    "jugo_de_pera_santal": {
+      "name": "Jugo de Pera Santal",
+      "description": "Jugo de Pera Santal ofrece una experiencia suave y dulce. Hecho con peras de calidad, es una opción ligera y refrescante para toda la familia.",
+      "specs": [
+        "Tipo: Jugo de pera",
+        "Sabor: Suave y dulce",
+        "Característica: Hecho con peras de calidad",
+        "Ideal para: Toda la familia",
+        "Presentación: Botella de 1 litro"
+      ]
+    },
+    "red_bull": {
+      "name": "Red Bull",
+      "description": "Red Bull es una bebida energética líder mundial. Con su fórmula única, te da el impulso que necesitas para mantenerte activo, concentrado y energizado durante todo el día.",
+      "specs": [
+        "Tipo: Bebida energética",
+        "Marca: Red Bull",
+        "Beneficios: Energía y concentración",
+        "Ideal para: Actividad diaria y deportes",
+        "Presentación: Lata de 250ml"
+      ]
+    },
+    "camarones_crudos": {
+      "name": "Camarones Crudos",
+      "description": "Camarones crudos de alta calidad, perfectos para preparar como te guste. Ideales para cócteles, ceviche, paella o camarones al ajillo. Frescura garantizada.",
+      "specs": [
+        "Tipo: Camarones crudos",
+        "Presentación: Crudos",
+        "Ideal para: Cócteles, ceviche, paella",
+        "Calidad: Premium",
+        "Estado: Fresco"
+      ]
+    },
+    "camarones_precocidos": {
+      "name": "Camarones Pre-cocidos",
+      "description": "Camarones pre-cocidos listos para servir. Perfectos para ensaladas, cócteles o comidas rápidas sin largos tiempos de cocción.",
+      "specs": [
+        "Tipo: Camarones pre-cocidos",
+        "Presentación: Listos para servir",
+        "Ideal para: Ensaladas y cócteles",
+        "Ahorro: Tiempo de cocción",
+        "Conveniencia: Comida rápida"
+      ]
+    },
+    "chuleta_de_cerdo": {
+      "name": "Chuleta de Cerdo",
+      "description": "Chuleta de cerdo fresca, jugosa y llena de sabor. Perfecta para asar, hornear o freír. Un deleite para toda la familia.",
+      "specs": [
+        "Tipo: Chuleta de cerdo",
+        "Estado: Fresca",
+        "Sabor: Jugoso y lleno de sabor",
+        "Ideal para: Asar, hornear, freír",
+        "Perfecto para: Comidas familiares"
+      ]
+    },
+    "tilapia_roja": {
+      "name": "Tilapia Roja",
+      "description": "Tilapia roja fresca, rica en proteína y baja en grasa. Perfecta para preparaciones al vapor, fritas o en caldos. Una opción saludable y deliciosa.",
+      "specs": [
+        "Tipo: Tilapia roja",
+        "Estado: Fresca",
+        "Beneficios: Rica en proteína, baja en grasa",
+        "Ideal para: Vapor, frita, caldos",
+        "Saludable: Opción nutritiva"
+      ]
+    },
+    "aceite_crisol": {
+      "name": "Aceite Crisol",
+      "description": "Aceite Crisol es el aceite vegetal de confianza para tu cocina diaria. Ideal para freír, saltear y aderezar tus platos favoritos.",
+      "specs": [
+        "Tipo: Aceite vegetal",
+        "Uso: Cocina diaria",
+        "Ideal para: Freír, saltear, aderezar",
+        "Marca: Crisol",
+        "Libre de: Colesterol"
+      ]
+    },
+    "aceite_oliva_extra_virgen": {
+      "name": "Aceite de Oliva Extra Virgen",
+      "description": "Aceite de oliva extra virgen de la primera extracción en frío. Ideal para aderezos, ensaladas y cocina mediterránea. Un producto premium para tu cocina.",
+      "specs": [
+        "Tipo: Aceite de oliva extra virgen",
+        "Extracción: Primera prensada en frío",
+        "Ideal para: Aderezos, ensaladas, mediterránea",
+        "Calidad: Premium",
+        "Origen: Primera extracción"
+      ]
+    },
+    "mayonesa_baldom": {
+      "name": "Mayonesa Baldom",
+      "description": "Mayonesa Baldom tiene el sabor clásico de la mayonesa dominicana. Cremosa y deliciosa, combina perfectamente con todo tipo de platos y sándwiches.",
+      "specs": [
+        "Tipo: Mayonesa",
+        "Marca: Baldom",
+        "Sabor: Clásico dominicano",
+        "Textura: Cremosa",
+        "Ideal para: Platos y sándwiches"
+      ]
+    },
+    "sal_refisal": {
+      "name": "Sal Refisal",
+      "description": "Sal Refisal es una de las sales de mesa más utilizadas en los hogares dominicanos. Molida finamente para una distribución uniforme en tus recetas.",
+      "specs": [
+        "Tipo: Sal de mesa",
+        "Marca: Refisal",
+        "Textura: Molido fino",
+        "Uso: Distribución uniforme",
+        "Popular en: Hogares dominicanos"
+      ]
+    },
+    "sazon_completo_maggi": {
+      "name": "Sazón Completo Maggi",
+      "description": "Sazón Completo Maggi es un básico en la cocina. Su mezcla especial de especias le da a tus platos un sabor rico y equilibrado.",
+      "specs": [
+        "Tipo: Sazonador completo",
+        "Marca: Maggi",
+        "Composición: Mezcla especial de especias",
+        "Sabor: Rico y equilibrado",
+        "Uso: Básico de cocina"
+      ]
+    },
+    "florero_de_vidrio": {
+      "name": "Florero de Vidrio Soplado a Mano",
+      "description": "Un florero de vidrio soplado a mano con transparencia cristalina que resalta la belleza de tus flores naturales, creando una atmósfera de arte y sofisticación.",
+      "specs": [
+        "Material: Vidrio soplado a mano",
+        "Estilo: Clásico atemporal",
+        "Dimensiones: 30cm x 15cm",
+        "Características: Alta transparencia, base pesada",
+        "Marca: CrystalDesign"
+      ]
+    },
+    "florero_de_plantas": {
+      "name": "Florero Cerámico para Plantas",
+      "description": "Un florero de cerámica ideal para plantas de interior. Su diseño minimalista y acabado mate aportan frescura, orden y elegancia a cualquier espacio.",
+      "specs": [
+        "Material: Cerámica de alta calidad",
+        "Estilo: Minimalista contemporáneo",
+        "Dimensiones: 25cm x 12cm",
+        "Uso: Solo para interior",
+        "Marca: DecorHome"
+      ]
+    },
+    "jarron": {
+      "name": "Jarrón Decorativo de Terracota",
+      "description": "Un jarrón decorativo de terracota con acabado natural y textura única que aporta un toque rústico pero sofisticado a cualquier rincón.",
+      "specs": [
+        "Material: Terracota artesanal",
+        "Estilo: Moderno rústico",
+        "Color: Tonos tierra naturales",
+        "Uso: Decoración interior",
+        "Marca: RusticHome"
+      ]
+    },
+    "jarrones": {
+      "name": "Set de Jarrones Decorativos",
+      "description": "Un set de jarrones decorativos en diferentes tamaños coordinados. Perfectos para crear composiciones visuales atractivas en estanterías o centros de mesa.",
+      "specs": [
+        "Tipo: Set coordinado",
+        "Cantidad: 3 piezas",
+        "Tamaños: Pequeño, mediano, grande",
+        "Ideal para: Estanterías y mesas",
+        "Estilo: Decorativo versátil"
+      ]
+    },
+    "tulipanes": {
+      "name": "Ramo de Tulipanes Artificiales",
+      "description": "Un arreglo decorativo de tulipanes artificiales realistas. Disfruta de la belleza y elegancia de los tulipanes durante todo el año sin requerir ningún cuidado.",
+      "specs": [
+        "Tipo: Flores artificiales de toque realista",
+        "Cantidad: Ramo de 10 tallos",
+        "Material: Polímero de alta calidad",
+        "Beneficios: Belleza duradera, fácil de limpiar",
+        "Marca: NatureFake"
+      ]
+    },
+    "mesa_de_madera": {
+      "name": "Mesa de Comedor de Madera",
+      "description": "Una mesa de comedor hecha de madera de roble sólida con calidad excepcional. Su acabado natural resalta la belleza del veteado de la madera, aportando calidez y robustez a tu hogar.",
+      "specs": [
+        "Material: Roble sólido",
+        "Estilo: Natural clásico",
+        "Acabado: Natural resaltado",
+        "Ideal para: Comedor familiar",
+        "Marca: WoodMaster"
+      ]
+    },
+    "mesa_de_noche": {
+      "name": "Mesa de Noche",
+      "description": "Una elegante mesa de noche con diseño moderno y funcional. Incluye un cajón de apertura suave para mantener tus objetos personales organizados.",
+      "specs": [
+        "Tipo: Mesa auxiliar",
+        "Diseño: Moderno funcional",
+        "Características: Cajón de apertura suave",
+        "Ideal para: Dormitorio",
+        "Marca: SleepWell"
+      ]
+    },
+    "mesa_moderna": {
+      "name": "Mesa Central Moderna",
+      "description": "Una mesa central con diseño de vanguardia. Combina superficies de cristal templado con una estructura metálica minimalista para un estilo contemporáneo.",
+      "specs": [
+        "Tipo: Mesa central",
+        "Estilo: Vanguardia contemporáneo",
+        "Materiales: Cristal templado y metal",
+        "Estructura: Minimalista",
+        "Marca: UrbanDesign"
+      ]
+    },
+    "mesa_oscura": {
+      "name": "Mesa de Comedor Oscura",
+      "description": "Una imponente mesa de comedor en tono ébano profundo. Su diseño sólido y majestuoso está destinado a ser la pieza central de grandes comedores.",
+      "specs": [
+        "Tipo: Mesa de comedor",
+        "Color: Ébano profundo",
+        "Diseño: Sólido y majestuoso",
+        "Ideal para: Grandes comedores",
+        "Marca: EliteFurniture"
+      ]
+    },
+    "mesa_pequena": {
+      "name": "Mesa Pequeña de Lujo",
+      "description": "Una mesa auxiliar con diseño exclusivo en mármol. Esta pieza destaca por su uso de materiales de lujo y artesanía excepcional.",
+      "specs": [
+        "Tipo: Mesa auxiliar",
+        "Material: Mármol exclusivo",
+        "Diseño: Exclusivo de lujo",
+        "Características: Artesanía excepcional",
+        "Ideal para: Espacios elegantes"
+      ]
+    },
+    "sillon_amarillo": {
+      "name": "Sillón Amarillo",
+      "description": "Un vibrante sillón amarillo con diseño ergonómico y acolchado de alta densidad que asegura una comodidad excepcional mientras añade una pieza de acento audaz a tu sala.",
+      "specs": [
+        "Color: Amarillo vibrante",
+        "Diseño: Ergonómico",
+        "Acolchado: Alta densidad",
+        "Comodidad: Excepcional",
+        "Marca: ComfortPlus"
+      ]
+    },
+    "sillon_azul": {
+      "name": "Sillón Azul Terciopelo",
+      "description": "Un sillón azul terciopelo profundo que combina elegancia clásica con patas de metal modernas, perfecto para crear un rincón de lectura sofisticado.",
+      "specs": [
+        "Material: Terciopelo azul profundo",
+        "Estilo: Elegancia clásica moderna",
+        "Patas: Metal modernas",
+        "Ideal para: Rincón de lectura",
+        "Marca: EliteFurniture"
+      ]
+    },
+    "sillon_blanco": {
+      "name": "Sillón Blanco Minimalista",
+      "description": "Un sillón blanco minimalista con líneas limpias y tela resistente a las manchas, perfecto para espacios brillantes y modernos.",
+      "specs": [
+        "Color: Blanco minimalista",
+        "Estilo: Líneas limpias",
+        "Tela: Resistente a manchas",
+        "Ideal para: Espacios modernos",
+        "Marca: UrbanDesign"
+      ]
+    },
+    "sillon_gris": {
+      "name": "Sillón Gris Jaspeado",
+      "description": "Un sillón gris contemporáneo que es versátil y atemporal. Se adapta a cualquier estilo de decoración mientras ofrece una durabilidad superior para el uso diario.",
+      "specs": [
+        "Color: Gris jaspeado",
+        "Estilo: Contemporáneo versátil",
+        "Durabilidad: Superior uso diario",
+        "Adaptable a: Cualquier estilo",
+        "Marca: HomeStyle"
+      ]
+    },
+    "sillon_verde": {
+      "name": "Sillón Verde Oliva Nórdico",
+      "description": "Un sillón verde oliva de estilo nórdico hecho con materiales sostenibles. Aporta un toque de naturaleza y frescura a tu hogar sin comprometer el estilo.",
+      "specs": [
+        "Color: Verde oliva nórdico",
+        "Estilo: Nórdico sostenible",
+        "Materiales: Sostenibles",
+        "Aporta: Toque de naturaleza",
+        "Marca: EcoHome"
+      ]
+    },
+    "sofa_gris": {
+      "name": "Sofá Gris",
+      "description": "Un sofá gris contemporáneo con estructura robusta y cojines extra suaves, la elección perfecta para sesiones interminables de streaming y relajación familiar.",
+      "specs": [
+        "Color: Gris contemporáneo",
+        "Estructura: Robusta",
+        "Cojines: Extra suaves",
+        "Ideal para: Relajación familiar",
+        "Marca: UrbanLiving"
+      ]
+    },
+    "sofa_media_luna": {
+      "name": "Sofá Media Luna",
+      "description": "Un sofá con diseño innovador de media luna. Ideal para crear espacios de conversación cálidos y dinámicos en grandes salas de estar.",
+      "specs": [
+        "Diseño: Media luna innovador",
+        "Ideal para: Espacios de conversación",
+        "Ambiente: Cálido y dinámico",
+        "Perfecto para: Grandes salas",
+        "Marca: UniqueDesign"
+      ]
+    },
+    "sofa_negro": {
+      "name": "Sofá Negro",
+      "description": "Un sofá negro elegante con acabado premium y líneas sofisticadas que aportan un toque de lujo industrial a cualquier sala de estar u oficina moderna.",
+      "specs": [
+        "Color: Negro elegante",
+        "Acabado: Premium",
+        "Líneas: Sofisticadas",
+        "Estilo: Lujo industrial",
+        "Marca: EliteFurniture"
+      ]
+    },
+    "sofa_verde": {
+      "name": "Sofá Verde Esmeralda",
+      "description": "Un sofá verde esmeralda espacioso que destaca con su color vibrante y capacidad para acomodar a toda la familia con estilo.",
+      "specs": [
+        "Color: Verde esmeralda vibrante",
+        "Capacidad: Familiar espaciosa",
+        "Estilo: Elegante y funcional",
+        "Ideal para: Toda la familia",
+        "Marca: FamilyComfort"
+      ]
+    },
+    "aire-acondicionado_tecnomaster": {
+      "name": "Aire Acondicionado Tecnomaster",
+      "description": "El Aire Acondicionado Tecnomaster ofrece rendimiento confiable y eficiente para mantener cualquier habitación fresca. Diseñado con tecnología moderna que optimiza el uso de energía y proporciona enfriamiento uniforme.",
+      "specs": [
+        "Alta eficiencia energética",
+        "Modo silencioso",
+        "Control remoto incluido",
+        "Función temporizador",
+        "Diseño moderno y compacto"
+      ]
+    },
+    "aire-acondicionado_whirlpool": {
+      "name": "Aire Acondicionado Whirlpool",
+      "description": "El Aire Acondicionado Whirlpool combina enfriamiento potente y eficiencia energética en un diseño elegante. Ideal para enfriar espacios grandes con consumo mínimo de electricidad.",
+      "specs": [
+        "Rendimiento de enfriamiento potente",
+        "Tecnología inversora de bajo consumo",
+        "Función reversible calor/frío",
+        "Panel digital con pantalla LED",
+        "Filtro purificador de aire"
+      ]
+    },
+    "ventilador_kdk": {
+      "name": "Ventilador KDK",
+      "description": "El Ventilador KDK es conocido por su durabilidad y flujo de aire potente. Una opción confiable y asequible para enfriar cualquier espacio.",
+      "specs": [
+        "Velocidades: 3 niveles",
+        "Aspas de gran diámetro",
+        "Motor duradero",
+        "Diseño clásico y resistente",
+        "Bajo consumo de energía"
+      ]
+    },
+    "ventilador_pequeno": {
+      "name": "Ventilador Pequeño",
+      "description": "Un ventilador pequeño compacto ideal para escritorios, mesas de noche o espacios reducidos. Portátil y fácil de mover a cualquier lugar del hogar.",
+      "specs": [
+        "Tamaño compacto y portátil",
+        "Velocidades: 2 niveles",
+        "Base antideslizante",
+        "Nivel de ruido bajo",
+        "Aspas fáciles de limpiar"
+      ]
+    },
+    "ventilador_de_techo_kdk": {
+      "name": "Ventilador de Techo KDK",
+      "description": "El Ventilador de Techo KDK proporciona un flujo de aire amplio y eficiente en toda la habitación. Con diseño moderno y motor silencioso, es ideal para salas y dormitorios.",
+      "specs": [
+        "Diámetro de aspas: 56 pulgadas",
+        "Motor de alta eficiencia silencioso",
+        "Velocidades: 3 niveles",
+        "Control remoto incluido",
+        "Acabado moderno y elegante"
+      ]
+    },
+    "bebedero_tecnomaster": {
+      "name": "Bebedero Tecnomaster",
+      "description": "El Bebedero Tecnomaster proporciona agua caliente y fría instantáneamente. Ideal para oficinas, hogares y negocios que buscan comodidad e higiene en la hidratación diaria.",
+      "specs": [
+        "Agua caliente y fría",
+        "Marca: Tecnomaster",
+        "Compatible con botellas de 5 galones",
+        "Dispensador de estilo push",
+        "Bandeja extraíble fácil de limpiar"
+      ]
+    },
+    "estufa_lg": {
+      "name": "Estufa LG",
+      "description": "La estufa de gas LG entrega cocción precisa, eficiente y segura. Sus quemadores espaciosos y encendido eléctrico automático la hacen ideal para cualquier cocina.",
+      "specs": [
+        "Tipo: Gas natural",
+        "Quemadores: 4",
+        "Encendido: Eléctrico automático",
+        "Horno incorporado con parrilla",
+        "Rejillas de fundición de hierro"
+      ]
+    },
+    "extractor-de-grasa_drija": {
+      "name": "Campana Extractora Drija",
+      "description": "La Campana Extractora Drija mantiene tu cocina libre de humo, olores y vapor de grasa. Fácil instalación y rendimiento silencioso para una cocina más fresca.",
+      "specs": [
+        "Tipo: Campana extractora",
+        "Marca: Drija",
+        "Motor de alta succión",
+        "Filtros de grasa lavables",
+        "Iluminación LED integrada"
+      ]
+    },
+    "lavadora_dimensions": {
+      "name": "Lavadora Dimensions",
+      "description": "La Lavadora Dimensions es una opción asequible y confiable para el hogar. Fácil de usar y construida para funcionar bien en cada ciclo de lavado.",
+      "specs": [
+        "Capacidad: 8 kg",
+        "Ciclos: Múltiples programas",
+        "Control: Panel digital",
+        "Eficiencia: Ahorro de agua",
+        "Precio: Asequible"
+      ]
+    },
+    "lavadora_frigidaire": {
+      "name": "Lavadora Frigidaire",
+      "description": "La Lavadora Frigidaire combina eficiencia y capacidad en un tamaño que funciona bien para el hogar. Ofrece múltiples ciclos de lavado con bajo consumo de agua.",
+      "specs": [
+        "Capacidad: 10 kg",
+        "Ciclos: 6 programas",
+        "Consumo: Bajo consumo de agua",
+        "Control: Panel digital",
+        "Tecnología: Eficiencia avanzada"
+      ]
+    },
+    "lavadora_lg": {
+      "name": "Lavadora LG",
+      "description": "La Lavadora LG proporciona limpieza profunda, eficiente y silenciosa gracias a su tecnología avanzada de motor. Ideal para hogares modernos que buscan calidad y durabilidad.",
+      "specs": [
+        "Capacidad: 12 kg",
+        "Tecnología: Motor Inverter Direct Drive",
+        "Funciones: 6Motion DD",
+        "Eficiencia: Alta eficiencia energética",
+        "Rendimiento: Limpieza profunda"
+      ]
+    },
+    "lavadora-y-secadora_lg": {
+      "name": "Lavadora y Secadora LG",
+      "description": "La combinación perfecta: lavadora y secadora LG en una unidad. Ahorra espacio y tiempo con tecnología de lavado y secado de nueva generación.",
+      "specs": [
+        "Capacidad lavado: 12 kg",
+        "Capacidad secado: 8 kg",
+        "Tecnología: AI DD (detección de carga)",
+        "Funciones: Steam y TurboWash",
+        "Eficiencia: Alta eficiencia"
+      ]
+    },
+    "lavadora-y-secadora_tecnomaster": {
+      "name": "Lavadora y Secadora Tecnomaster",
+      "description": "La Lavadora y Secadora Tecnomaster es la solución 2 en 1 que necesitas. Lava y seca en un solo ciclo con eficiencia energética y múltiples programas.",
+      "specs": [
+        "Tipo: 2 en 1",
+        "Capacidad: 10 kg lavado, 6 kg secado",
+        "Programas: Múltiples opciones",
+        "Eficiencia: Ahorro energético",
+        "Conveniencia: Ciclo completo"
+      ]
+    },
+    "bombillas": {
+      "name": "Bombillas Incandescentes",
+      "description": "Ilumina tus espacios con nuestras bombillas incandescentes de alta calidad con rendimiento confiable.",
+      "specs": [
+        "Tipo: Incandescente",
+        "Potencia: 60W",
+        "Socket: E27",
+        "Luz cálida",
+        "Económica"
+      ]
+    },
+    "bombillas_led": {
+      "name": "Bombillas LED",
+      "description": "Ahorra energía con nuestras bombillas LED de larga duración, diseñadas para proporcionar iluminación brillante y eficiente.",
+      "specs": [
+        "Tipo: Tecnología LED",
+        "Socket: E27",
+        "Potencia: 9W (equivalente a 75W)",
+        "Vida útil: 25,000 horas",
+        "Paquete: 3 unidades"
+      ]
+    },
+    "extension": {
+      "name": "Extensión Eléctrica",
+      "description": "Extensión eléctrica reforzada para interiores y exteriores, ideal para conectar múltiples dispositivos con seguridad.",
+      "specs": [
+        "Longitud: 5 metros",
+        "Tomas: 3 salidas",
+        "Calibre: 14 AWG",
+        "Uso rudo",
+        "Color: Naranja"
+      ]
+    },
+    "linterna": {
+      "name": "Linterna LED",
+      "description": "Linterna LED recargable de alta potencia, compacta y resistente al agua, perfecta para emergencias y actividades al aire libre.",
+      "specs": [
+        "Lúmenes: 1000",
+        "Batería: Ion de litio recargable",
+        "Modos: Alto, Bajo, Estroboscópico",
+        "Resistencia: IPX4",
+        "Material: Aluminio aeroespacial"
+      ]
+    },
+    "toma_corriente": {
+      "name": "Toma Corriente Doble",
+      "description": "Toma corriente doble de pared con diseño moderno y seguridad mejorada para tu hogar u oficina.",
+      "specs": [
+        "Tipo: Duplex",
+        "Voltaje: 125V",
+        "Amperaje: 15A",
+        "Color: Blanco",
+        "Material: Termoplástico durable"
+      ]
+    },
+    "destornillador": {
+      "name": "Set de Destornilladores de Precisión",
+      "description": "Set de destornilladores de precisión con puntas magnéticas, ideal para trabajo en electrónica y reparaciones del hogar.",
+      "specs": [
+        "Tipo: Set de precisión",
+        "Puntas: Magnéticas",
+        "Ideal para: Electrónica y reparaciones",
+        "Materiales: Acero de alta calidad",
+        "Incluye: Estuche organizador"
+      ]
+    },
+    "llave_de_tuerca": {
+      "name": "Llave de Tuerca Ajustable",
+      "description": "Llave de tuerca ajustable con apertura amplia, diseñada para máxima versatilidad en trabajo mecánico y de plomería.",
+      "specs": [
+        "Tipo: Ajustable",
+        "Apertura: Amplia",
+        "Ideal para: Trabajo mecánico y plomería",
+        "Material: Acero forjado",
+        "Versatilidad: Máxima"
+      ]
+    },
+    "martillo": {
+      "name": "Martillo de Garra",
+      "description": "Martillo con mango de fibra de vidrio para mayor absorción de impacto y durabilidad. Esencial para cualquier trabajo de carpintería o construcción.",
+      "specs": [
+        "Tipo: Martillo de garra",
+        "Mango: Fibra de vidrio",
+        "Característica: Absorción de impacto",
+        "Durabilidad: Máxima",
+        "Ideal para: Carpintería y construcción"
+      ]
+    },
+    "pinza": {
+      "name": "Pinza Profesional",
+      "description": "Pinza profesional con mango ergonómico y puntas afiladas para trabajo preciso en electrónica y mecánica.",
+      "specs": [
+        "Tipo: Pinza profesional",
+        "Mango: Ergonómico",
+        "Puntas: Afiladas",
+        "Ideal para: Electrónica y mecánica",
+        "Precisión: Alta"
+      ]
+    },
+    "sierra_de_mano": {
+      "name": "Sierra de Mano",
+      "description": "Sierra de mano con dientes afilados para cortes precisos en madera y materiales blandos. Herramienta esencial para carpintería.",
+      "specs": [
+        "Tipo: Sierra de mano",
+        "Dientes: Afilados",
+        "Ideal para: Madera y materiales blandos",
+        "Uso: Carpintería",
+        "Precisión: Alta"
+      ]
+    },
+    "brocha": {
+      "name": "Brocha Profesional",
+      "description": "Brocha profesional de pintura con cerdas naturales para acabado suave y uniforme en cualquier superficie.",
+      "specs": [
+        "Tipo: Brocha profesional",
+        "Cerdas: Naturales",
+        "Acabado: Suave y uniforme",
+        "Superficie: Cualquier tipo",
+        "Calidad: Profesional"
+      ]
+    },
+    "kit_de_pintura": {
+      "name": "Kit de Pintura Completo",
+      "description": "Kit completo para pintar que incluye bandeja, rodillo, brocha y cinta adhesiva, todo lo necesario para tu proyecto.",
+      "specs": [
+        "Incluye: Bandeja, Rodillo (9\"), Brocha (2\"), Cinta",
+        "Material: Plástico durable",
+        "Ideal para: Principiantes",
+        "Ahorro: De tiempo",
+        "Completo: Todo necesario"
+      ]
+    },
+    "pinturas_tropical": {
+      "name": "Pintura Tropical",
+      "description": "Pintura acrílica de secado rápido con excelente cobertura y resistencia al clima. Perfecta para uso exterior.",
+      "specs": [
+        "Tipo: Pintura acrílica",
+        "Secado: Rápido",
+        "Cobertura: Excelente",
+        "Uso: Exterior",
+        "Resistencia: Climática"
+      ]
+    },
+    "coca_cola": {
+      "name": "Coca Cola",
+      "description": "Coca Cola es la bebida de refresco más icónica del mundo. Con su sabor único y característico, es perfecta para cualquier momento y ocasión.",
+      "specs": [
+        "Sabor: Original y único",
+        "Presentación: 2 litros",
+        "Ideal para: Cualquier momento",
+        "Marca: Coca-Cola",
+        "Refresco clásico"
+      ]
+    },
+    "pinturas_tucan": {
+      "name": "Pintura Premium Tucán",
+      "description": "Pintura premium con acabado satinado, lavable y bajo olor. Ideal para decoración interior.",
+      "specs": [
+        "Tipo: Pintura premium",
+        "Acabado: Satinado",
+        "Característica: Lavable",
+        "Olor: Bajo",
+        "Ideal para: Decoración interior"
+      ]
+    },
+    "rodillo_de_pintura": {
+      "name": "Rodillo de Pintura",
+      "description": "Rodillo de pintura de alta calidad para aplicación uniforme y eficiente en grandes superficies.",
+      "specs": [
+        "Tipo: Rodillo de pintura",
+        "Calidad: Alta",
+        "Aplicación: Uniforme y eficiente",
+        "Ideal para: Grandes superficies",
+        "Rendimiento: Excelente"
+      ]
+    },
+    "grifo_moderno": {
+      "name": "Grifo Moderno",
+      "description": "Grifo moderno con diseño elegante y tecnología de ahorro de agua. Perfecto para cocinas y baños contemporáneos.",
+      "specs": [
+        "Estilo: Moderno elegante",
+        "Tecnología: Ahorro de agua",
+        "Ideal para: Cocinas y baños",
+        "Diseño: Contemporáneo",
+        "Función: Eficiente"
+      ]
+    },
+    "grifo": {
+      "name": "Grifo Estándar",
+      "description": "Grifo estándar con construcción duradera y fácil instalación. Opción confiable para cualquier baño o cocina.",
+      "specs": [
+        "Tipo: Grifo estándar",
+        "Construcción: Duradera",
+        "Instalación: Fácil",
+        "Uso: Baño o cocina",
+        "Confiable: Opción segura"
+      ]
+    },
+    "manguera_de_jardin": {
+      "name": "Manguera de Jardín",
+      "description": "Manguera de jardín resistente y flexible, perfecta para riego y limpieza de áreas exteriores.",
+      "specs": [
+        "Tipo: Manguera de jardín",
+        "Característica: Resistente y flexible",
+        "Uso: Riego y limpieza",
+        "Área: Exteriores",
+        "Durabilidad: Alta"
+      ]
+    },
+    "manguera": {
+      "name": "Manguera Flexible",
+      "description": "Manguera flexible de alta resistencia para uso en plomería y conexiones de agua.",
+      "specs": [
+        "Tipo: Manguera flexible",
+        "Resistencia: Alta",
+        "Uso: Plomería y conexiones",
+        "Conexión: Agua",
+        "Flexibilidad: Máxima"
+      ]
+    },
+    "tubo": {
+      "name": "Tubo de Drenaje",
+      "description": "Tubo de drenaje de PVC resistente para sistemas de plomería y evacuación de aguas.",
+      "specs": [
+        "Tipo: Tubo de drenaje",
+        "Material: PVC resistente",
+        "Uso: Sistemas de plomería",
+        "Función: Evacuación de aguas",
+        "Durabilidad: Alta"
+      ]
+    },
+    "bocina_aiwa": {
+      "name": "Bocina Aiwa",
+      "description": "La Bocina Aiwa ofrece sonido potente y claro, ideal para cualquier ocasión. Con conectividad Bluetooth de largo alcance, batería de larga duración y diseño robusto pero elegante.",
+      "specs": [
+        "Conectividad Bluetooth estable",
+        "Batería de larga duración",
+        "Sonido envolvente de alta calidad",
+        "Entrada USB y tarjeta SD",
+        "Diseño duradero y portátil"
+      ]
+    },
+    "bocina_lg": {
+      "name": "Bocina LG",
+      "description": "La Bocina LG ofrece una experiencia de audio excepcional con tecnología de sonido avanzada. Perfecta para disfrutar tu música favorita con bajos profundos y agudos nítidos, en un diseño moderno y compacto.",
+      "specs": [
+        "Salida de audio de alta resolución",
+        "Bajos mejorados con tecnología LG",
+        "Conectividad Bluetooth multi-dispositivo",
+        "Batería recargable integrada",
+        "Protección contra salpicaduras de agua"
+      ]
+    },
+    "bocina_samsung": {
+      "name": "Bocina Samsung",
+      "description": "La Bocina Samsung combina diseño elegante con rendimiento de sonido potente y equilibrado. Ideal para cualquier ambiente, ofreciendo conectividad inalámbrica y calidad de audio superior que llena todo el espacio.",
+      "specs": [
+        "Sonido envolvente premium de 360 grados",
+        "Integración con ecosistema Samsung",
+        "Conectividad inalámbrica instantánea",
+        "Control mediante aplicación móvil",
+        "Acabado minimalista sofisticado"
+      ]
+    },
+    "bocina_stage": {
+      "name": "Bocina Stage",
+      "description": "La Bocina Stage es la elección perfecta para quienes buscan sonido potente y claro en un solo dispositivo. Con diseño duradero y sorprendente duración de batería, es tu compañera ideal para fiestas y viajes.",
+      "specs": [
+        "Salida de alta potencia",
+        "Modo True Wireless Stereo (TWS)",
+        "Resistencia a impactos y polvo",
+        "Carga rápida USB-C",
+        "Llamadas manos libres integradas"
+      ]
+    },
+    "bocina_tecnomaster": {
+      "name": "Bocina Tecnomaster",
+      "description": "La Bocina Tecnomaster ofrece calidad de sonido profesional con características avanzadas para audiófilos. Diseñada para proporcionar una experiencia auditiva inigualable en cualquier entorno.",
+      "specs": [
+        "Calidad de sonido profesional",
+        "Características avanzadas para audiófilos",
+        "Experiencia auditiva inigualable",
+        "Diseño versátil",
+        "Rendimiento superior"
+      ]
+    },
+    "celular_s24_ultra": {
+      "name": "Smartphone S24 Ultra",
+      "description": "El Samsung S24 Ultra redefine el smartphone premium con su sistema de cámara profesional, pantalla de máxima calidad y poderoso S-Pen integrado. Diseñado para quienes buscan lo mejor en rendimiento y productividad.",
+      "specs": [
+        "Pantalla Dynamic AMOLED 2X de última generación",
+        "Sistema de cámara profesional con zoom espacial avanzado",
+        "S-Pen integrado para máxima productividad",
+        "Estructura de titanio ultra duradera",
+        "IA integrada para fotos y traducción"
+      ]
+    },
+    "celular_samsung_a35": {
+      "name": "Smartphone Samsung A35",
+      "description": "El Samsung A35 ofrece una experiencia visual inmersiva con su pantalla de alta resolución y colores vibrantes. Con procesador potente y diseño elegante, es el compañero ideal para multitarea y gaming.",
+      "specs": [
+        "Pantalla Infinity-O con alta tasa de refresco",
+        "Procesador potente para juegos y aplicaciones",
+        "Resistencia al agua y polvo (certificada)",
+        "Cámara principal con estabilización óptica de imagen (OIS)",
+        "Integración completa con servicios Samsung"
+      ]
+    },
+    "iphone_14": {
+      "name": "iPhone 14",
+      "description": "El iPhone 14 ofrece rendimiento excepcional gracias a su chip avanzado y sistema de cámara que captura fotos increíbles en cualquier condición de iluminación. Seguridad, elegancia y poder en la palma de tu mano.",
+      "specs": [
+        "Sistema de cámara dual avanzado",
+        "Modo cine en 4K Dolby Vision",
+        "Ceramic Shield, más duradero que cualquier vidrio",
+        "Batería diseñada para durar todo el día",
+        "Detección de choques y servicios de emergencia"
+      ]
+    },
+    "iphone_14_pro": {
+      "name": "iPhone 14 Pro",
+      "description": "El iPhone 14 Pro eleva la experiencia móvil con Dynamic Island, una cámara de 48 MP que captura detalles impresionantes y una pantalla siempre activa con gran brillo. Tecnología e innovación puras.",
+      "specs": [
+        "Dynamic Island interactiva",
+        "Cámara de 48 MP con detalles impresionantes",
+        "Pantalla siempre activa con gran brillo",
+        "Chip A16 Bionic para máximo rendimiento",
+        "Sistema de cámaras Pro con teleobjetivo"
+      ]
+    },
+    "laptop_asus": {
+      "name": "Laptop Asus",
+      "description": "La Laptop Asus ofrece potencia y portabilidad para profesionales y estudiantes. Con pantalla de alta resolución y rendimiento fluido, es la herramienta ideal para trabajar, estudiar y disfrutar de contenido multimedia.",
+      "specs": [
+        "Procesador de última generación",
+        "Pantalla con bisel ultra delgado (NanoEdge)",
+        "Teclado ergonómico retroiluminado",
+        "Vida útil de batería extendida",
+        "Chasis ligero y duradero"
+      ]
+    },
+    "laptop_dell": {
+      "name": "Laptop Dell",
+      "description": "La Laptop Dell es sinónimo de confiabilidad y alto rendimiento. Construida para soportar largas jornadas de trabajo, ofrece una experiencia de usuario fluida gracias a sus componentes de alta gama y diseño robusto.",
+      "specs": [
+        "Rendimiento de alta gama",
+        "Componentes de alta calidad",
+        "Diseño robusto y confiable",
+        "Teclado resistente a salpicaduras",
+        "Sistema de enfriamiento eficiente"
+      ]
+    },
+    "laptop_dragonx": {
+      "name": "Laptop DragonX",
+      "description": "La Laptop DragonX es la elección para gamers que buscan máximo rendimiento. Equipada con gráficos potentes y un sistema de enfriamiento avanzado, te permite disfrutar de tus juegos favoritos sin límites.",
+      "specs": [
+        "Gráficos potentes para gaming",
+        "Sistema de enfriamiento avanzado",
+        "Alta tasa de refresco",
+        "Teclado mecánico RGB",
+        "Diseño agresivo con iluminación RGB"
+      ]
+    },
+    "laptop_hp": {
+      "name": "Laptop HP",
+      "description": "La Laptop HP combina diseño elegante con características inteligentes que facilitan tu día. Potente, versátil y segura, es ideal para quienes buscan una computadora equilibrada para la oficina o el hogar.",
+      "specs": [
+        "Diseño elegante y moderno",
+        "Características inteligentes",
+        "Potencia y versatilidad",
+        "Seguridad de hardware integrada",
+        "Rendimiento equilibrado"
+      ]
+    },
+    "laptop_lenovo": {
+      "name": "Laptop Lenovo",
+      "description": "La Laptop Lenovo destaca por su versatilidad y eficiencia. Ya sea para productividad empresarial o uso creativo, sus características avanzadas e diseño inteligente te permiten lograr más en menos tiempo.",
+      "specs": [
+        "Versatilidad y eficiencia",
+        "Características avanzadas",
+        "Diseño inteligente",
+        "Productividad empresarial",
+        "Uso creativo"
+      ]
+    },
+    "televisor_led_50": {
+      "name": "TV LED 50 Pulgadas",
+      "description": "El TV LED de 50 pulgadas ofrece una excelente experiencia visual gracias a su pantalla amplia, colores intensos y resolución nítida. Ideal para salas, dormitorios o espacios donde desees una pantalla grande con gran rendimiento.",
+      "specs": [
+        "Pantalla amplia de 50 pulgadas",
+        "Colores intensos y vivos",
+        "Resolución nítida y clara",
+        "Sistema Smart TV integrado",
+        "Diseño elegante y delgado"
+      ]
+    },
+    "televisor_led_lg": {
+      "name": "TV LED LG",
+      "description": "El TV LED LG ofrece imágenes nítidas con colores realistas gracias a su panel LED avanzado. Cuenta con sistema Smart TV para acceder a tus aplicaciones favoritas y diseño moderno que se adapta a cualquier espacio.",
+      "specs": [
+        "Panel LED avanzado",
+        "Imágenes nítidas y claras",
+        "Colores realistas y vibrantes",
+        "Sistema Smart TV",
+        "Diseño moderno versátil"
+      ]
+    },
+    "televisor_led_samsung": {
+      "name": "TV LED Samsung",
+      "description": "El TV LED Samsung combina tecnología de vanguardia con diseño elegante para ofrecer una experiencia de visualización superior. Con colores vivos y contraste impresionante, transforma cualquier habitación en un cine en casa.",
+      "specs": [
+        "Tecnología de vanguardia",
+        "Diseño elegante y moderno",
+        "Colores vivos y vibrantes",
+        "Contraste impresionante",
+        "Experiencia cinematográfica"
+      ]
+    },
+    "televisor_led_tecnomaster": {
+      "name": "TV LED Tecnomaster",
+      "description": "El TV LED Tecnomaster ofrece calidad de imagen excepcional con tecnología LED avanzada. Perfecto para entretenimiento en casa con características inteligentes y diseño atractivo que complementa cualquier decoración.",
+      "specs": [
+        "Calidad de imagen excepcional",
+        "Tecnología LED avanzada",
+        "Entretenimiento en casa",
+        "Características inteligentes",
+        "Diseño atractivo y moderno"
+      ]
+    },
+    "pantalon_negro": {
+      "name": "Pantalón Negro",
+      "description": "Pantalón negro que combina elegancia y comodidad. Su diseño moderno y tela de alta calidad lo hacen ideal para ocasiones formales y uso diario.",
+      "specs": [
+        "Diseño elegante y moderno",
+        "Tela suave y duradera",
+        "Corte ajustado y cómodo",
+        "Ideal para eventos y oficina",
+        "Disponible en múltiples tallas"
+      ]
+    },
+    "pantalones_de_golf": {
+      "name": "Pantalones de Golf",
+      "description": "Pantalones de golf diseñados para darte máximo rendimiento y comodidad en el campo. Su tela transpirable y flexible permite completa libertad de movimiento.",
+      "specs": [
+        "Tela transpirable y ligera",
+        "Flexibilidad para mayor movimiento",
+        "Diseño moderno y deportivo",
+        "Resistente a arrugas",
+        "Ideal para el campo de golf"
+      ]
+    },
+    "pantalones_deportivos_joggers": {
+      "name": "Pantalones Deportivos Joggers",
+      "description": "Pantalones deportivos que combinan estilo urbano y comodidad deportiva. Perfectos para tus entrenamientos o un look relajado diario.",
+      "specs": [
+        "Diseño moderno jogger",
+        "Material suave y elástico",
+        "Cinturilla ajustable con cordón",
+        "Bolsillos prácticos",
+        "Ideal para deporte o uso casual"
+      ]
+    },
+    "pantalones_jeans": {
+      "name": "Jeans",
+      "description": "Los jeans son un clásico que nunca pasa de moda. Con su diseño duradero y versátil, son la prenda ideal para cualquier ocasión casual.",
+      "specs": [
+        "Tela denim duradera",
+        "Diseño versátil y clásico",
+        "Corte cómodo",
+        "Ideal para uso diario",
+        "Disponible en varios lavados"
+      ]
+    },
+    "pantalones_joggers": {
+      "name": "Pantalones Joggers",
+      "description": "Pantalones joggers con estilo moderno y máxima comodidad. Perfectos para relajarse en casa o salidas casuales.",
+      "specs": [
+        "Estilo jogger moderno",
+        "Tela suave y cómoda",
+        "Cinturilla elástica",
+        "Bolsillos laterales",
+        "Ideal para relaxing y casual"
+      ]
+    },
+    "leggings_de_licra": {
+      "name": "Leggings de Licra",
+      "description": "Leggings de licra flexibles, cómodos y perfectos para ejercicio, yoga o uso diario. Su tela suave permite completa libertad de movimiento.",
+      "specs": [
+        "Tela de licra ultra flexible",
+        "Diseño cómodo y ajustado",
+        "Suave y ligero",
+        "Perfecto para deporte o uso diario",
+        "Disponible en múltiples tallas"
+      ]
+    },
+    "pantalon_acampanado": {
+      "name": "Pantalón Acampanado",
+      "description": "Pantalón acampanado que combina estilo y comodidad. Su diseño moderno y drapeado elegante lo hacen ideal tanto para ocasiones casuales como formales.",
+      "specs": [
+        "Diseño acampanado moderno",
+        "Tela suave y cómoda",
+        "Ajuste perfecto en cintura",
+        "Ideal para uso diario o eventos especiales",
+        "Disponible en múltiples tallas"
+      ]
+    },
+    "pantalon_casual": {
+      "name": "Pantalón Casual",
+      "description": "Pantalón casual diseñado para acompañarte todos los días. Su estilo moderno y comodidad lo convierten en una prenda esencial para cualquier guardarropa.",
+      "specs": [
+        "Diseño casual y moderno",
+        "Tela suave y ligera",
+        "Ajuste cómodo en cintura",
+        "Ideal para uso diario",
+        "Disponible en múltiples tallas"
+      ]
+    },
+    "pantalon_jean": {
+      "name": "Pantalón Jean",
+      "description": "Pantalón jean que ofrece durabilidad, estilo y comodidad. Perfecto para combinar con cualquier outfit y usar en cualquier ocasión.",
+      "specs": [
+        "Tela denim duradera",
+        "Estilo versátil y moderno",
+        "Corte cómodo y favorecedor",
+        "Ideal para cualquier ocasión",
+        "Fácil de combinar"
+      ]
+    },
+    "pantalon_liso_mujer": {
+      "name": "Pantalón Liso Mujer",
+      "description": "Pantalón liso para mujer con diseño elegante y versátil. Perfecto para crear looks profesionales o casuales con estilo.",
+      "specs": [
+        "Diseño liso y elegante",
+        "Tela de alta calidad",
+        "Corte favorecedor",
+        "Versátil y moderno",
+        "Ideal para oficina y casual"
+      ]
+    },
+    "jean_para_ninos": {
+      "name": "Jean para Niños",
+      "description": "Jean para niños diseñado para resistencia y comodidad. Perfecto para las actividades diarias de los más pequeños.",
+      "specs": [
+        "Tela denim resistente",
+        "Diseño cómodo para niños",
+        "Fácil de lavar",
+        "Duradero y práctico",
+        "Ideal para uso diario"
+      ]
+    },
+    "licra_para_ninos": {
+      "name": "Licra para Niños",
+      "description": "Licra para niños ultra flexible y cómoda. Perfecta para juegos, deportes y actividades escolares.",
+      "specs": [
+        "Tela de licra flexible",
+        "Cómoda y elástica",
+        "Suave al tacto",
+        "Permite libertad de movimiento",
+        "Ideal para juegos activos"
+      ]
+    },
+    "pantalon_deportivo": {
+      "name": "Pantalón Deportivo",
+      "description": "Pantalón deportivo para niños con diseño atlético y cómodo. Perfecto para educación física y actividades deportivas.",
+      "specs": [
+        "Diseño deportivo moderno",
+        "Tela transpirable",
+        "Cinturilla elástica",
+        "Bolsillos prácticos",
+        "Ideal para deportes"
+      ]
+    },
+    "pantalon_liso": {
+      "name": "Pantalón Liso",
+      "description": "Pantalón liso para niños con diseño clásico y versátil. Perfecto para el colegio y ocasiones especiales.",
+      "specs": [
+        "Diseño liso clásico",
+        "Tela suave y cómoda",
+        "Fácil de combinar",
+        "Práctico y duradero",
+        "Ideal para colegio"
+      ]
+    },
+    "pantalones_lisos_para_ninos": {
+      "name": "Pantalones Lisos para Niños",
+      "description": "Pantalones lisos para niños con estilo moderno y comodidad. Perfectos para el uso diario y ocasiones especiales.",
+      "specs": [
+        "Estilo moderno y versátil",
+        "Tela suave y duradera",
+        "Cómodos y prácticos",
+        "Fáciles de lavar",
+        "Ideal para todo tipo de actividades"
+      ]
+    },
+    "vestido_ajustado": {
+      "name": "Vestido Ajustado",
+      "description": "Vestido ajustado que realza tu figura con sofisticación. Su diseño moderno y material elástico aseguran un ajuste impecable para veladas inolvidables.",
+      "specs": [
+        "Corte ajustado que realza la silueta",
+        "Material elástico y cómodo",
+        "Ideal para cenas y eventos nocturnos",
+        "Diseño de vanguardia",
+        "Tela de alta calidad"
+      ]
+    },
+    "vestido_cuello_cuadrado": {
+      "name": "Vestido de Cuello Cuadrado",
+      "description": "Vestido con escote cuadrado que combina estética clásica con un toque moderno. Su diseño favorecedor es ideal para eventos sociales y ocasiones especiales.",
+      "specs": [
+        "Diseño elegante de escote cuadrado",
+        "Material suave y fluido",
+        "Corte femenino y fluido",
+        "Ideal para fiestas diurnas o nocturnas",
+        "Acabado delicado"
+      ]
+    },
+    "vestido_de_invierno": {
+      "name": "Vestido de Invierno",
+      "description": "Vestido de invierno diseñado para proporcionar calor sin sacrificar elegancia. Perfecto para mantener tu estilo durante las temporadas más frías.",
+      "specs": [
+        "Material térmico y cálido",
+        "Diseño elegante de invierno",
+        "Protección contra frío",
+        "Estilo sofisticado",
+        "Material de alta densidad"
+      ]
+    },
+    "vestido_elegante": {
+      "name": "Vestido Elegante",
+      "description": "Vestido elegante que es la máxima expresión de estilo. Elaborado con atención al detalle, es la prenda perfecta para brillar en galas y recepciones.",
+      "specs": [
+        "Diseño elegante y sofisticado",
+        "Material premium",
+        "Acabado impecable",
+        "Corte favorecedor",
+        "Ideal para eventos formales"
+      ]
+    },
+    "vestido_negro": {
+      "name": "Vestido Negro",
+      "description": "Vestido negro clásico que nunca pasa de moda. Versátil y elegante, es la prenda perfecta para cualquier ocasión especial.",
+      "specs": [
+        "Color negro clásico",
+        "Diseño versátil y atemporal",
+        "Material de alta calidad",
+        "Fácil de combinar",
+        "Ideal para eventos especiales"
+      ]
+    },
+    "limones_persa": {
+      "name": "Limones persa por libras",
+      "description": "Limones frescos de variedad persa, conocidos por su abundante jugo y ausencia de semillas. Ideales para jugos, aderezos y realzar el sabor de tus comidas.",
+      "specs": [
+        "Variedad: Persa (sin semilla)",
+        "Sabor: Ácido aromático",
+        "Calidad: De exportación",
+        "Venta: Por libra",
+        "Estado: Fresco y jugoso"
+      ]
+    },
+    "sopita_dona_gallina": {
+      "name": "Sopita Doña Gallina",
+      "description": "Doña Gallina es uno de los sazonadores de pollo más populares en la cocina dominicana. Le da a tus platos ese sabor casero y auténtico que a todos les encanta.",
+      "specs": [
+        "Tipo: Sazonador",
+        "Marca: Doña Gallina",
+        "Sabor: Pollo",
+        "Uso: Sopas, arroces y guisos",
+        "Presentación: Caja de cubitos"
+      ]
+    },
+    "vinagre_baldom": {
+      "name": "Vinagre Baldom",
+      "description": "El Vinagre Baldom es un vinagre blanco de uso diario en la cocina dominicana. Ideal para aderezos, conservas y limpieza de vegetales.",
+      "specs": [
+        "Tipo: Vinagre Blanco",
+        "Marca: Baldom",
+        "Usos: Aderezos, conservas y cocina",
+        "Sabor: Acidez suave",
+        "Presentación: Botella de 946ml"
+      ]
+    },
+    "gandules_verdes_goya": {
+      "name": "Gandules Verdes Goya",
+      "description": "Los Gandules Verdes Goya son el ingrediente esencial para el moro de gandules. Tiernos y sabrosos, listos para usar directamente desde la lata.",
+      "specs": [
+        "Tipo: Legumbre",
+        "Marca: Goya",
+        "Estado: Cocidos y listos para usar",
+        "Uso: Moro de gandules y guisos",
+        "Presentación: Lata de 439g"
+      ]
+    },
+    "habichuelas_negras_goya": {
+      "name": "Habichuelas Negras Goya",
+      "description": "Las Habichuelas Negras Goya son tiernas y llenas de sabor. Perfectas para preparar moro de habichuelas negras o acompañar tus platos favoritos.",
+      "specs": [
+        "Tipo: Legumbre",
+        "Variedad: Habichuelas Negras",
+        "Marca: Goya",
+        "Estado: Pre-cocidas",
+        "Presentación: Lata de 439g"
+      ]
+    },
+    "maiz_la_famosa": {
+      "name": "Maíz La Famosa",
+      "description": "El maíz en lata La Famosa es dulce y tierno. Perfecto para ensaladas, guisos y como acompañamiento de cualquier plato principal.",
+      "specs": [
+        "Tipo: Maíz Dulce en Granos",
+        "Marca: La Famosa",
+        "Estado: Cocido",
+        "Uso: Ensaladas y guisos",
+        "Presentación: Lata de 439g"
+      ]
+    },
+    "salchichas_jaja": {
+      "name": "Salchichas Jaja",
+      "description": "Las Salchichas Jaja son de las más populares en el mercado dominicano. Jugosas y sabrosas, perfectas para desayunos, picaderas o recetas del día a día.",
+      "specs": [
+        "Tipo: Salchichas",
+        "Marca: Jaja",
+        "Uso: Desayunos, picaderas y guisos",
+        "Estado: Listas para calentar",
+        "Presentación: Lata de 400g"
+      ]
+    },
+    "sardinas_gord": {
+      "name": "Sardinas Gord",
+      "description": "Las Sardinas Gord en salsa de tomate son ricas en Omega-3 y proteínas. Una opción nutritiva y económica para comidas rápidas.",
+      "specs": [
+        "Tipo: Sardinas en Salsa de Tomate",
+        "Marca: Gord",
+        "Nutrientes: Rico en Omega-3",
+        "Uso: Sándwiches y comidas rápidas",
+        "Presentación: Lata de 125g"
+      ]
+    },
+    "tomates_pelados_la_famosa": {
+      "name": "Tomates Pelados La Famosa",
+      "description": "Los Tomates Pelados La Famosa vienen enteros en su jugo natural. Perfectos para salsas, guisos y sopas con sabor casero.",
+      "specs": [
+        "Tipo: Tomates Pelados Enteros",
+        "Marca: La Famosa",
+        "Estado: En jugo natural",
+        "Uso: Salsas, guisos y sopas",
+        "Presentación: Lata de 794g"
+      ]
+    },
+    "ajies_morrones": {
+      "name": "Ajíes Morrones",
+      "description": "Ajíes morrones frescos, coloridos y llenos de sabor. Perfectos para ensaladas, salteados y para decorar tus platos.",
+      "specs": [
+        "Tipo: Vegetal",
+        "Variedad: Ají Morrón",
+        "Colores: Rojo, amarillo y verde",
+        "Uso: Ensaladas y salteados",
+        "Venta: Por unidad"
+      ]
+    },
+    "cebollas_rojas": {
+      "name": "Cebollas Rojas",
+      "description": "Cebollas rojas frescas con su característico sabor dulce y ligeramente picante. Un básico indispensable en la cocina dominicana.",
+      "specs": [
+        "Tipo: Vegetal",
+        "Variedad: Cebolla Roja",
+        "Sabor: Dulce y ligeramente picante",
+        "Uso: Ensaladas, guisos y sazones",
+        "Venta: Por libra"
+      ]
+    },
+    "mandarinas": {
+      "name": "Mandarinas",
+      "description": "Las mandarinas son dulces y fáciles de pelar. Una fruta rica en vitamina C, perfecta como snack saludable para toda la familia.",
+      "specs": [
+        "Tipo: Cítrico",
+        "Variedad: Mandarina",
+        "Sabor: Dulce",
+        "Beneficios: Rico en vitamina C",
+        "Venta: Por libra"
+      ]
+    },
+    "manzanas_amarillas": {
+      "name": "Manzanas Amarillas",
+      "description": "Las manzanas amarillas son dulces y jugosas. Una fruta versátil, perfecta para comer sola, en ensaladas de frutas o postres.",
+      "specs": [
+        "Tipo: Fruta",
+        "Variedad: Manzana Amarilla",
+        "Sabor: Dulce y jugoso",
+        "Uso: Snacks, ensaladas y postres",
+        "Venta: Por unidad"
+      ]
+    },
+    "manzanas_rojas": {
+      "name": "Manzanas Rojas",
+      "description": "Las manzanas rojas son crujientes y con un equilibrio perfecto entre dulce y ácido. Una fruta clásica que nunca falla.",
+      "specs": [
+        "Tipo: Fruta",
+        "Variedad: Manzana Roja",
+        "Sabor: Dulce-ácido",
+        "Beneficios: Rico en fibra y antioxidantes",
+        "Venta: Por unidad"
+      ]
+    },
+    "pepinos": {
+      "name": "Pepinos",
+      "description": "Pepinos frescos y crujientes. Bajos en calorías e hidratantes, son el ingrediente perfecto para ensaladas y platos fríos.",
+      "specs": [
+        "Tipo: Verdura",
+        "Variedad: Pepino",
+        "Sabor: Fresco y suave",
+        "Beneficios: Hidratante y bajo en calorías",
+        "Venta: Por unidad"
+      ]
+    },
+    "tomates_de_ensalada": {
+      "name": "Salad Tomatoes",
+      "description": "Fresh salad tomatoes, red and juicy. A staple ingredient in salads and Mediterranean-style dishes.",
+      "specs": [
+        "Type: Vegetable",
+        "Variety: Salad Tomato",
+        "Flavor: Sweet and tart",
+        "Use: Salads, sandwiches, and stews",
+        "Sale: Per pound"
+      ]
+    },
+    "uvas_moradas": {
+      "name": "Uvas Moradas",
+      "description": "Las uvas moradas son dulces y refrescantes. Una fruta deliciosa para disfrutar como snack o en jugos y postres especiales.",
+      "specs": [
+        "Tipo: Fruta",
+        "Variedad: Uva Morada",
+        "Sabor: Dulce",
+        "Uso: Snacks, jugos y postres",
+        "Venta: Por libra"
+      ]
+    },
+    "zanahorias": {
+      "name": "Zanahorias por kilo",
+      "description": "Zanahorias frescas, crujientes y ricas en betacaroteno. Perfectas para ensaladas, jugos o como snack saludable.",
+      "specs": [
+        "Tipo: Vegetal",
+        "Variedad: Zanahoria",
+        "Beneficios: Rico en vitamina A",
+        "Uso: Ensaladas, jugos y sopas",
+        "Venta: Por kilo"
+      ]
+    },
+    "leche_entera_rica": {
+      "name": "Leche Entera Rica",
+      "description": "La Leche Entera Rica es rica en calcio y proteínas. Un básico esencial para niños y adultos, con el sabor fresco y natural que todos necesitan.",
+      "specs": [
+        "Tipo: Leche Entera",
+        "Marca: Rica",
+        "Nutrientes: Calcio y vitamina D",
+        "Pasteurizada: Sí",
+        "Presentación: Cartón de 1 litro"
+      ]
+    },
+    "queso_gorgonzola": {
+      "name": "Queso Gorgonzola",
+      "description": "Queso Gorgonzola italiano con su característico sabor fuerte y cremoso. Perfecto para tablas de quesos, pastas y salsas gourmet.",
+      "specs": [
+        "Tipo: Queso Azul",
+        "Origen: Italia",
+        "Sabor: Fuerte e intenso",
+        "Uso: Tablas de quesos, pastas y salsas",
+        "Venta: Por unidad"
+      ]
+    },
+    "queso_gouda": {
+      "name": "Queso Gouda",
+      "description": "Queso Gouda holandés, cremoso y con un sabor suave. Ideal para sándwiches, tablas de quesos y platos al horno.",
+      "specs": [
+        "Tipo: Queso Semiduro",
+        "Origen: Holanda",
+        "Sabor: Suave y cremoso",
+        "Uso: Sándwiches y platos al horno",
+        "Venta: Por unidad"
+      ]
+    },
+    "yogurt_fresa_yoka": {
+      "name": "Yogurt Yoka Fresa",
+      "description": "El Yogurt Yoka de Fresa es cremoso y delicioso. Hecho con trozos reales de fresa, es un snack perfecto para niños y adultos.",
+      "specs": [
+        "Tipo: Yogurt con Fruta",
+        "Sabor: Fresa",
+        "Marca: Yoka",
+        "Beneficios: Probióticos y calcio",
+        "Presentación: Vaso de 150g"
+      ]
+    },
+    "yogurt_natural_rica": {
+      "name": "Yogurt Natural Rica",
+      "description": "El Yogurt Natural Rica no tiene azúcar añadida y está lleno de probióticos. Perfecto para una dieta saludable, solo o mezclado con frutas.",
+      "specs": [
+        "Tipo: Yogurt Natural",
+        "Marca: Rica",
+        "Azúcar añadida: Ninguna",
+        "Beneficios: Probióticos y calcio",
+        "Presentación: Vaso de 200g"
+      ]
+    },
+    "traje_2_piezas": {
+      "name": "Traje de 2 Piezas",
+      "description": "Un traje de 2 piezas que combina elegancia y comodidad. Incluye chaqueta y pantalón confeccionados con materiales de alta calidad, perfecto para eventos formales.",
+      "specs": [
+        "Corte Modern Slim Fit",
+        "Tela suave de alta calidad",
+        "Forro interior sedoso",
+        "Ideal para oficina o eventos",
+        "Incluye chaqueta y pantalón a juego"
+      ]
+    },
+    "traje_azul": {
+      "name": "Traje Azul",
+      "description": "Un traje azul que combina elegancia y comodidad. Incluye chaqueta y pantalón de alta calidad, ideal para ocasiones donde quieras destacar con un toque moderno.",
+      "specs": [
+        "Corte Modern Slim Fit",
+        "Tela de alta calidad",
+        "Color azul profundo sofisticado",
+        "Ideal para bodas y eventos",
+        "Acabado premium"
+      ]
+    },
+    "traje_completo": {
+      "name": "Traje Completo",
+      "description": "Un traje completo de tres piezas (chaqueta, pantalón y chaleco). La opción definitiva para máxima formalidad y estilo en eventos de gala.",
+      "specs": [
+        "Incluye chaqueta, pantalón y chaleco",
+        "Diseño clásico atemporal",
+        "Material de alta durabilidad",
+        "Ajuste preciso",
+        "Ideal para galas y bodas"
+      ]
+    },
+    "traje_elegante": {
+      "name": "Traje Elegante",
+      "description": "Un traje elegante que destaca por su acabado premium. Ideal para quienes buscan distinción y exclusividad en cada detalle.",
+      "specs": [
+        "Diseño premium",
+        "Tela con acabado sofisticado",
+        "Ajuste a medida",
+        "Materiales importados",
+        "Máxima elegancia"
+      ]
+    },
+    "traje_negro": {
+      "name": "Traje Negro",
+      "description": "El traje negro es la definición de sobriedad y estilo. Una pieza indispensable para eventos nocturnos y códigos de vestimenta formal.",
+      "specs": [
+        "Color negro sólido elegante",
+        "Tela resistente a las arrugas",
+        "Perfecto para cualquier evento formal",
+        "Corte clásico que nunca pasa de moda",
+        "Acabado impecable"
+      ]
+    },
+    "tablet_apple": {
+      "name": "Tablet Apple (iPad)",
+      "description": "La Tablet Apple combina un rendimiento excepcional con una pantalla de alta resolución. Diseñada para trabajar, estudiar y disfrutar contenido multimedia con la mejor calidad.",
+      "specs": [
+        "Pantalla Retina de alta resolución",
+        "Procesador Apple rápido y eficiente",
+        "Ecosistema fluido con App Store",
+        "Batería de larga duración",
+        "Diseño premium y ligero"
+      ]
+    },
+    "tablet_rted": {
+      "name": "Tablet RTED",
+      "description": "La Tablet RTED ofrece un rendimiento confiable para multitarea. Perfecta para estudiantes y trabajo básico gracias a su pantalla HD y diseño portátil.",
+      "specs": [
+        "Excelente relación calidad-precio",
+        "Pantalla nítida",
+        "Ideal para navegación y apps educativas",
+        "Memoria expandible",
+        "Batería optimizada para uso diario"
+      ]
+    },
+    "tablet_samsung": {
+      "name": "Tablet Samsung (Galaxy Tab)",
+      "description": "La Tablet Samsung destaca por su pantalla de alta calidad y fluidez. Perfecta para productividad y entretenimiento dentro del ecosistema Android.",
+      "specs": [
+        "Pantalla vibrante tecnología AMOLED",
+        "Procesador potente para multitarea",
+        "Compatible con S-Pen (según modelo)",
+        "Modo DeX para experiencia de escritorio",
+        "Integración con ecosistema Galaxy"
+      ]
+    },
+    "tablet_tcl": {
+      "name": "Tablet TCL",
+      "description": "La Tablet TCL ofrece un gran equilibrio entre rendimiento y portabilidad. Ideal para consumir contenido multimedia gracias a su tecnología de pantalla brillante.",
+      "specs": [
+        "Tecnología de pantalla Eye-care",
+        "Experiencia visual inmersiva",
+        "Ligera y fácil de transportar",
+        "Interfaz rápida y amigable",
+        "Conectividad Wi-Fi estable"
+      ]
+    },
+    "tablet_tecnomaster": {
+      "name": "Tablet Tecnomaster",
+      "description": "La Tablet Tecnomaster es ideal para el uso diario. Ofrece un rendimiento fluido para navegación, redes sociales y tareas escolares con gran autonomía.",
+      "specs": [
+        "Rendimiento confiable",
+        "Pantalla de alta definición",
+        "Diseño robusto y duradero",
+        "Múltiples opciones de conectividad",
+        "Excelente duración de batería"
+      ]
+    },
+    "fresas": {
+      "name": "Paquete de Fresas",
+      "description": "Fresas frescas llenas de sabor natural y jugosidad. Perfectas para postres, batidos o consumo directo.",
+      "specs": [
+        "Tipo: Fresas Frescas",
+        "Peso: 500g",
+        "Origen: Recién cosechadas",
+        "Ideal para: Postres y consumo fresco",
+        "Almacenamiento: Refrigerar para mejor conservación"
+      ]
+    }
+  },
+  "search": {
+    "_documentation": {
+      "namespace": "search",
+      "description": "Elementos de búsqueda y filtros de la aplicación. Responsable de traducir el interface del buscador (input, botones) y la página de resultados.",
+      "usage": "Componentes DesktopSearch, MobileSearch, TabletSearch, página /search, página de resultados de búsqueda",
+      "contains": "Placeholders del input, etiquetas de botones (submit, open, close), mensajes de resultados, textos de ayuda y SEO",
+      "responsible_for": [
+        "DesktopSearch, MobileSearch, TabletSearch: search.input.placeholder, search.button.submit, search.button.open, search.button.cancel",
+        "Search results page: hero.title_query, hero.title_empty, hero.summary_query, hero.summary_empty",
+        "Empty states: empty_state.no_results.title/desc, empty_state.start_search.title/desc",
+        "SEO metadata: seo.title_query, seo.description, seo.json_ld_*"
+      ],
+      "usage_pattern": "t('search:{key}') para acceso anidado, ej: t('search:input.placeholder')"
+    },
+    "input": {
+      "placeholder": "Busca tus productos..."
+    },
+    "button": {
+      "submit": "Buscar productos",
+      "open": "Abrir buscador",
+      "cancel": "Cancelar búsqueda"
+    },
+    "seo": {
+      "title_query": "Resultados para \"{query}\"",
+      "title_empty": "Resultados de Búsqueda",
+      "desc_query": "Resultados para \"{query}\" en Hipermercado Superior. Encuentra los mejores productos al mejor precio.",
+      "desc_query_one": "{count} resultado para \"{query}\" en Hipermercado Superior. Encuentra los mejores productos al mejor precio.",
+      "desc_query_other": "{count} resultados para \"{query}\" en Hipermercado Superior. Encuentra los mejores productos al mejor precio.",
+      "desc_empty": "Busca y encuentra rápidamente los productos que necesitas en Hipermercado Superior. Amplio catálogo con las mejores ofertas.",
+      "json_ld_name": "Resultados para \"{query}\"",
+      "json_ld_items": "Productos encontrados para \"{query}\"",
+      "keywords": "búsqueda productos, hipermercado, supermercado, ofertas, compras online, catálogo superior"
+    },
+    "hero": {
+      "title_query": "Resultados para: \"{query}\"",
+      "title_empty": "Escribe algo en el buscador",
+      "summary_query": "{count, plural, one {# producto encontrado.} other {# productos encontrados.}}",
+      "summary_query_one": "{count} producto encontrado.",
+      "summary_query_other": "{count} productos encontrados.",
+      "summary_empty": "Usa el buscador del encabezado para ver productos relacionados."
+    },
+    "empty_state": {
+      "no_results": {
+        "title": "No se encontraron productos",
+        "desc": "Prueba con otro nombre o una búsqueda más específica."
+      },
+      "start_search": {
+        "title": "Tu búsqueda comienza en el encabezado",
+        "desc": "Escribe el nombre de un producto y presiona Enter para ver los resultados aquí."
+      }
+    }
+  }
+}

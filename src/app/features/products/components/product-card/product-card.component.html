@@ -1,0 +1,35 @@
+<article [class.offer-card]="isOffer" class="producto product-card block shrink-0 snap-start">
+  @if (badgeText) {
+    <div class="offer-badge">
+      <span class="offer-badge__text">{{ badgeText }}</span>
+    </div>
+  }
+
+  <a [href]="'/product/' + product.id" class="product-card__overlay-link" [attr.aria-label]="'Ver detalles de ' + product.nombre"></a>
+
+  <div class="producto-img-container">
+    <img [src]="getAssetUrl(product.imagen)" [alt]="product.nombre" loading="lazy" />
+  </div>
+
+  <div class="price-block-container">
+    <div class="price-block">
+      @if (isOffer && oldPrice) {
+        <ins class="precio-nuevo">{{ cleanPrice(product.precioTexto) }}</ins>
+        <del class="precio-antiguo">{{ cleanPrice(oldPrice) }}</del>
+      } @else {
+        <p class="producto-price">{{ cleanPrice(product.precioTexto) }}</p>
+      }
+    </div>
+    <p class="producto-unit-format">
+      {{ getFormattedPrice() }} / {{ getUnitLabel() }}
+    </p>
+  </div>
+
+  <h3 class="producto-title">{{ product.nombre }}</h3>
+
+  @if (actionText) {
+    <button type="button" class="btn-agregar" (click)="onActionClick($event)">
+      {{ actionText }}
+    </button>
+  }
+</article>

@@ -1,0 +1,11 @@
+<div class="product-grid">
+  @for (product of products; track product.id) {
+    <app-product-card
+      [product]="product"
+      [oldPrice]="product.oldPrice"
+      [badgeText]="product.badgeText"
+      [actionText]="actionText"
+      (actionClick)="onProductAction($event)">
+    </app-product-card>
+  }
+</div>
