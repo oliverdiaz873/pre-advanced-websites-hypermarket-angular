@@ -1,12 +1,19 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { ProductGridComponent } from './features/products/components/product-grid/product-grid.component';
+import { MOCK_PRODUCTS } from './features/products/mocks/product.mock';
+import { ProductUI } from './features/products/models/product-ui.interface';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [ProductGridComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('pre-advanced-websites-hypermarket-angular');
+  products = MOCK_PRODUCTS;
+
+  onProductAction(product: ProductUI): void {
+    alert(`Producto clickeado: ${product.nombre} (Precio: $${product.precio})`);
+  }
 }
