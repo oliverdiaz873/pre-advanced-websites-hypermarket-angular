@@ -1,0 +1,8 @@
+<div class="flex items-baseline gap-3 mb-6 pb-4 border-b border-gray-100">
+  <h1 class="text-3xl font-extrabold text-gray-950 tracking-tight">Carrito de compras</h1>
+  @if (count > 0) {
+    <span class="text-sm font-medium text-gray-500">
+      ({{ count }} {{ count === 1 ? 'producto' : 'productos' }})
+    </span>
+  }
+</div>

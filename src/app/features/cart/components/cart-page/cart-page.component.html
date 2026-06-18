@@ -1,0 +1,26 @@
+<div class="max-w-6xl w-full">
+  <app-cart-header [count]="totalItems()"></app-cart-header>
+
+  @if (items().length > 0) {
+    <app-cart-layout>
+      <div items>
+        <app-cart-items-list
+          [items]="items()"
+          (updateQuantity)="onUpdateQuantity($event)"
+          (removeItem)="onRemoveItem($event)">
+        </app-cart-items-list>
+      </div>
+      
+      <div summary>
+        <app-cart-summary
+          [totalItems]="totalItems()"
+          [totalPrice]="totalPrice()"
+          (checkout)="onCheckout()"
+          (clear)="onClearCart()">
+        </app-cart-summary>
+      </div>
+    </app-cart-layout>
+  } @else {
+    <app-empty-cart (browseProducts)="onBrowseProducts()"></app-empty-cart>
+  }
+</div>

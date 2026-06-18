@@ -1,0 +1,9 @@
+<div class="flex flex-col gap-4">
+  @for (item of items; track trackByProductId($index, item)) {
+    <app-cart-item
+      [item]="item"
+      (updateQuantity)="onUpdateQuantity(item.productId, $event)"
+      (remove)="onRemoveItem(item.productId)">
+    </app-cart-item>
+  }
+</div>
