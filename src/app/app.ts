@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductGridComponent } from './features/products/components/product-grid/product-grid.component';
-import { MOCK_PRODUCTS } from './features/products/mocks/product.mock';
+import { products } from '@data/index';
+import { offersData, calculateDiscountPercentage } from '@data/index';
 import { ProductUI } from './features/products/models/product-ui.interface';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -12,7 +13,17 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './app.scss'
 })
 export class App {
-  products = MOCK_PRODUCTS;
+  products: ProductUI[] = products.map(p => {
+    const offer = offersData.find(o => o.id === p.id);
+    if (!offer) return p;
+
+    const discount = calculateDiscountPercentage(p.precio, offer.oldPrice);
+    return {
+      ...p,
+      oldPrice: offer.oldPrice,
+      badgeText: discount > 0 ? `-${discount}%` : undefined
+    };
+  });
 
   onProductAction(product: ProductUI): void {
     alert(`Producto clickeado: ${product.nombre} (Precio: $${product.precio})`);
