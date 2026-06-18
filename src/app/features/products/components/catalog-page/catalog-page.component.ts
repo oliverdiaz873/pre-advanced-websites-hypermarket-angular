@@ -5,12 +5,11 @@ import { ProductGridComponent } from '../product-grid/product-grid.component';
 import { products, offersData, calculateDiscountPercentage } from '../../../../data/index';
 import { ProductUI } from '../../models/product-ui.interface';
 import { CartService } from '../../../../core/services/cart.service';
-import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-catalog-page',
   standalone: true,
-  imports: [CommonModule, ProductGridComponent, TranslatePipe],
+  imports: [CommonModule, ProductGridComponent],
   templateUrl: './catalog-page.component.html',
   styleUrl: './catalog-page.component.scss'
 })

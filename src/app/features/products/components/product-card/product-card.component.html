@@ -5,10 +5,13 @@
     </div>
   }
 
-  <a [href]="'/product/' + product.id" class="product-card__overlay-link" [attr.aria-label]="'Ver detalles de ' + product.nombre"></a>
+  <a [href]="'/product/' + product.id"
+     class="product-card__overlay-link"
+     [attr.aria-label]="'Ver detalles de ' + ('products.' + product.id + '.name' | translate)">
+  </a>
 
   <div class="producto-img-container">
-    <img [src]="getAssetUrl(product.imagen)" [alt]="product.nombre" loading="lazy" />
+    <img [src]="getAssetUrl(product.imagen)" [alt]="('products.' + product.id + '.name' | translate)" loading="lazy" />
   </div>
 
   <div class="price-block-container">
@@ -21,11 +24,11 @@
       }
     </div>
     <p class="producto-unit-format">
-      {{ getFormattedPrice() }} / {{ getUnitLabel() }}
+      ${{ product.precio.toLocaleString() }} / {{ 'common.units.' + unitLabel(product) | translate }}
     </p>
   </div>
 
-  <h3 class="producto-title">{{ product.nombre }}</h3>
+  <h3 class="producto-title">{{ 'products.' + product.id + '.name' | translate }}</h3>
 
   @if (actionText) {
     <button type="button" class="btn-agregar" (click)="onActionClick($event)">

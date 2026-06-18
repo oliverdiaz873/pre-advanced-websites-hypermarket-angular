@@ -1,0 +1,13 @@
+<section class="mb-10">
+  @if (title) {
+    <h2 class="text-xl font-extrabold text-gray-900 tracking-tight mb-4 flex items-center gap-2">
+      {{ title }}
+    </h2>
+  }
+
+  <app-product-carousel
+    [products]="products"
+    [actionText]="actionText"
+    (productAction)="onProductAction($event)">
+  </app-product-carousel>
+</section>

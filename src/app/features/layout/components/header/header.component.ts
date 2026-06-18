@@ -5,11 +5,12 @@ import { IconComponent } from '../../../../shared/components/icons/icons.compone
 import { DesktopNavComponent } from '../../../navigation/components/desktop-nav/desktop-nav.component';
 import { TabletMenuService } from '../../../navigation/services/tablet-menu.service';
 import { CartService } from '../../../../core/services/cart.service';
+import { HeaderSearchComponent } from '../../../search/components/header-search/header-search.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, TranslatePipe, IconComponent, DesktopNavComponent],
+  imports: [RouterLink, TranslatePipe, IconComponent, DesktopNavComponent, HeaderSearchComponent],
   template: `
     <header class="app-header">
       <div class="header-inner">
@@ -25,6 +26,8 @@ import { CartService } from '../../../../core/services/cart.service';
         </a>
 
         <app-desktop-nav></app-desktop-nav>
+
+        <app-header-search></app-header-search>
 
         <a routerLink="/cart" class="cart-btn">
           <div class="cart-icon-wrap">
