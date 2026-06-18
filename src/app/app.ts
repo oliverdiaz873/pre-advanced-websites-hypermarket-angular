@@ -1,23 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet, RouterLink, Router } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
-import { CartService } from './core/services/cart.service';
+import { Component } from '@angular/core';
+import { ShopLayoutComponent } from './layouts/shop-layout/shop-layout.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, TranslatePipe],
-  templateUrl: './app.html',
+  imports: [ShopLayoutComponent],
+  template: '<shop-layout></shop-layout>',
   styleUrl: './app.scss'
 })
-export class App {
-  private cartService = inject(CartService);
-  private router = inject(Router);
-
-  // Expose total items signal for the header badge
-  public totalItems = this.cartService.totalItems;
-
-  public navigateToCart(): void {
-    this.router.navigate(['/cart']);
-  }
-}
+export class App {}
