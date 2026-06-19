@@ -3,7 +3,12 @@ import {
   Input,
   ViewChild,
   ElementRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  signal,
+  AfterViewInit,
+  OnDestroy,
+  inject,
+  DestroyRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductUI } from '../../models/product-ui.interface';
@@ -17,28 +22,48 @@ import { ProductCardComponent } from '../product-card/product-card.component';
   styleUrl: './product-carousel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCarouselComponent {
+export class ProductCarouselComponent implements AfterViewInit {
   @Input() products: ProductUI[] = [];
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
 
-  private readonly SCROLL_AMOUNT = 320; // px per click
+  readonly showPrev = signal(false);
+  readonly showNext = signal(false);
 
-  public scrollLeft(): void {
-    this.scrollContainer?.nativeElement.scrollBy({
-      left: -this.SCROLL_AMOUNT,
-      behavior: 'smooth'
-    });
+  private scrollListener: (() => void) | null = null;
+
+  ngAfterViewInit(): void {
+    this.updateButtons();
+    const el = this.scrollContainer?.nativeElement;
+    if (el) {
+      const handler = () => this.updateButtons();
+      el.addEventListener('scroll', handler);
+      this.scrollListener = () => el.removeEventListener('scroll', handler);
+    }
   }
 
-  public scrollRight(): void {
-    this.scrollContainer?.nativeElement.scrollBy({
-      left: this.SCROLL_AMOUNT,
-      behavior: 'smooth'
-    });
+  private updateButtons(): void {
+    const el = this.scrollContainer?.nativeElement;
+    if (!el) return;
+    this.showPrev.set(el.scrollLeft > 30);
+    this.showNext.set(el.scrollLeft + el.clientWidth < el.scrollWidth - 10);
   }
 
-  public trackById(_: number, product: ProductUI): string {
+  scrollLeft(): void {
+    const el = this.scrollContainer?.nativeElement;
+    if (!el) return;
+    const scrollAmount = el.clientWidth * 0.8;
+    el.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  }
+
+  scrollRight(): void {
+    const el = this.scrollContainer?.nativeElement;
+    if (!el) return;
+    const scrollAmount = el.clientWidth * 0.8;
+    el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }
+
+  trackById(_: number, product: ProductUI): string {
     return product.id;
   }
 }

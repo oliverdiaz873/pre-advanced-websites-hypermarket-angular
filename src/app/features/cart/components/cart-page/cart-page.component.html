@@ -1,26 +1,22 @@
-<div class="max-w-6xl w-full">
+<app-cart-layout>
   <app-cart-header [count]="totalItems()"></app-cart-header>
 
   @if (items().length > 0) {
-    <app-cart-layout>
-      <div items>
-        <app-cart-items-list
-          [items]="items()"
-          (updateQuantity)="onUpdateQuantity($event)"
-          (removeItem)="onRemoveItem($event)">
-        </app-cart-items-list>
-      </div>
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <app-cart-items-list
+        [items]="items()"
+        (updateQuantity)="onUpdateQuantity($event)"
+        (removeItem)="onRemoveItem($event)">
+      </app-cart-items-list>
       
-      <div summary>
-        <app-cart-summary
-          [totalItems]="totalItems()"
-          [totalPrice]="totalPrice()"
-          (checkout)="onCheckout()"
-          (clear)="onClearCart()">
-        </app-cart-summary>
-      </div>
-    </app-cart-layout>
+      <app-cart-summary
+        [totalItems]="totalItems()"
+        [totalPrice]="totalPrice()"
+        (checkout)="onCheckout()"
+        (clear)="onClearCart()">
+      </app-cart-summary>
+    </div>
   } @else {
     <app-empty-cart (browseProducts)="onBrowseProducts()"></app-empty-cart>
   }
-</div>
+</app-cart-layout>

@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { categories, categorySections } from '@data/index';
+import { SeoService } from '@core/services/seo.service';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
@@ -58,6 +59,7 @@ import { ProductGridComponent } from '@features/products/components/product-grid
 export class CategoryPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly seo = inject(SeoService);
   readonly categoryId = signal('');
   readonly selectedSection = signal('all');
 
@@ -65,6 +67,7 @@ export class CategoryPageComponent {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.categoryId.set(params.get('id') ?? '');
       this.selectedSection.set('all');
+      this.applyCategorySeo();
     });
   }
 
@@ -72,4 +75,35 @@ export class CategoryPageComponent {
   categoryName() { return this.category()?.name ?? 'Categoria'; }
   sections() { return categorySections(this.categoryId()); }
   filteredProducts() { return this.sections().find(section => section.id === this.selectedSection())?.products ?? []; }
+
+  private applyCategorySeo(): void {
+    const category = this.category();
+    const canonicalPath = `/category/${this.categoryId()}`;
+
+    if (!category) {
+      this.seo.applySeo({
+        title: 'Categoria no encontrada',
+        description: 'La categoria solicitada no existe o aun no esta disponible en Hypermarket.',
+        canonicalPath,
+        jsonLd: null,
+        robots: 'noindex, nofollow'
+      });
+      return;
+    }
+
+    const productCount = this.sections().reduce((total, section) => total + section.products.length, 0);
+
+    this.seo.applySeo({
+      title: `${category.name} en Hypermarket`,
+      description: `Explora ${category.name} en Hypermarket con productos organizados por subcategoria.`,
+      canonicalPath,
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: `${category.name} en Hypermarket`,
+        description: `Catalogo de ${category.name} con ${productCount} productos disponibles.`,
+        url: this.seo.absoluteUrl(canonicalPath)
+      }
+    });
+  }
 }

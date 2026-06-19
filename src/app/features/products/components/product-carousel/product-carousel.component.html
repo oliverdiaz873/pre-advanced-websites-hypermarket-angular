@@ -1,13 +1,23 @@
-<div class="relative group">
-  <!-- Scroll Container -->
+<div class="productos-container-wrapper relative flex items-center justify-center">
+  @if (showPrev() && products.length > 3) {
+    <button
+      type="button"
+      (click)="scrollLeft()"
+      class="productos-control-prev"
+      aria-label="Desplazar izquierda">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+  }
+
   <div
     #scrollContainer
-    class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4
-           scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none]
-           [&::-webkit-scrollbar]:hidden">
+    class="productos-container flex w-full gap-4 md:gap-5 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth
+           scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
     @for (product of products; track trackById($index, product)) {
       <app-product-card
-        class="snap-start shrink-0 w-56"
+        class="snap-start shrink-0"
         [product]="product"
         [oldPrice]="product.oldPrice"
         [badgeText]="product.badgeText">
@@ -15,31 +25,13 @@
     }
   </div>
 
-  <!-- Left Button -->
-  @if (products.length > 3) {
-    <button
-      type="button"
-      (click)="scrollLeft()"
-      aria-label="Desplazar izquierda"
-      class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3
-             z-10 hidden group-hover:flex items-center justify-center
-             w-9 h-9 rounded-full bg-white shadow-md border border-gray-200
-             text-gray-600 hover:text-gray-900 hover:shadow-lg transition-all">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-
-    <!-- Right Button -->
+  @if (showNext() && products.length > 3) {
     <button
       type="button"
       (click)="scrollRight()"
-      aria-label="Desplazar derecha"
-      class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3
-             z-10 hidden group-hover:flex items-center justify-center
-             w-9 h-9 rounded-full bg-white shadow-md border border-gray-200
-             text-gray-600 hover:text-gray-900 hover:shadow-lg transition-all">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      class="productos-control-next"
+      aria-label="Desplazar derecha">
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
       </svg>
     </button>

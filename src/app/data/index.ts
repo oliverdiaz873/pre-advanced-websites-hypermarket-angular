@@ -11,3 +11,6 @@ export { sectionSlugToProductCategoria, subcategorySlugFromHref } from './catego
 
 export { productPageData } from './product-page-data.data';
 export type { ProductPageData } from './product-page-data.data';
+
+export { productById, offerProducts, productsByCategoryId, categorySections, relatedProducts } from './catalog.helpers';
+export type { CategorySection } from './catalog.helpers';

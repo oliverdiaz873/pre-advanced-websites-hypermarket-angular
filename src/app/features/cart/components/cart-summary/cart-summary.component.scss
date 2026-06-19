@@ -1,4 +1,8 @@
-// Styles for CartSummaryComponent
+.cart-summary {
+  position: sticky;
+  top: 100px;
+}
+
 :host {
   display: block;
   width: 100%;

@@ -1,15 +1,17 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductTranslatePipe } from '../../pipes/product-translate.pipe';
 import { AddToCartButtonComponent } from '../../../cart/components/add-to-cart-button/add-to-cart-button.component';
 import { cleanPrice, getAssetUrl, unitLabel } from '../../../../core/utils';
+import { OfferBadgeComponent } from '../offer-badge/offer-badge.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, ProductTranslatePipe, AddToCartButtonComponent],
+  imports: [CommonModule, RouterLink, TranslatePipe, ProductTranslatePipe, AddToCartButtonComponent, OfferBadgeComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

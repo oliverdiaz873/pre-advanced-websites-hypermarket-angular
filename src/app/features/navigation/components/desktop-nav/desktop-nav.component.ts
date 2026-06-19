@@ -64,7 +64,7 @@ import { categories } from '../../../../data/categories.data';
       display: none;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       .desktop-nav {
         display: flex;
         justify-content: center;
@@ -199,3 +199,4 @@ export class DesktopNavComponent {
     this.isCategoriesOpen.update(v => !v);
   }
 }
+

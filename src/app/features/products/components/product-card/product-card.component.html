@@ -1,11 +1,9 @@
 <article [class.offer-card]="isOffer" class="producto product-card block shrink-0 snap-start">
   @if (badgeText) {
-    <div class="offer-badge">
-      <span class="offer-badge__text">{{ badgeText }}</span>
-    </div>
+    <app-offer-badge class="offer-badge-slot" [text]="badgeText"></app-offer-badge>
   }
 
-  <a [href]="'/product/' + product.id"
+  <a [routerLink]="['/product', product.id]"
      class="product-card__overlay-link"
      [attr.aria-label]="'Ver detalles de ' + (product.id | productTranslate:product.nombre)">
   </a>

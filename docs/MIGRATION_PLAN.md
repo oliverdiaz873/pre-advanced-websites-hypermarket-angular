@@ -730,19 +730,11 @@ El patrón "overlay & fallback" del Next.js original se replica así:
 
 **Actividades**:
 
-**Animaciones**:
-1. **HeroCarousel**: Auto-rotación con `setInterval` + transición CSS/animación Angular para fade entre slides. Touch swipe con eventos `(touchstart)`, `(touchend)`.
-2. **Scroll animations**: Crear directiva `appScrollAnimate` que usa `IntersectionObserver`. Reemplaza `motion.div` con `useInView`.
-3. **CategoryBanner**: Animación de aparición al hacer scroll (fade + slide up). Usar la directiva `appScrollAnimate`.
-4. **Float animation**: En `AboutUs` o banners, animación CSS continua con `@keyframes` en vez de framer-motion.
-5. **CategoryBanner stagger children**: Usar animaciones Angular con `query()`, `stagger()`, `animate()`.
-6. Migrar `animations.ts` (configuraciones de easing, timing) a un archivo `shared/animations/shared-animations.ts` con constantes de duración y curvas de easing.
-
 **SEO**:
 1. Crear `core/services/seo.service.ts`:
-   - Método `setPageTitle(title: string, template?: boolean)` — usa `Title` service.
-   - Método `setMetaTags(tags: { name: string, content: string }[])` — usa `Meta` service.
-   - Método `setJsonLd(json: object)` — inyecta script type="application/ld+json" con `DomSanitizer`.
+    - Método `setPageTitle(title: string, template?: boolean)` — usa `Title` service.
+    - Método `setMetaTags(tags: { name: string, content: string }[])` — usa `Meta` service.
+    - Método `setJsonLd(json: object)` — inyecta script type="application/ld+json" con `DomSanitizer`.
 2. Implementar `CanActivate` o resolver en cada ruta para establecer metadata antes de cargar el componente.
 3. Migrar `robots.ts` → archivo estático `src/robots.txt`.
 4. Migrar `sitemap.ts` → archivo estático `src/sitemap.xml`.
@@ -755,6 +747,88 @@ El patrón "overlay & fallback" del Next.js original se replica así:
 5. Sweet alerts / Toasts para feedback de acciones (carrito, formulario).
 
 **Dependencias**: Todas las fases anteriores.
+
+---
+
+### Fase 9B: Paridad Visual (Visual Parity)
+
+**Objetivo**: Alcanzar fidelidad visual equivalente con el proyecto Next.js original en todos los componentes visibles.
+
+**Actividades**:
+
+**Home - HeroCarousel**:
+1. Crear `HeroCarouselComponent` standalone con:
+   - 3 banners (fruits/vegetables, iPhone, wine) con rutas responsive (`desktopImage`/`mobileImage`).
+   - Auto-rotación cada 5s con `setInterval`, pausa en hover.
+   - Touch swipe: eventos `touchstart`/`touchend` con threshold 50px.
+   - Botones prev/next: visibles en desktop (`lg:flex`), ocultos en mobile.
+   - Indicadores (dots): bottom-4, estilo `bg-white/50`, activo `bg-white scale-125 w-4`.
+   - Imagen responsive: `< 640px` usa mobileImage.
+   - Transición CSS: `transition-transform duration-700 ease-in-out`.
+
+**Home - CategoryBannersSection**:
+1. Crear `CategoryBannersSectionComponent` standalone con 8 categorías (alimentos, electrodomesticos, tecnologia, ropa, muebles, farmacia, ferreteria, juguetes).
+2. Cada banner tiene: gradientFrom/gradientTo, accentColor, imageSrc, titleKey, descriptionKey, href.
+3. Efectos visuales:
+   - Fondo gradient con orbs decorativos (blur).
+   - Imagen flotante: animación CSS `@keyframes float` (y: 0→-12→0, rotate: 0→1.5→0).
+   - Hover: card translateY(-4px), box-shadow incrementado, CTA translateX(3px).
+   - Layout alternado: `flex-direction: row` / `row-reverse` según índice.
+   - Responsive: padding, font-size, image size escalan con viewport.
+4. Animación scroll: usar directiva `appScrollAnimate` con fade + slide up.
+
+**Home - AboutUs**:
+1. Crear `AboutUsComponent` standalone con:
+   - Sección oscura (`bg-black text-white`), border-radius 20px.
+   - Layout flex: imagen (250px→450px) + texto (h2 + p).
+   - Scroll reveal: fade + scale usando directiva `appScrollAnimate`.
+
+**OfferBadge**:
+1. Actualizar `OfferBadgeComponent`:
+   - Añadir FireIcon SVG (svg fire icon de Bootstrap Icons) antes del texto.
+   - Gradiente: `linear-gradient(135deg, #ff6b35 0%, hsl(33,100%,50%) 100%)`.
+   - Posicionamiento: absolute top-10px left-12px, z-index 10.
+   - Padding/shape: 3px 8px 3px 11px, border-radius 15px.
+   - Icono: 20x20, position absolute left -8px top -6px.
+
+**Offers - OfferFilters**:
+1. Crear `OfferFiltersComponent` standalone:
+   - Desktop sidebar: background oscuro `rgba(0,0,0,0.8)`, backdrop-filter blur, border-radius 12px.
+   - Radio buttons con indicadores circulares (active: radial-gradient center).
+   - Header con título + badge de conteo.
+   - Mobile: filtros en Drawer.
+2. Crear `OfferFiltersService` con signal para categoría seleccionada y productos filtrados.
+3. Actualizar `OffersPageComponent` para usar sidebar + Drawer layout.
+
+**appScrollAnimate Directive**:
+1. Crear directiva `appScrollAnimate` que usa `IntersectionObserver`.
+   - Inputs: `[@Input() scrollAnimation]`, `[@Input() scrollDelay]`, `[@Input() scrollThreshold]`.
+   - Clases CSS: `scroll-animate` (opacity:0, transform) → `scroll-animate--visible` (opacity:1, transform:none).
+   - Reutilizable en CategoryBanner, AboutUs, etc.
+
+**Search**:
+1. Consolidar `HeaderSearchComponent` en un solo componente responsive.
+   - Desktop: input visible siempre.
+   - Tablet/Mobile: icon search toggle.
+   - Usar media queries CSS en vez de 3 componentes separados.
+
+**ProductCarousel controles**:
+1. Actualizar `ProductCarouselComponent`:
+   - Botones: `background: rgba(0,0,0,0.7)`, color blanco, 36x36, border-radius 50%.
+   - Posicionamiento: `left: -20px` / `right: -20px`.
+   - Mostrar/ocultar según scroll position (showPrev si scrollLeft > 30, showNext si scrollLeft + clientWidth < scrollWidth - 10).
+
+**Ajustes CSS**:
+1. Unificar max-width a 1400px en secciones principales (hero, category-strip, about-us).
+2. Consistent padding/margin con Next.js.
+
+**Skeletons restantes**:
+1. Crear `BaseSkeletonComponent`.
+2. Crear `CategoriesSkeletonComponent`.
+3. Crear `OfferCardSkeletonComponent`.
+4. Crear `ProductCardSkeletonComponent`.
+
+**Dependencias**: Fase 8 (páginas implementadas).
 
 ---
 

@@ -1,5 +1,22 @@
-// Styles for CartLayoutComponent
+.cart-layout {
+  background-color: #ffffff;
+  border-radius: 1.25rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
 :host {
   display: block;
   width: 100%;
+}
+
+@media (max-width: 640px) {
+  .cart-layout {
+    padding: 1.5rem;
+    margin: 1rem 1rem 2rem;
+    border-radius: 1rem;
+  }
 }

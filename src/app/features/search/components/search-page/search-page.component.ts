@@ -1,4 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
+﻿import { Component, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { products, offersData, calculateDiscountPercentage } from '../../../../data/index';
 import { ProductUI } from '../../../products/models/product-ui.interface';
 import { matchesSearchQuery } from '../../../../core/utils/search-utils';
+import { SeoService } from '../../../../core/services/seo.service';
 import { ProductGridComponent } from '../../../products/components/product-grid/product-grid.component';
 import { EmptySearchResultsComponent } from '../empty-search-results/empty-search-results.component';
 
@@ -18,6 +19,7 @@ import { EmptySearchResultsComponent } from '../empty-search-results/empty-searc
 })
 export class SearchPageComponent {
   private route = inject(ActivatedRoute);
+  private seo = inject(SeoService);
 
   public readonly query = toSignal(
     this.route.queryParamMap.pipe(map(params => params.get('q') ?? '')),
@@ -42,4 +44,33 @@ export class SearchPageComponent {
       matchesSearchQuery(p.nombre, q)
     );
   });
+
+  constructor() {
+    effect(() => {
+      this.applySearchSeo(this.query(), this.results().length);
+    });
+  }
+
+  private applySearchSeo(query: string, resultCount: number): void {
+    const cleanQuery = query.trim();
+    const canonicalPath = cleanQuery ? `/search?q=${encodeURIComponent(cleanQuery)}` : '/search';
+    const title = cleanQuery ? `Busqueda: ${cleanQuery}` : 'Busqueda';
+    const description = cleanQuery
+      ? `${resultCount} resultados para ${cleanQuery} en el catalogo de Hypermarket.`
+      : 'Busca productos por nombre en el catalogo de Hypermarket.';
+
+    this.seo.applySeo({
+      title,
+      description,
+      canonicalPath,
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: title,
+        description,
+        url: this.seo.absoluteUrl(canonicalPath),
+        numberOfItems: resultCount
+      }
+    });
+  }
 }

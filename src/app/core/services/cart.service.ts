@@ -3,6 +3,10 @@ import { Product } from '../types/product.interface';
 import { CartItem } from '../types/cart.interface';
 import { unitLabel } from '../utils/price-utils';
 
+type ProductWithOffer = Product & {
+  oldPrice?: string;
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,8 +39,9 @@ export class CartService {
 
   /**
    * Adds a product to the cart. If it already exists, increments the quantity.
+   * Preserves offer data (oldPrice) when present.
    */
-  public addItem(product: Product, quantity: number = 1): void {
+  public addItem(product: ProductWithOffer, quantity = 1): void {
     if (quantity <= 0) return;
 
     this.cartItems.update(items => {
@@ -56,7 +61,9 @@ export class CartService {
           imagen: product.imagen,
           unitPrice: product.precio,
           unitLabel: unitLabel(product),
-          quantity: quantity
+          quantity,
+          precioTexto: product.precioTexto,
+          oldPrice: product.oldPrice
         };
         return [...items, newItem];
       }
