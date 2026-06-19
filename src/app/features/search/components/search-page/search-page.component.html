@@ -15,10 +15,7 @@
 
   <!-- Results -->
   @if (results().length > 0) {
-    <app-product-grid
-      [products]="results()"
-      actionText="Agregar"
-      (productAction)="onProductAction($event)">
+    <app-product-grid [products]="results()">
     </app-product-grid>
   } @else {
     <app-empty-search-results [query]="query()"></app-empty-search-results>

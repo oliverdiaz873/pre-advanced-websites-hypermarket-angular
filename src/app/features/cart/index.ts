@@ -6,3 +6,4 @@ export * from './components/cart-summary/cart-summary.component';
 export * from './components/cart-header/cart-header.component';
 export * from './components/cart-layout/cart-layout.component';
 export * from './components/cart-page/cart-page.component';
+export * from './components/add-to-cart-button/add-to-cart-button.component';

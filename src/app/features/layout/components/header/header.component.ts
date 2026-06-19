@@ -1,20 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { DesktopNavComponent } from '../../../navigation/components/desktop-nav/desktop-nav.component';
-import { TabletMenuService } from '../../../navigation/services/tablet-menu.service';
+import { MobileNavComponent } from '../../../navigation/components/mobile-nav/mobile-nav.component';
 import { CartService } from '../../../../core/services/cart.service';
 import { HeaderSearchComponent } from '../../../search/components/header-search/header-search.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, TranslatePipe, IconComponent, DesktopNavComponent, HeaderSearchComponent],
+  imports: [RouterLink, TranslatePipe, IconComponent, DesktopNavComponent, HeaderSearchComponent, MobileNavComponent],
   template: `
     <header class="app-header">
       <div class="header-inner">
-        <button class="menu-btn" (click)="tabletMenuService.toggle()" [attr.aria-label]="'header.menu_open' | translate">
+        <button class="menu-btn" (click)="isMobileMenuOpen.set(!isMobileMenuOpen())" [attr.aria-label]="(isMobileMenuOpen() ? 'header.menu_close' : 'header.menu_open') | translate">
           <app-icon name="menu" className="w-6 h-6"></app-icon>
         </button>
 
@@ -40,6 +40,13 @@ import { HeaderSearchComponent } from '../../../search/components/header-search/
         </a>
       </div>
     </header>
+
+    <div class="mobile-nav-wrapper">
+      <app-mobile-nav
+        [isOpen]="isMobileMenuOpen()"
+        (close)="isMobileMenuOpen.set(false)"
+      ></app-mobile-nav>
+    </div>
   `,
   styles: [`
     .app-header {
@@ -175,9 +182,19 @@ import { HeaderSearchComponent } from '../../../search/components/header-search/
         display: inline;
       }
     }
+
+    .mobile-nav-wrapper {
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-nav-wrapper {
+        display: none;
+      }
+    }
   `]
 })
 export class HeaderComponent {
-  protected tabletMenuService = inject(TabletMenuService);
+  protected isMobileMenuOpen = signal(false);
   protected cartService = inject(CartService);
 }

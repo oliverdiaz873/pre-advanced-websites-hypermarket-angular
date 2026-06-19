@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
@@ -12,11 +12,4 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 })
 export class ProductGridComponent {
   @Input() products: ProductUI[] = [];
-  @Input() actionText?: string;
-
-  @Output() productAction = new EventEmitter<ProductUI>();
-
-  onProductAction(product: ProductUI): void {
-    this.productAction.emit(product);
-  }
 }

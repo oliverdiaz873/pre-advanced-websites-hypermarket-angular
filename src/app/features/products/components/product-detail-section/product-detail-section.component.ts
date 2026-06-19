@@ -2,28 +2,32 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
+import { ProductPageData } from '../../../../data/product-page-data.data';
 import { ProductTranslatePipe } from '../../pipes/product-translate.pipe';
 import { AddToCartButtonComponent } from '../../../cart/components/add-to-cart-button/add-to-cart-button.component';
-import { cleanPrice, getAssetUrl, unitLabel } from '../../../../core/utils';
+import { getAssetUrl } from '../../../../core/utils';
 
 @Component({
-  selector: 'app-product-card',
+  selector: 'app-product-detail-section',
   standalone: true,
   imports: [CommonModule, TranslatePipe, ProductTranslatePipe, AddToCartButtonComponent],
-  templateUrl: './product-card.component.html',
-  styleUrl: './product-card.component.scss',
+  templateUrl: './product-detail-section.component.html',
+  styleUrl: './product-detail-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCardComponent {
-  @Input() product!: ProductUI;
-  @Input() oldPrice?: string;
-  @Input() badgeText?: string;
+export class ProductDetailSectionComponent {
+  @Input({ required: true }) product!: ProductUI;
+  @Input() pageData?: ProductPageData;
 
-  public readonly cleanPrice = cleanPrice;
   public readonly getAssetUrl = getAssetUrl;
-  public readonly unitLabel = unitLabel;
 
-  public get isOffer(): boolean {
-    return !!this.oldPrice;
+  public modalOpen = false;
+
+  public openModal(): void {
+    this.modalOpen = true;
+  }
+
+  public closeModal(): void {
+    this.modalOpen = false;
   }
 }

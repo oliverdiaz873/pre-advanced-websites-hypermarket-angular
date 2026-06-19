@@ -2525,5 +2525,11 @@
         "desc": "Escribe el nombre de un producto y presiona Enter para ver los resultados aquí."
       }
     }
+  },
+  "productDetail": {
+    "clickToEnlarge": "Haz clic para ampliar la imagen",
+    "expandedImage": "Imagen ampliada del producto",
+    "closeModal": "Cerrar imagen",
+    "defaultDescription": "Producto de alta calidad. Consulta las especificaciones en la tienda para más información."
   }
 }

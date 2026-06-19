@@ -2525,5 +2525,11 @@
         "desc": "Type the name of a product and press Enter to see the results here."
       }
     }
+  },
+  "productDetail": {
+    "clickToEnlarge": "Click to enlarge image",
+    "expandedImage": "Expanded product image",
+    "closeModal": "Close image",
+    "defaultDescription": "High quality product. Check specifications in store for more information."
   }
 }

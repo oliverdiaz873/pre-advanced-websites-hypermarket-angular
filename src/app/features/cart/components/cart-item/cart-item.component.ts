@@ -1,13 +1,14 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartItem } from '../../../../core/types/cart.interface';
+import { ProductTranslatePipe } from '../../../products/pipes/product-translate.pipe';
 import { getAssetUrl } from '../../../../core/utils';
 import { QuantityControlsComponent } from '../quantity-controls/quantity-controls.component';
 
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [CommonModule, QuantityControlsComponent],
+  imports: [CommonModule, ProductTranslatePipe, QuantityControlsComponent],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

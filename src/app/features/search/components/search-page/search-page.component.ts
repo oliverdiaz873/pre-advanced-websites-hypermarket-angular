@@ -8,7 +8,6 @@ import { ProductUI } from '../../../products/models/product-ui.interface';
 import { matchesSearchQuery } from '../../../../core/utils/search-utils';
 import { ProductGridComponent } from '../../../products/components/product-grid/product-grid.component';
 import { EmptySearchResultsComponent } from '../empty-search-results/empty-search-results.component';
-import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-search-page',
@@ -19,18 +18,12 @@ import { CartService } from '../../../../core/services/cart.service';
 })
 export class SearchPageComponent {
   private route = inject(ActivatedRoute);
-  private cartService = inject(CartService);
 
-  /**
-   * URL is the single source of truth.
-   * query signal is derived from the router query param ?q=
-   */
   public readonly query = toSignal(
     this.route.queryParamMap.pipe(map(params => params.get('q') ?? '')),
     { initialValue: '' }
   );
 
-  /** All products enriched with offer data — computed once */
   private readonly allProducts: ProductUI[] = products.map(p => {
     const offer = offersData.find(o => o.id === p.id);
     if (!offer) return p;
@@ -42,10 +35,6 @@ export class SearchPageComponent {
     };
   });
 
-  /**
-   * Filtered product list — recomputes whenever the URL query param changes.
-   * Uses normalizarTexto for accent-insensitive, case-insensitive matching.
-   */
   public readonly results = computed(() => {
     const q = this.query();
     if (!q.trim()) return this.allProducts;
@@ -53,8 +42,4 @@ export class SearchPageComponent {
       matchesSearchQuery(p.nombre, q)
     );
   });
-
-  public onProductAction(product: ProductUI): void {
-    this.cartService.addItem(product);
-  }
 }

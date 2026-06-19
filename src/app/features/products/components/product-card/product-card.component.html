@@ -7,11 +7,11 @@
 
   <a [href]="'/product/' + product.id"
      class="product-card__overlay-link"
-     [attr.aria-label]="'Ver detalles de ' + ('products.' + product.id + '.name' | translate)">
+     [attr.aria-label]="'Ver detalles de ' + (product.id | productTranslate:product.nombre)">
   </a>
 
   <div class="producto-img-container">
-    <img [src]="getAssetUrl(product.imagen)" [alt]="('products.' + product.id + '.name' | translate)" loading="lazy" />
+    <img [src]="getAssetUrl(product.imagen)" [alt]="(product.id | productTranslate:product.nombre)" loading="lazy" />
   </div>
 
   <div class="price-block-container">
@@ -28,11 +28,7 @@
     </p>
   </div>
 
-  <h3 class="producto-title">{{ 'products.' + product.id + '.name' | translate }}</h3>
+  <h3 class="producto-title">{{ product.id | productTranslate:product.nombre }}</h3>
 
-  @if (actionText) {
-    <button type="button" class="btn-agregar" (click)="onActionClick($event)">
-      {{ actionText }}
-    </button>
-  }
+  <app-add-to-cart-button [product]="product"></app-add-to-cart-button>
 </article>

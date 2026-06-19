@@ -1,8 +1,6 @@
 import {
   Component,
   Input,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
   ChangeDetectionStrategy
@@ -21,9 +19,6 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 })
 export class ProductCarouselComponent {
   @Input() products: ProductUI[] = [];
-  @Input() actionText?: string;
-
-  @Output() productAction = new EventEmitter<ProductUI>();
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
 
@@ -41,10 +36,6 @@ export class ProductCarouselComponent {
       left: this.SCROLL_AMOUNT,
       behavior: 'smooth'
     });
-  }
-
-  public onProductAction(product: ProductUI): void {
-    this.productAction.emit(product);
   }
 
   public trackById(_: number, product: ProductUI): string {
