@@ -1,0 +1,47 @@
+<header class="app-header">
+  <div class="header-inner">
+    <button class="menu-btn" (click)="isMobileMenuOpen.set(!isMobileMenuOpen())"
+      [attr.aria-label]="(isMobileMenuOpen() ? 'header.menu_close' : 'header.menu_open') | translate">
+      <span class="hamburger-line" [class.open]="isMobileMenuOpen()"></span>
+      <span class="hamburger-line" [class.open]="isMobileMenuOpen()"></span>
+      <span class="hamburger-line" [class.open]="isMobileMenuOpen()"></span>
+    </button>
+
+    <button class="tablet-menu-btn" (click)="tabletMenuService.toggle()"
+      [attr.aria-label]="'header.menu_open' | translate">
+      <app-icon name="menu" className="w-6 h-6"></app-icon>
+    </button>
+
+    <a routerLink="/" class="brand">
+      <img src="/assets/images/logo/logo.png" alt="Logo" class="brand-logo" width="36" height="36" />
+      @if (isHomePage()) {
+        <h1 class="brand-title">{{ 'header.brand' | translate }}</h1>
+      } @else {
+        <span class="brand-title">{{ 'header.brand' | translate }}</span>
+      }
+    </a>
+
+    <app-desktop-nav></app-desktop-nav>
+
+    <app-header-search></app-header-search>
+
+    <a routerLink="/cart" class="cart-btn">
+      <div class="cart-icon-wrap">
+        <app-icon name="cart" className="w-5 h-5 text-white"></app-icon>
+        @if (cartService.totalItems() > 0) {
+          <span class="cart-badge">{{ cartService.totalItems() }}</span>
+        }
+      </div>
+      <span class="cart-label">{{ 'header.cart_label' | translate }}</span>
+    </a>
+  </div>
+</header>
+
+<div class="mobile-nav-wrapper">
+  <app-mobile-nav
+    [isOpen]="isMobileMenuOpen()"
+    (close)="isMobileMenuOpen.set(false)">
+  </app-mobile-nav>
+</div>
+
+<app-tablet-nav></app-tablet-nav>
