@@ -1,0 +1,102 @@
+<!-- Dark overlay backdrop -->
+<div
+  class="mobile-backdrop"
+  [class.is-open]="isOpen"
+  (click)="close.emit()"
+></div>
+
+<!-- Mobile Menu Panel -->
+<nav
+  id="mobile-menu"
+  class="mobile-panel"
+  [class.is-open]="isOpen"
+  [attr.aria-label]="'header.nav_aria' | translate"
+>
+  <ul class="mobile-nav-list">
+    <li class="mobile-nav-item">
+      <a routerLink="/" class="mobile-nav-link" (click)="close.emit()">
+        {{ 'header.nav.home' | translate }}
+      </a>
+    </li>
+
+    <li class="mobile-nav-item">
+      <button
+        class="mobile-nav-link mobile-nav-toggle"
+        (click)="toggleCategory('categorias')"
+        [attr.aria-expanded]="openCategory() === 'categorias'"
+        [attr.aria-controls]="'category-categorias'"
+      >
+        <span>{{ 'header.nav.categories' | translate }}</span>
+        <app-icon
+          name="chevron-down"
+          [className]="'mobile-chevron' + (openCategory() === 'categorias' ? ' rotate' : '')"
+        ></app-icon>
+      </button>
+
+      <div
+        id="category-categorias"
+        class="mobile-category-collapse"
+        [class.is-expanded]="openCategory() === 'categorias'"
+      >
+        <ul class="mobile-submenu-list">
+          @for (cat of categories; track cat.id) {
+            <li>
+              <button
+                class="mobile-submenu-toggle"
+                (click)="toggleSubcategory(cat.id)"
+                [attr.aria-expanded]="openSubcategories().includes(cat.id)"
+                [attr.aria-controls]="'sub-' + cat.id"
+              >
+                <span>{{ 'categories.' + cat.id | translate }}</span>
+                <app-icon
+                  name="chevron-right"
+                  [className]="'mobile-chevron-right' + (openSubcategories().includes(cat.id) ? ' rotate' : '')"
+                ></app-icon>
+              </button>
+
+              <div
+                [id]="'sub-' + cat.id"
+                class="mobile-submenu-collapse"
+                [class.is-expanded]="openSubcategories().includes(cat.id)"
+              >
+                <ul class="mobile-submenu-nested">
+                  @for (sub of cat.subcategories; track sub.href) {
+                    <li>
+                      <a
+                        [routerLink]="sub.href"
+                        class="mobile-submenu-link"
+                        (click)="close.emit()"
+                      >
+                        {{ 'categories.sub.' + sub.href.split('#')[1] | translate }}
+                      </a>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
+    </li>
+
+    <li class="mobile-nav-item">
+      <a routerLink="/offers" class="mobile-nav-link" (click)="close.emit()">
+        {{ 'header.nav.offers' | translate }}
+      </a>
+    </li>
+
+    <li class="mobile-nav-item">
+      <a routerLink="/contact" class="mobile-nav-link" (click)="close.emit()">
+        {{ 'header.nav.contact' | translate }}
+      </a>
+    </li>
+
+    <li class="mobile-nav-item mobile-nav-lang">
+      <div class="mobile-lang-wrapper">
+        <app-icon name="world" className="w-5 h-5 shrink-0 opacity-70"></app-icon>
+        <span class="mobile-lang-label">{{ 'header.language' | translate }}</span>
+      </div>
+      <app-language-selector variant="inline"></app-language-selector>
+    </li>
+  </ul>
+</nav>
