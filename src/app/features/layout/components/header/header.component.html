@@ -7,11 +7,6 @@
       <span class="hamburger-line" [class.open]="isMobileMenuOpen()"></span>
     </button>
 
-    <button class="tablet-menu-btn" (click)="tabletMenuService.toggle()"
-      [attr.aria-label]="'header.menu_open' | translate">
-      <app-icon name="menu" className="w-6 h-6"></app-icon>
-    </button>
-
     <a routerLink="/" class="brand">
       <img src="/assets/images/logo/logo.png" alt="Logo" class="brand-logo" width="36" height="36" />
       @if (isHomePage()) {
@@ -22,6 +17,7 @@
     </a>
 
     <app-desktop-nav></app-desktop-nav>
+    <app-tablet-nav></app-tablet-nav>
 
     <app-header-search></app-header-search>
 
@@ -43,5 +39,3 @@
     (close)="isMobileMenuOpen.set(false)">
   </app-mobile-nav>
 </div>
-
-<app-tablet-nav></app-tablet-nav>

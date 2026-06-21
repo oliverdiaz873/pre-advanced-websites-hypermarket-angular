@@ -1,0 +1,186 @@
+.nav-links.tablet-nav {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .nav-links.tablet-nav {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-height: auto !important;
+    padding: 0 12px !important;
+  }
+
+  .nav-links.tablet-nav > ul {
+    display: flex !important;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center !important;
+    gap: 8px !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-links.tablet-nav > ul > li {
+    position: relative;
+  }
+
+  .nav-links.tablet-nav a,
+  .nav-links.tablet-nav button {
+    color: white !important;
+    font-size: 15px !important;
+    padding: 6px 8px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 10px !important;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: inherit;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-links.tablet-nav a:hover,
+  .nav-links.tablet-nav button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .nav-links.tablet-nav button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .nav-links.tablet-nav ul ul {
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    visibility: hidden;
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9) !important;
+    border-radius: 8px;
+    min-width: 220px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-links.tablet-nav ul ul ul {
+    top: 0;
+    left: 100%;
+  }
+
+  .nav-links.tablet-nav ul.tablet-active {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9) !important;
+    border-radius: 8px;
+    min-width: 220px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .nav-links.tablet-nav ul.tablet-active ul.tablet-active {
+    top: 0;
+    left: 100%;
+  }
+
+  .nav-links.tablet-nav button[aria-expanded="true"] .tablet-chevron-down {
+    transform: rotate(180deg);
+    color: #f97316;
+  }
+
+  .nav-links.tablet-nav li:has(> ul.tablet-active) > a .tablet-chevron-right {
+    transform: translateX(3px);
+    color: #f97316;
+  }
+
+  .nav-links.tablet-nav > ul > li > ul.tablet-active {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  .nav-links.tablet-nav > ul > li > ul > li > ul.tablet-active {
+    top: 0;
+    left: 100%;
+  }
+
+  .nav-links.tablet-nav .dropdown-link {
+    color: white !important;
+    text-decoration: none;
+    font-size: 15px !important;
+    padding: 8px 16px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-links.tablet-nav .dropdown-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .nav-links.tablet-nav .sublink {
+    color: white !important;
+    text-decoration: none;
+    font-size: 15px !important;
+    padding: 6px 16px !important;
+    display: block;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-links.tablet-nav .sublink:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .tablet-chevron-down,
+  .tablet-chevron-right {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease-in-out, color 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .tablet-chevron-down {
+    color: white;
+    opacity: 0.85;
+  }
+
+  .tablet-chevron-right {
+    color: white;
+    opacity: 0.7;
+  }
+
+  .nav-links.desktop-nav {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .nav-links.tablet-nav > ul {
+    justify-content: center;
+    gap: 24px !important;
+  }
+}

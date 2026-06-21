@@ -90,28 +90,8 @@
   transform: rotate(-45deg) translateY(-0.5rem);
 }
 
-.tablet-menu-btn {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
-  border: none;
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-  transition: background 200ms;
-}
-
-.tablet-menu-btn:hover { background: rgba(255,255,255,0.15); }
-
 @media (min-width: 768px) {
   .menu-btn { display: none; }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .tablet-menu-btn { display: inline-flex; }
 }
 
 .brand {

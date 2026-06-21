@@ -1,0 +1,58 @@
+<nav #navRef class="nav-links tablet-nav" role="navigation" [attr.aria-label]="'header.nav_aria' | translate">
+  <ul>
+    <li>
+      <a routerLink="/" class="nav-link">
+        {{ 'header.nav.home' | translate }}
+      </a>
+    </li>
+
+    <li>
+      <button
+        data-tablet-trigger="level-1"
+        class="nav-link"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        {{ 'header.nav.categories' | translate }}
+        <app-icon name="chevron-down" className="tablet-chevron-down"></app-icon>
+      </button>
+
+      <ul>
+        @for (cat of categories; track cat.id) {
+          <li>
+            <a
+              [routerLink]="cat.href"
+              data-tablet-trigger="level-2"
+              class="dropdown-link"
+            >
+              {{ 'categories.' + cat.id | translate }}
+              <app-icon name="chevron-right" className="tablet-chevron-right"></app-icon>
+            </a>
+
+            <ul>
+              @for (sub of cat.subcategories; track sub.href) {
+                <li>
+                  <a [routerLink]="sub.href" class="sublink">
+                    {{ 'categories.sub.' + sub.href.split('#')[1] | translate }}
+                  </a>
+                </li>
+              }
+            </ul>
+          </li>
+        }
+      </ul>
+    </li>
+
+    <li>
+      <a routerLink="/offers" class="nav-link">
+        {{ 'header.nav.offers' | translate }}
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/contact" class="nav-link">
+        {{ 'header.nav.contact' | translate }}
+      </a>
+    </li>
+  </ul>
+</nav>

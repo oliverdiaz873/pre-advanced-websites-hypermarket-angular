@@ -5,7 +5,6 @@ import { IconComponent } from '../../../../shared/components/icons/icons.compone
 import { DesktopNavComponent } from '../../../navigation/components/desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from '../../../navigation/components/mobile-nav/mobile-nav.component';
 import { TabletNavComponent } from '../../../navigation/components/tablet-nav/tablet-nav.component';
-import { TabletMenuService } from '../../../navigation/services/tablet-menu.service';
 import { CartService } from '../../../../core/services/cart.service';
 import { HeaderSearchComponent } from '../../../search/components/header-search/header-search.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,7 +20,6 @@ import { filter } from 'rxjs';
 export class HeaderComponent {
   protected isMobileMenuOpen = signal(false);
   protected cartService = inject(CartService);
-  protected tabletMenuService = inject(TabletMenuService);
   protected isHomePage = signal(false);
 
   private router = inject(Router);
