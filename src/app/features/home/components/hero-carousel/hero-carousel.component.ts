@@ -81,13 +81,14 @@ const BANNERS: Banner[] = [
   styles: [`
     .hero-carousel-section {
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.5rem 0;
       margin-bottom: 1rem;
+      overflow: hidden;
     }
 
     @media (min-width: 768px) {
       .hero-carousel-section {
-        padding: 0.5rem 2rem 2rem 2rem;
+        padding: 0.5rem 0 2rem;
         max-width: 1400px;
         margin-left: auto;
         margin-right: auto;
@@ -97,7 +98,8 @@ const BANNERS: Banner[] = [
     .hero-carousel-container {
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       aspect-ratio: 3 / 1.1;
-      min-height: 200px;
+      min-height: 150px;
+      max-width: 100%;
     }
 
     @media (min-width: 768px) {
@@ -122,6 +124,8 @@ const BANNERS: Banner[] = [
 
     .hero-slides-wrapper {
       will-change: transform;
+      min-width: 0;
+      width: 100%;
     }
 
     .banner img {

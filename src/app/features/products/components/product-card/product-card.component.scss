@@ -4,9 +4,9 @@
     /* Contenedor principal de la tarjeta blanca */
     background-color: white;
     color: black;
-    padding: 12px;
+    padding: 8px;
     border-radius: 12px;
-    width: 160px;
+    width: 130px;
     min-height: 300px;
     height: auto;
     display: flex;
@@ -184,9 +184,9 @@
    ========================================================================== */
 @media (min-width: 768px) {
     .producto {
-        width: 220px;
+        width: 170px;
         min-height: 350px;
-        padding: 20px;
+        padding: 12px;
     }
 
     .producto-img-container {

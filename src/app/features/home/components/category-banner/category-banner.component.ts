@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ScrollAnimateDirective } from '@shared/directives/scroll-animate.directive';
 import { getAssetUrl } from '@core/utils';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface CategoryBannerData {
   id: string;
@@ -17,46 +19,55 @@ export interface CategoryBannerData {
 @Component({
   selector: 'app-category-banner',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ScrollAnimateDirective, TranslatePipe],
   template: `
-    <a [routerLink]="data.href" class="category-banner-link">
-      <div
-        class="category-banner-card"
-        [style]="{ '--gradient-from': data.gradientFrom, '--gradient-to': data.gradientTo, '--accent-color': data.accentColor }"
-        [class.is-reversed]="reversed"
-      >
-        <div class="category-banner-bg"></div>
-        <div class="category-banner-orb category-banner-orb--1"></div>
-        <div class="category-banner-orb category-banner-orb--2"></div>
+    <div
+      appScrollAnimate
+      scrollAnimation="fade-up"
+      [scrollDelay]="scrollDelay"
+      scrollMargin="-60px"
+      class="overflow-hidden"
+    >
+      <a [routerLink]="data.href" class="category-banner-link">
+        <div
+          class="category-banner-card"
+          [style]="{ '--gradient-from': data.gradientFrom, '--gradient-to': data.gradientTo, '--accent-color': data.accentColor }"
+          [class.is-reversed]="reversed"
+        >
+          <div class="category-banner-bg"></div>
+          <div class="category-banner-orb category-banner-orb--1"></div>
+          <div class="category-banner-orb category-banner-orb--2"></div>
 
-        <div class="category-banner-content" [class.is-reversed]="reversed">
-          <div class="category-banner-text" [class.is-reversed]="reversed">
-            <h3 class="category-banner-title">{{ data.title }}</h3>
-            <p class="category-banner-description">{{ data.description }}</p>
-            <div class="category-banner-cta-wrapper">
-              <div class="category-banner-cta">
-                <span>{{ data.buttonText }}</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M5.5 3.5L10 8L5.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+          <div class="category-banner-content" [class.is-reversed]="reversed">
+            <div class="category-banner-text" [class.is-reversed]="reversed">
+              <h3 class="category-banner-title">{{ data.title | translate }}</h3>
+              <p class="category-banner-description">{{ data.description | translate }}</p>
+              <div class="category-banner-cta-wrapper">
+                <div class="category-banner-cta">
+                  <span>{{ data.buttonText | translate }}</span>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3.33337 8H12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.66663 4L12.6666 8L8.66663 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="category-banner-image-wrapper">
-            <div class="category-banner-image-glow"></div>
-            <div class="category-banner-image-container">
-              <img
+            <div class="category-banner-image-wrapper">
+              <div class="category-banner-image-glow"></div>
+              <div class="category-banner-image-container">
+                <img
                 [src]="getAssetUrl(data.imageSrc)"
-                [alt]="data.title"
+                [alt]="data.title | translate"
                 class="category-banner-image"
                 loading="lazy"
               />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
   `,
   styles: [`
     .category-banner-link {
@@ -66,13 +77,15 @@ export interface CategoryBannerData {
 
     .category-banner-card {
       border-radius: 18px;
-      padding: 1.25rem 1rem;
+      padding: 0.75rem 0.5rem;
       min-height: 180px;
       isolation: isolate;
       border: 1px solid rgba(255,255,255,0.08);
       transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
       position: relative;
-      overflow: hidden;
+      overflow: hidden !important;
+      box-sizing: border-box;
+      max-width: 100%;
     }
 
     .category-banner-card:hover {
@@ -88,7 +101,7 @@ export interface CategoryBannerData {
     @media (min-width: 768px) {
       .category-banner-card {
         border-radius: 28px;
-        padding: 3rem 3.5rem;
+        padding: 1.5rem 2rem;
         min-height: 360px;
       }
     }
@@ -109,16 +122,16 @@ export interface CategoryBannerData {
     }
 
     .category-banner-orb--1 {
-      width: 260px;
-      height: 260px;
+      width: 130px;
+      height: 130px;
       background: var(--accent-color);
       top: -80px;
       right: -60px;
     }
 
     .category-banner-orb--2 {
-      width: 200px;
-      height: 200px;
+      width: 100px;
+      height: 100px;
       background: var(--gradient-from);
       bottom: -60px;
       left: -40px;
@@ -201,7 +214,7 @@ export interface CategoryBannerData {
       background: rgba(255,255,255,0.95);
       border-radius: 100px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
       font-weight: 600;
     }
 
@@ -228,8 +241,8 @@ export interface CategoryBannerData {
 
     .category-banner-image-wrapper {
       flex-shrink: 0;
-      width: 140px;
-      height: 140px;
+      width: 100px;
+      height: 100px;
       position: relative;
       display: flex;
       align-items: center;
@@ -239,15 +252,15 @@ export interface CategoryBannerData {
 
     @media (min-width: 480px) {
       .category-banner-image-wrapper {
-        width: 180px;
-        height: 180px;
+        width: 140px;
+        height: 140px;
       }
     }
 
     @media (min-width: 768px) {
       .category-banner-image-wrapper {
-        width: 290px;
-        height: 290px;
+        width: 200px;
+        height: 200px;
       }
     }
 
@@ -299,5 +312,6 @@ export interface CategoryBannerData {
 export class CategoryBannerComponent {
   @Input({ required: true }) data!: CategoryBannerData;
   @Input() reversed = false;
+  @Input() scrollDelay = 0;
   protected readonly getAssetUrl = getAssetUrl;
 }

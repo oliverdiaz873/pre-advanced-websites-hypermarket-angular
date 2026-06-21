@@ -5,7 +5,7 @@
 
 .product-carousel-section {
   background-color: #ffffff;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0;
   margin-bottom: 1.5rem;
   width: 100%;
   border-top: 1px solid #e5e5e5;
@@ -13,7 +13,7 @@
 
 @media (min-width: 768px) {
   .product-carousel-section {
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 0;
   }
 }
 

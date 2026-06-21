@@ -37,29 +37,37 @@
   font-display: swap;
 }
 
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
-    overflow-x: hidden;
-    background-color: #ffffff;
-    color: #111827;
-    font-family: var(--font-sans);
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
+  background-color: #ffffff;
+  color: #111827;
+  font-family: var(--font-sans);
 }
 
 h1, h2, h3, h4, h5, h6, button, input, select, textarea {
-    font-family: var(--font-sans);
+  font-family: var(--font-sans);
 }
 
 a {
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .icon-fire {
-    fill: #ff0000f8;
-    background: radial-gradient(circle at 50% 65%, #ffff00 34%, transparent 36%);
-    border-radius: 50%;
+  fill: #ff0000f8;
+  background: radial-gradient(circle at 50% 65%, #ffff00 34%, transparent 36%);
+  border-radius: 50%;
 }
 
 .dark-theme-body {
-    background-color: #0a0a0b !important;
-    color: #ffffff !important;
-    transition: background-color 0.5s ease;
+  background-color: #0a0a0b !important;
+  color: #ffffff !important;
+  transition: background-color 0.5s ease;
 }
