@@ -26,17 +26,17 @@ import { Component, Input } from '@angular/core';
         </svg>
       }
       @case ('chevron-left') {
-        <svg [class]="className" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg [class]="className" width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       }
       @case ('chevron-right') {
-        <svg [class]="className" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 16 16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg [class]="className" width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 16 16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M6 3.5l4.5 4.5-4.5 4.5" />
         </svg>
       }
       @case ('chevron-down') {
-        <svg [class]="className" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 16 16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg [class]="className" width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 16 16" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M3.5 6l4.5 4.5 4.5-4.5" />
         </svg>
       }
