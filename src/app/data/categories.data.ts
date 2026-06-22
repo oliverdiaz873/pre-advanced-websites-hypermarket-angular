@@ -1,4 +1,5 @@
-import { Category } from '@core/types/category.interface'
+import { Category } from '@core/types/category.interface';
+import { CategoryBannerData } from '@features/home/components/category-banner/category-banner.component';
 
 export const categories: Category[] = [
     {
@@ -90,4 +91,95 @@ export const categories: Category[] = [
             { name: 'Juguetes para Niñas', href: '/category/juguetes#juguetes-para-ninas' },
         ],
     },
-]
+];
+
+export const CATEGORY_DATA: CategoryBannerData[] = [
+    {
+        id: 'alimentos',
+        title: 'home.category_banners.alimentos.title',
+        description: 'home.category_banners.alimentos.description',
+        buttonText: 'home.category_banners.alimentos.button',
+        href: '/category/alimentos',
+        imageSrc: 'assets/images/categories/food.png',
+        gradientFrom: '#15803d',
+        gradientTo: '#22c55e',
+        accentColor: '#86efac',
+    },
+    {
+        id: 'electrodomesticos',
+        title: 'home.category_banners.electrodomesticos.title',
+        description: 'home.category_banners.electrodomesticos.description',
+        buttonText: 'home.category_banners.electrodomesticos.button',
+        href: '/category/electrodomesticos',
+        imageSrc: 'assets/images/categories/appliances.png',
+        gradientFrom: '#1e3a5f',
+        gradientTo: '#3b82f6',
+        accentColor: '#60a5fa',
+    },
+    {
+        id: 'tecnologia',
+        title: 'home.category_banners.tecnologia.title',
+        description: 'home.category_banners.tecnologia.description',
+        buttonText: 'home.category_banners.tecnologia.button',
+        href: '/category/tecnologia',
+        imageSrc: 'assets/images/categories/technology.png',
+        gradientFrom: '#070605',
+        gradientTo: '#17100b',
+        accentColor: '#f97316',
+    },
+    {
+        id: 'ropa',
+        title: 'home.category_banners.ropa.title',
+        description: 'home.category_banners.ropa.description',
+        buttonText: 'home.category_banners.ropa.button',
+        href: '/category/ropa',
+        imageSrc: 'assets/images/categories/clothing.png',
+        gradientFrom: '#1a0a1c',
+        gradientTo: '#2d1b30',
+        accentColor: '#e879f9',
+    },
+    {
+        id: 'muebles-y-decoracion',
+        title: 'home.category_banners.muebles.title',
+        description: 'home.category_banners.muebles.description',
+        buttonText: 'home.category_banners.muebles.button',
+        href: '/category/muebles-y-decoracion',
+        imageSrc: 'assets/images/categories/furniture-and-decor.png',
+        gradientFrom: '#78350f',
+        gradientTo: '#d97706',
+        accentColor: '#fbbf24',
+    },
+    {
+        id: 'farmacia',
+        title: 'home.category_banners.farmacia.title',
+        description: 'home.category_banners.farmacia.description',
+        buttonText: 'home.category_banners.farmacia.button',
+        href: '/category/farmacia',
+        imageSrc: 'assets/images/categories/pharmacy.png',
+        gradientFrom: '#064e3b',
+        gradientTo: '#10b981',
+        accentColor: '#6ee7b7',
+    },
+    {
+        id: 'ferreteria',
+        title: 'home.category_banners.ferreteria.title',
+        description: 'home.category_banners.ferreteria.description',
+        buttonText: 'home.category_banners.ferreteria.button',
+        href: '/category/ferreteria',
+        imageSrc: 'assets/images/categories/hardware-store.png',
+        gradientFrom: '#44403c',
+        gradientTo: '#78716c',
+        accentColor: '#a8a29e',
+    },
+    {
+        id: 'juguetes',
+        title: 'home.category_banners.juguetes.title',
+        description: 'home.category_banners.juguetes.description',
+        buttonText: 'home.category_banners.juguetes.button',
+        href: '/category/juguetes',
+        imageSrc: 'assets/images/categories/toys.png',
+        gradientFrom: '#be185d',
+        gradientTo: '#ec4899',
+        accentColor: '#f472b6',
+    },
+];

@@ -1,39 +1,82 @@
-<form (submit)="onSubmit($event)" class="flex items-center gap-2">
-  <!-- Expanded input (desktop always visible, mobile toggles) -->
-  <div class="relative flex items-center">
-    @if (isExpanded()) {
-      <input
-        #searchInput
-        type="search"
-        autocomplete="off"
-        [value]="inputValue()"
-        (input)="onInput($event)"
-        (keydown)="onKeydown($event)"
-        placeholder="Buscar productos..."
-        class="w-52 sm:w-72 pl-4 pr-10 py-2 text-sm border border-gray-200 rounded-xl
-               bg-white/90 text-gray-800 placeholder-gray-400
-               focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent
-               transition-all duration-200 shadow-sm" />
+@switch (viewportMode()) {
+  @case ('desktop') {
+    <div class="desktop-search">
+      <form (submit)="onSubmit($event)" class="flex items-center">
+        <input
+          type="search" autocomplete="off"
+          [value]="inputValue()" (input)="onInput($event)"
+          placeholder="Buscar productos..."
+          class="search-input-modern bg-white text-black px-3 py-1.5 rounded-lg outline-none"
+        />
+      </form>
 
-      <button type="submit"
-              class="absolute right-2 text-gray-400 hover:text-green-600 transition-colors"
-              aria-label="Buscar">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-        </svg>
-      </button>
-    } @else {
-      <!-- Search icon toggle (mobile / collapsed) -->
-      <button
-        type="button"
-        (click)="expand()"
-        aria-label="Abrir búsqueda"
-        class="flex items-center justify-center w-9 h-9 rounded-xl border border-gray-200
-               bg-white hover:bg-gray-50 text-gray-600 hover:text-green-700 transition-colors shadow-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-        </svg>
-      </button>
-    }
-  </div>
-</form>
+      <a routerLink="/cart" class="cart-btn util-btn">
+        <div class="cart-icon-wrap">
+          <app-icon name="cart" className="w-6 h-6"></app-icon>
+          @if (cartService.totalItems() > 0) {
+            <span class="cart-badge">{{ cartService.totalItems() }}</span>
+          }
+        </div>
+      </a>
+    </div>
+  }
+  @case ('tablet') {
+    <div class="tablet-search">
+      <form (submit)="onSubmit($event)" class="flex items-center">
+        <input
+          type="search" autocomplete="off"
+          [value]="inputValue()" (input)="onInput($event)"
+          placeholder="Buscar productos..."
+          class="search-input-modern bg-white text-black px-3 py-1.5 rounded-lg outline-none"
+        />
+      </form>
+
+      <a routerLink="/cart" class="cart-btn util-btn">
+        <div class="cart-icon-wrap">
+          <app-icon name="cart" className="w-6 h-6"></app-icon>
+          @if (cartService.totalItems() > 0) {
+            <span class="cart-badge">{{ cartService.totalItems() }}</span>
+          }
+        </div>
+      </a>
+    </div>
+  }
+  @case ('mobile') {
+    <div class="mobile-search">
+      <form (submit)="onSubmit($event)" class="flex items-center gap-2">
+        <div class="relative flex items-center">
+          @if (isExpanded()) {
+            <input
+              type="search" autocomplete="off"
+              [value]="inputValue()" (input)="onInput($event)"
+              (keydown)="onKeydown($event)"
+              placeholder="Buscar productos..."
+              class="w-52 pl-4 pr-10 py-2 text-sm border rounded-xl bg-white/90 text-gray-800"
+            />
+            <button type="submit" class="absolute right-2 text-gray-400 hover:text-green-600">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+            </button>
+          } @else {
+            <button type="button" (click)="expand()" aria-label="Abrir búsqueda"
+              class="flex items-center justify-center w-9 h-9 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 shadow-sm">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+            </button>
+          }
+        </div>
+      </form>
+
+      <a routerLink="/cart" class="cart-btn util-btn">
+        <div class="cart-icon-wrap">
+          <app-icon name="cart" className="w-6 h-6"></app-icon>
+          @if (cartService.totalItems() > 0) {
+            <span class="cart-badge">{{ cartService.totalItems() }}</span>
+          }
+        </div>
+      </a>
+    </div>
+  }
+}
