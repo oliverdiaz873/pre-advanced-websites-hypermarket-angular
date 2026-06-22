@@ -1,17 +1,12 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-empty-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './empty-cart.component.html',
   styleUrl: './empty-cart.component.scss'
 })
-export class EmptyCartComponent {
-  @Output() browseProducts = new EventEmitter<void>();
-
-  public onBrowse(): void {
-    this.browseProducts.emit();
-  }
-}
+export class EmptyCartComponent {}

@@ -1,0 +1,26 @@
+@if (quantity() === 0) {
+  <button
+    type="button"
+    class="btn-agregar"
+    (click)="handleInitialAdd($event)"
+    [attr.aria-label]="('common.cart.add_button' | translate) + ' ' + ('common.product.add_to_cart' | translate)"
+  >
+    {{ 'common.cart.add_button' | translate }}
+  </button>
+} @else {
+  <div class="cart-counter-container">
+    <button
+      type="button"
+      class="counter-btn minus"
+      (click)="handleDecrement($event)"
+      [attr.aria-label]="'common.cart.decrease_qty' | translate"
+    >-</button>
+    <span class="counter-value">{{ quantity() }}</span>
+    <button
+      type="button"
+      class="counter-btn plus"
+      (click)="handleIncrement($event)"
+      [attr.aria-label]="'common.cart.increase_qty' | translate"
+    >+</button>
+  </div>
+}

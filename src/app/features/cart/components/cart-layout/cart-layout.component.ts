@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,4 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cart-layout.component.html',
   styleUrl: './cart-layout.component.scss'
 })
-export class CartLayoutComponent {}
+export class CartLayoutComponent {
+  @Input() class = '';
+}

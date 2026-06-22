@@ -11,12 +11,10 @@
       
       <app-cart-summary
         [totalItems]="totalItems()"
-        [totalPrice]="totalPrice()"
-        (checkout)="onCheckout()"
-        (clear)="onClearCart()">
+        [totalPrice]="totalPrice()">
       </app-cart-summary>
     </div>
   } @else {
-    <app-empty-cart (browseProducts)="onBrowseProducts()"></app-empty-cart>
+    <app-empty-cart></app-empty-cart>
   }
 </app-cart-layout>

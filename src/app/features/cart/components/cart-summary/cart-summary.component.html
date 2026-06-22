@@ -1,41 +1,19 @@
-<div class="cart-summary bg-white border border-gray-100 rounded-2xl p-6 shadow-xs flex flex-col gap-6">
-  <h3 class="text-lg font-bold text-gray-950">Resumen del pedido</h3>
-  
-  <div class="flex flex-col gap-3">
-    <div class="flex justify-between items-center text-sm text-gray-600">
-      <span>Productos ({{ totalItems }})</span>
-      <span class="font-semibold text-gray-900">{{ getFormattedPrice(totalPrice) }}</span>
+<aside class="cart-summary">
+  <h3 class="cart-summary__title">{{ 'common.cart.summary.title' | translate }}</h3>
+
+  <div class="cart-summary__details">
+    <div class="cart-summary__row">
+      <span class="cart-summary__label">{{ 'common.cart.summary.total_items' | translate }}</span>
+      <span class="cart-summary__value">{{ totalItems }}</span>
     </div>
-    
-    <div class="flex justify-between items-center text-sm text-gray-600">
-      <span>Envío</span>
-      <span class="text-green-600 font-semibold">Gratis</span>
-    </div>
-    
-    <div class="border-t border-gray-100 my-2"></div>
-    
-    <div class="flex justify-between items-center">
-      <span class="text-base font-bold text-gray-950">Total</span>
-      <span class="text-xl font-black text-green-700">{{ getFormattedPrice(totalPrice) }}</span>
+
+    <div class="cart-summary__row">
+      <span class="cart-summary__label">{{ 'common.cart.summary.total_price' | translate }}</span>
+      <span class="cart-summary__value cart-summary__total">{{ getFormattedPrice(totalPrice) }}</span>
     </div>
   </div>
 
-  <div class="flex flex-col gap-3">
-    <button 
-      type="button" 
-      (click)="onCheckout()" 
-      class="w-full flex items-center justify-center gap-2 px-6 py-3.5 border border-transparent text-base font-bold rounded-xl text-white bg-green-600 hover:bg-green-700 active:bg-green-800 transition-all shadow-sm cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-      Proceder al pago
-    </button>
-    
-    <button 
-      type="button" 
-      (click)="onClear()" 
-      class="w-full py-2.5 text-sm font-semibold text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors cursor-pointer focus:outline-hidden">
-      Vaciar carrito
-    </button>
-  </div>
-</div>
+  <button class="cart-summary__pay-button" disabled title="Checkout will be available in the next phase">
+    {{ 'common.cart.summary.pay_button' | translate }}
+  </button>
+</aside>
