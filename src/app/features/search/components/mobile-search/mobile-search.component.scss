@@ -1,0 +1,130 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-search {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+.mobile-search__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.mobile-search__field.is-active {
+  flex: 1 1 auto;
+}
+
+.mobile-search__input {
+  display: none;
+  width: 100%;
+  min-width: 0;
+}
+
+.mobile-search__input.is-active {
+  display: block;
+}
+
+.mobile-search.is-active .mobile-search__cart {
+  display: none !important;
+}
+
+.mobile-search__results {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: calc(100vw - 40px);
+  max-width: 450px;
+  margin-top: 0.75rem;
+  list-style: none;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1100;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-search__result {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobile-search__result:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-search__thumb {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  background: white;
+  border-radius: 0.375rem;
+}
+
+.mobile-search__label {
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.util-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  width: 33px;
+  height: 33px;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
+}
+
+.util-btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -1px;
+  right: -4px;
+  background-color: #dc2626;
+  color: white;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  line-height: 1;
+  font-size: 9px;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .cart-badge {
+    font-size: 10px;
+  }
+}
