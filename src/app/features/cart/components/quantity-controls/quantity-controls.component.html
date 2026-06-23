@@ -4,7 +4,6 @@
     class="quantity-controls__btn"
     (click)="onDecrease()"
     [attr.aria-label]="ariaLabels.decrease"
-    [disabled]="quantity <= 1"
   >-</button>
   <span class="quantity-controls__display">{{ quantity }}</span>
   <button

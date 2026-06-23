@@ -9,6 +9,18 @@ import { IconComponent } from '../../../../shared/components/icons/icons.compone
 import { getAssetUrl, cleanPrice } from '../../../../core/utils';
 import { QuantityControlsComponent } from '../quantity-controls/quantity-controls.component';
 
+/**
+ * CartItem - Individual Cart Item Component
+ *
+ * Represents a single product in the cart with detailed information:
+ * - Product image
+ * - Formatted name and price
+ * - Offer badge if applicable
+ * - Old price if on offer
+ * - Unit of measure
+ * - Quantity controls
+ * - Remove button
+ */
 @Component({
   selector: 'app-cart-item',
   standalone: true,
@@ -34,10 +46,6 @@ export class CartItemComponent {
 
   public getFormattedPrice(price: number): string {
     return `$${price.toLocaleString()}`;
-  }
-
-  public getIsOffer(): boolean {
-    return this.isOffer;
   }
 
   public getDiscountText(): string {

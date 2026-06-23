@@ -1,7 +1,7 @@
 <div class="cart-item" [class.cart-item--removing]="isRemoving">
   <a [routerLink]="['/product', item.productId]" class="cart-item__image-link" [attr.aria-label]="'common.product.view_details' | translate: { name: (item.productId | productTranslate:item.nombre) }">
     <div class="cart-item__image-container">
-      @if (getIsOffer()) {
+      @if (isOffer) {
         <div class="cart-item__badge-wrapper">
           <app-offer-badge [text]="getDiscountText()"></app-offer-badge>
         </div>
@@ -31,7 +31,7 @@
 
     <div class="cart-item__footer">
       <div class="cart-item__price-block">
-        @if (getIsOffer()) {
+        @if (isOffer) {
           <ins class="cart-item__new-price">{{ getFormattedPrice(item.unitPrice) }}</ins>
           <del class="cart-item__old-price">{{ getOldPriceDisplay() }}</del>
         } @else {
