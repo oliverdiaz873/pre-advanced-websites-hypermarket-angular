@@ -1,0 +1,21 @@
+<section class="empty-state" [ngClass]="className">
+  <div class="icon-wrapper">
+    @if (icon) {
+      <span class="icon-string" aria-hidden="true">{{ icon }}</span>
+    }
+    <ng-content select="[icon]"></ng-content>
+  </div>
+  <h2>{{ title }}</h2>
+  @if (description) {
+    <p>{{ description }}</p>
+  }
+  @if (hasAction) {
+    <div class="actions">
+      @if (isLink) {
+        <a [routerLink]="actionHref" class="action-btn">{{ actionLabel }}</a>
+      } @else {
+        <button type="button" class="action-btn" (click)="handleAction()">{{ actionLabel }}</button>
+      }
+    </div>
+  }
+</section>

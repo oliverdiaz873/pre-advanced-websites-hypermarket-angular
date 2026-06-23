@@ -50,7 +50,7 @@ import { OfferFiltersService } from './services/offer-filters.service';
             @if (filteredProducts().length > 0) {
               <app-product-grid [products]="filteredProducts()"></app-product-grid>
             } @else {
-              <app-empty-state title="Sin ofertas" message="No hay ofertas que coincidan con tu busqueda." actionLabel="Ver categorias" actionUrl="/"></app-empty-state>
+              <app-empty-state title="Sin ofertas" description="No hay ofertas que coincidan con tu busqueda." actionLabel="Ver categorias" actionHref="/"></app-empty-state>
             }
           </div>
         </div>

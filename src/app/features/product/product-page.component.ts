@@ -20,7 +20,7 @@ import { ProductUI } from '@features/products/models/product-ui.interface';
       <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
       <app-product-carousel-section title="Productos relacionados" [products]="related()"></app-product-carousel-section>
     } @else {
-      <app-empty-state title="Producto no encontrado" message="No encontramos el producto solicitado." actionLabel="Volver al inicio" actionUrl="/"></app-empty-state>
+      <app-empty-state title="Producto no encontrado" description="No encontramos el producto solicitado." actionLabel="Volver al inicio" actionHref="/"></app-empty-state>
     }
   `,
   styles: [`:host { display: grid; gap: 1.5rem; }`],

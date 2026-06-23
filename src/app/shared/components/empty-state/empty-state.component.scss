@@ -1,0 +1,105 @@
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  max-width: 42rem;
+  margin: 0 auto;
+  width: 100%;
+  transition: all 0.3s ease;
+
+  @media (min-width: 768px) {
+    padding: 3rem;
+  }
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d1d5db;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: 768px) {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.icon-wrapper svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.icon-string {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+  color: #030712;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+p {
+  max-width: 28rem;
+  margin: 0 0 2rem;
+  color: #525252;
+  font-size: 0.875rem;
+  line-height: 1.625;
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
+.actions {
+  margin-top: 0.5rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  background: #030712;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background: #1f2937;
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+}

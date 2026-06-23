@@ -41,7 +41,7 @@ import { ProductGridComponent } from '@features/products/components/product-grid
         <app-product-grid [products]="filteredProducts()"></app-product-grid>
       }
     } @else {
-      <app-empty-state title="Categoria no encontrada" message="La categoria solicitada no existe o aun no esta disponible." actionLabel="Volver al inicio" actionUrl="/"></app-empty-state>
+      <app-empty-state title="Categoria no encontrada" description="La categoria solicitada no existe o aun no esta disponible." actionLabel="Volver al inicio" actionHref="/"></app-empty-state>
     }
   `,
   styles: [`
