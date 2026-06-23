@@ -9,6 +9,13 @@ interface EnrichedCartItem extends CartItem {
   discountPercentage: number | null;
 }
 
+/**
+ * CartItemsList - Cart Items List Component
+ *
+ * Renders the list of products using the CartItem component.
+ * Acts as a container that maps cart data
+ * to individual reusable components.
+ */
 @Component({
   selector: 'app-cart-items-list',
   standalone: true,

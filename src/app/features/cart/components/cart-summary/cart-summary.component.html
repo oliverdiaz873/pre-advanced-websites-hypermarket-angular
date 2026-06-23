@@ -4,12 +4,12 @@
   <div class="cart-summary__details">
     <div class="cart-summary__row">
       <span class="cart-summary__label">{{ 'common.cart.summary.total_items' | translate }}</span>
-      <span class="cart-summary__value">{{ totalItems }}</span>
+      <span class="cart-summary__value">{{ totalItems() }}</span>
     </div>
 
     <div class="cart-summary__row">
       <span class="cart-summary__label">{{ 'common.cart.summary.total_price' | translate }}</span>
-      <span class="cart-summary__value cart-summary__total">{{ getFormattedPrice(totalPrice) }}</span>
+      <span class="cart-summary__value cart-summary__total">{{ getFormattedPrice(totalPrice()) }}</span>
     </div>
   </div>
 

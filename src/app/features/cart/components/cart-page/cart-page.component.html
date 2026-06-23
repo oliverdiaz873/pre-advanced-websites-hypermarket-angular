@@ -1,5 +1,5 @@
 <app-cart-layout>
-  <app-cart-header [count]="totalItems()"></app-cart-header>
+  <app-cart-header [totalItems]="totalItems()"></app-cart-header>
 
   @if (items().length > 0) {
     <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
@@ -9,9 +9,7 @@
         (removeItem)="onRemoveItem($event)">
       </app-cart-items-list>
       
-      <app-cart-summary
-        [totalItems]="totalItems()"
-        [totalPrice]="totalPrice()">
+      <app-cart-summary>
       </app-cart-summary>
     </div>
   } @else {

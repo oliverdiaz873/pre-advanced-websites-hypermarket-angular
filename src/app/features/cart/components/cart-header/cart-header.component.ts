@@ -17,5 +17,5 @@ import { IconComponent } from '../../../../shared/components/icons/icons.compone
   styleUrl: './cart-header.component.scss'
 })
 export class CartHeaderComponent {
-  @Input() count = 0;
+  @Input() totalItems = 0;
 }

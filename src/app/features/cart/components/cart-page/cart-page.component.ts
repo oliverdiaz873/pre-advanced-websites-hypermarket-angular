@@ -7,6 +7,13 @@ import { CartItemsListComponent } from '../cart-items-list/cart-items-list.compo
 import { CartSummaryComponent } from '../cart-summary/cart-summary.component';
 import { EmptyCartComponent } from '../empty-cart/empty-cart.component';
 
+/**
+ * CartPage - Cart Page Component
+ *
+ * Renders the main cart page view.
+ * Displays the cart items list and summary,
+ * or an empty cart message when there are no items.
+ */
 @Component({
   selector: 'app-cart-page',
   standalone: true,
@@ -26,7 +33,6 @@ export class CartPageComponent {
 
   public items = this.cartService.items;
   public totalItems = this.cartService.totalItems;
-  public totalPrice = this.cartService.totalPrice;
 
   public onUpdateQuantity(event: { productId: string, quantity: number }): void {
     this.cartService.updateQuantity(event.productId, event.quantity);
