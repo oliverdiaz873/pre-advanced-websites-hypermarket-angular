@@ -3,6 +3,7 @@
   width: 100%;
   max-width: 120px;
   align-self: center;
+  margin-top: auto;
 }
 
 .btn-agregar {
@@ -16,6 +17,9 @@
   border: none;
   cursor: pointer;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   position: relative;

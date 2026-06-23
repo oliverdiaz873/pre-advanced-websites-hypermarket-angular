@@ -3,7 +3,7 @@
     type="button"
     class="btn-agregar"
     (click)="handleInitialAdd($event)"
-    [attr.aria-label]="('common.cart.add_button' | translate) + ' ' + ('common.product.add_to_cart' | translate)"
+    [attr.aria-label]="('common.cart.add_button' | translate) + ' ' + product.nombre + ' ' + ('common.product.add_to_cart' | translate)"
   >
     {{ 'common.cart.add_button' | translate }}
   </button>
