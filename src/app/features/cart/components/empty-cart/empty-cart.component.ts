@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-empty-cart',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [TranslatePipe, EmptyStateComponent],
   templateUrl: './empty-cart.component.html',
   styleUrl: './empty-cart.component.scss'
 })
+/**
+ * EmptyCartComponent — Empty cart state
+ *
+ * Reuses EmptyStateComponent to display an informational
+ * message when the cart has no products.
+ */
 export class EmptyCartComponent {}

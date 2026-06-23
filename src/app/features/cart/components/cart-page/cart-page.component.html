@@ -1,7 +1,7 @@
-<app-cart-layout>
-  <app-cart-header [totalItems]="totalItems()"></app-cart-header>
+@if (items().length > 0) {
+  <app-cart-layout>
+    <app-cart-header [totalItems]="totalItems()"></app-cart-header>
 
-  @if (items().length > 0) {
     <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <app-cart-items-list
         [items]="items()"
@@ -12,7 +12,7 @@
       <app-cart-summary>
       </app-cart-summary>
     </div>
-  } @else {
-    <app-empty-cart></app-empty-cart>
-  }
-</app-cart-layout>
+  </app-cart-layout>
+} @else {
+  <app-empty-cart></app-empty-cart>
+}
