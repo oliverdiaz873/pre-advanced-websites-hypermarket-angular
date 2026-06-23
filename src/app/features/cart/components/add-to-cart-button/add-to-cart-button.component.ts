@@ -4,6 +4,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Product } from '../../../../core/types/product.interface';
 import { CartService } from '../../../../core/services/cart.service';
 
+/**
+ * AddToCartButton - Add to Cart Button Component
+ *
+ * Displays an add-to-cart button or quantity controls
+ * depending on whether the product is already in the cart.
+ * Shows "Add" button when quantity is 0,
+ * and increment/decrement controls when quantity > 0.
+ */
 @Component({
   selector: 'app-add-to-cart-button',
   standalone: true,
