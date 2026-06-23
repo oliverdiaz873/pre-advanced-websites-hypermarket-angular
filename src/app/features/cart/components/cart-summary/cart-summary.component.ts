@@ -3,6 +3,20 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../../../core/services/cart.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
+/**
+ * CartSummaryComponent - Cart Summary Component
+ *
+ * Displays a side panel with the purchase summary including:
+ * - Total items in the cart
+ * - Total amount to pay
+ * - Button to start the checkout process
+ *
+ * Integrated into the cart page as an informative aside
+ * that helps users quickly see the status of their purchase.
+ *
+ * INTERNATIONALIZATION:
+ * Supports ES/EN with translations at common.cart.summary
+ */
 @Component({
   selector: 'app-cart-summary',
   standalone: true,
