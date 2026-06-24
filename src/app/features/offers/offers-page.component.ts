@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { DrawerComponent } from '@shared/components/drawer/drawer.component';
 import { ProductGridComponent } from '@features/products/components/product-grid/product-grid.component';
 import { OfferFiltersComponent } from './components/offer-filters/offer-filters.component';
+import { EmptyOffersComponent } from './components/empty-offers/empty-offers.component';
 import { OfferFiltersService } from './services/offer-filters.service';
 
 @Component({
   selector: 'app-offers-page',
   standalone: true,
-  imports: [BreadcrumbComponent, EmptyStateComponent, DrawerComponent, ProductGridComponent, OfferFiltersComponent],
+  imports: [DrawerComponent, ProductGridComponent, OfferFiltersComponent, EmptyOffersComponent],
   template: `
-    <app-breadcrumb [items]="[{ label: 'Ofertas' }]"></app-breadcrumb>
-
     <div class="offers-page-wrapper">
       <section class="mx-auto w-full max-w-7xl px-2 pt-1 pb-8 md:px-6 min-h-[60vh] flex flex-col">
         <div class="offers-header-container flex items-center justify-between gap-4">
@@ -50,7 +47,9 @@ import { OfferFiltersService } from './services/offer-filters.service';
             @if (filteredProducts().length > 0) {
               <app-product-grid [products]="filteredProducts()"></app-product-grid>
             } @else {
-              <app-empty-state title="Sin ofertas" description="No hay ofertas que coincidan con tu busqueda." actionLabel="Ver categorias" actionHref="/"></app-empty-state>
+              <div class="flex-1 flex items-start justify-center">
+                <app-empty-offers></app-empty-offers>
+              </div>
             }
           </div>
         </div>

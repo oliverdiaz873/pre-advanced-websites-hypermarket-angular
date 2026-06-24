@@ -1,1 +1,13 @@
-:host { display: block; }
+:host {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+::ng-deep .search-empty-state {
+  background-color: #fafafa;
+  border: 2px dashed #e5e7eb;
+  box-shadow: none;
+}
