@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/**
+ * QuantityControls - Quantity Control Component
+ *
+ * Handles increment/decrement buttons for product quantity
+ * in the cart. Reusable and accessible.
+ */
 @Component({
   selector: 'app-quantity-controls',
   standalone: true,
