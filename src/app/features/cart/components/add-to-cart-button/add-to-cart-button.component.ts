@@ -38,17 +38,12 @@ export class AddToCartButtonComponent {
   protected handleIncrement(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.cartService.updateQuantity(this.product.id, (this.quantity() + 1));
+    this.cartService.updateQuantity(this.product.id, 1);
   }
 
   protected handleDecrement(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    const newQty = this.quantity() - 1;
-    if (newQty <= 0) {
-      this.cartService.removeItem(this.product.id);
-    } else {
-      this.cartService.updateQuantity(this.product.id, newQty);
-    }
+    this.cartService.updateQuantity(this.product.id, -1);
   }
 }

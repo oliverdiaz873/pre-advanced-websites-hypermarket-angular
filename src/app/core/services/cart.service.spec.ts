@@ -62,7 +62,9 @@ describe('CartService', () => {
       imagen: 'leche.jpg',
       unitPrice: 1500,
       unitLabel: 'litro',
-      quantity: 2
+      quantity: 2,
+      precioTexto: 'Precio: $1.500 / litro',
+      oldPrice: undefined
     });
     
     expect(service.totalItems()).toBe(2);
@@ -79,18 +81,18 @@ describe('CartService', () => {
     expect(service.totalPrice()).toBe(4500);
   });
 
-  it('should update item quantity', () => {
+  it('should update item quantity by delta', () => {
     service.addItem(mockProduct, 1);
     service.updateQuantity('prod-1', 5);
     
-    expect(service.items()[0].quantity).toBe(5);
-    expect(service.totalItems()).toBe(5);
-    expect(service.totalPrice()).toBe(7500);
+    expect(service.items()[0].quantity).toBe(6);
+    expect(service.totalItems()).toBe(6);
+    expect(service.totalPrice()).toBe(9000);
   });
 
-  it('should remove item if quantity is set to 0 or less', () => {
+  it('should remove item if quantity drops to 0 or less after delta', () => {
     service.addItem(mockProduct, 2);
-    service.updateQuantity('prod-1', 0);
+    service.updateQuantity('prod-1', -2);
     
     expect(service.items()).toEqual([]);
     expect(service.totalItems()).toBe(0);

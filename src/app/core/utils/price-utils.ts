@@ -6,6 +6,14 @@ export const cleanPrice = (text: string): string => {
     return match ? match[1] : cleaned
 }
 
+export const formatPrice = (value: number): string =>
+    new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    }).format(value)
+
 export const unitLabel = (product: Product): string => {
     const explicit = product.unidad?.trim()
     if (explicit) return explicit

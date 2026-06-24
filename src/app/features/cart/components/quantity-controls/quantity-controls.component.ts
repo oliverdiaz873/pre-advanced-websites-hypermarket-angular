@@ -12,17 +12,14 @@ export class QuantityControlsComponent {
   @Input({ required: true }) quantity!: number;
   @Input({ required: true }) ariaLabels!: { decrease: string; increase: string };
 
-  @Output() quantityChange = new EventEmitter<number>();
+  @Output() decrease = new EventEmitter<void>();
+  @Output() increase = new EventEmitter<void>();
 
   onDecrease(): void {
-    if (this.quantity > 1) {
-      this.quantityChange.emit(this.quantity - 1);
-    } else {
-      this.quantityChange.emit(0);
-    }
+    this.decrease.emit();
   }
 
   onIncrease(): void {
-    this.quantityChange.emit(this.quantity + 1);
+    this.increase.emit();
   }
 }

@@ -78,19 +78,16 @@ export class CartService {
   }
 
   /**
-   * Updates the quantity of a specific item in the cart.
-   * If quantity is <= 0, the item is removed.
+   * Updates the quantity of a specific item in the cart by applying a delta.
+   * If the resulting quantity is <= 0, the item is removed.
    */
-  public updateQuantity(productId: string, quantity: number): void {
-    if (quantity <= 0) {
-      this.removeItem(productId);
-      return;
-    }
-
-    this.cartItems.update(items => 
-      items.map(item => 
-        item.productId === productId ? { ...item, quantity } : item
-      )
+  public updateQuantity(productId: string, delta: number): void {
+    this.cartItems.update(items =>
+      items.map(item =>
+        item.productId === productId
+          ? { ...item, quantity: item.quantity + delta }
+          : item
+      ).filter(item => item.quantity > 0)
     );
   }
 

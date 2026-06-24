@@ -45,7 +45,8 @@
           decrease: 'common.cart.decrease_qty' | translate,
           increase: 'common.cart.increase_qty' | translate
         }"
-        (quantityChange)="onQuantityChange($event)">
+        (decrease)="onDecrease()"
+        (increase)="onIncrease()">
       </app-quantity-controls>
     </div>
   </div>

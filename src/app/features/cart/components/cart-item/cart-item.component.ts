@@ -6,7 +6,7 @@ import { CartItem } from '../../../../core/types/cart.interface';
 import { ProductTranslatePipe } from '../../../products/pipes/product-translate.pipe';
 import { OfferBadgeComponent } from '../../../products/components/offer-badge/offer-badge.component';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
-import { getAssetUrl, cleanPrice } from '../../../../core/utils';
+import { getAssetUrl, cleanPrice, formatPrice } from '../../../../core/utils';
 import { QuantityControlsComponent } from '../quantity-controls/quantity-controls.component';
 
 /**
@@ -38,14 +38,12 @@ export class CartItemComponent {
   @Output() updateQuantity = new EventEmitter<number>();
   @Output() remove = new EventEmitter<void>();
 
-  public readonly cleanPrice = cleanPrice;
-
   public getImageUrl(path: string): string {
     return getAssetUrl(path);
   }
 
   public getFormattedPrice(price: number): string {
-    return `$${price.toLocaleString()}`;
+    return formatPrice(price);
   }
 
   public getDiscountText(): string {
@@ -54,11 +52,15 @@ export class CartItemComponent {
 
   public getOldPriceDisplay(): string {
     if (!this.item.oldPrice) return '';
-    return this.cleanPrice(this.item.oldPrice);
+    return `$${cleanPrice(this.item.oldPrice)}`;
   }
 
-  public onQuantityChange(newQuantity: number): void {
-    this.updateQuantity.emit(newQuantity);
+  public onDecrease(): void {
+    this.updateQuantity.emit(-1);
+  }
+
+  public onIncrease(): void {
+    this.updateQuantity.emit(1);
   }
 
   public onRemoveClick(): void {
