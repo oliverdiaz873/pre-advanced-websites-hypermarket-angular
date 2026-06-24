@@ -1,8 +1,9 @@
 import { Component, Input, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Product } from '../../../../core/types/product.interface';
-import { CartService } from '../../../../core/services/cart.service';
+import { Product } from '@core/types/product.interface';
+import { CartService } from '@features/cart/services/cart.service';
+import { resolveProductOffer } from '@features/cart/utils/cart-offer.utils';
 
 /**
  * AddToCartButton - Add to Cart Button Component
@@ -32,7 +33,8 @@ export class AddToCartButtonComponent {
   protected handleInitialAdd(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.cartService.addItem(this.product);
+    const offer = resolveProductOffer(this.product);
+    this.cartService.addItem(this.product, 1, offer?.oldPrice);
   }
 
   protected handleIncrement(event: Event): void {

@@ -4,7 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { DesktopNavComponent } from '../../../navigation/components/desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from '../../../navigation/components/mobile-nav/mobile-nav.component';
 import { TabletNavComponent } from '../../../navigation/components/tablet-nav/tablet-nav.component';
-import { CartService } from '../../../../core/services/cart.service';
+import { CartService } from '@features/cart/services/cart.service';
 import { HeaderSearchComponent } from '../../../search/components/header-search/header-search.component';
 import { LanguageSelectorComponent } from '../../../../shared/components/language-selector/language-selector.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

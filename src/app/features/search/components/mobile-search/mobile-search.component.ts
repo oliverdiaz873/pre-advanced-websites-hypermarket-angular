@@ -2,7 +2,7 @@ import { Component, inject, ViewChild, ElementRef, HostListener, effect } from '
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SearchService } from '../../services/search.service';
-import { CartService } from '../../../../core/services/cart.service';
+import { CartService } from '@features/cart/services/cart.service';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { getAssetUrl } from '../../../../core/utils';
 

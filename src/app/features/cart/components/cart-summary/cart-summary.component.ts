@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../../../../core/services/cart.service';
+import { CartService } from '@features/cart/services/cart.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
 /**

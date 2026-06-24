@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { CartItem } from '../../../../core/types/cart.interface';
+import { CartItem } from '@features/cart/types/cart.interface';
 import { ProductTranslatePipe } from '../../../products/pipes/product-translate.pipe';
 import { OfferBadgeComponent } from '../../../products/components/offer-badge/offer-badge.component';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
@@ -32,11 +32,17 @@ import { QuantityControlsComponent } from '../quantity-controls/quantity-control
 export class CartItemComponent {
   @Input() item!: CartItem;
   @Input() isRemoving = false;
-  @Input() isOffer = false;
-  @Input() discountPercentage: number | null = null;
 
   @Output() updateQuantity = new EventEmitter<number>();
   @Output() remove = new EventEmitter<void>();
+
+  public get isOffer(): boolean {
+    return this.item.isOffer ?? false;
+  }
+
+  public get discountPercentage(): number {
+    return this.item.discountPercentage ?? 0;
+  }
 
   public getImageUrl(path: string): string {
     return getAssetUrl(path);

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartService } from '../../../../core/services/cart.service';
+import { CartService } from '@features/cart/services/cart.service';
 import { CartHeaderComponent } from '../cart-header/cart-header.component';
 import { CartLayoutComponent } from '../cart-layout/cart-layout.component';
 import { CartItemsListComponent } from '../cart-items-list/cart-items-list.component';

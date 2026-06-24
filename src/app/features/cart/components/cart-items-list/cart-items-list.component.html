@@ -1,9 +1,7 @@
 <div class="cart-items-list">
-  @for (item of enrichedItems; track trackByProductId($index, item)) {
+  @for (item of items; track trackByProductId($index, item)) {
     <app-cart-item
       [item]="item"
-      [isOffer]="item.isOffer"
-      [discountPercentage]="item.discountPercentage"
       (updateQuantity)="onUpdateQuantity(item.productId, $event)"
       (remove)="onRemoveItem(item.productId)">
     </app-cart-item>
