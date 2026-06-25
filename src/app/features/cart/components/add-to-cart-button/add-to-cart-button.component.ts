@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Product } from '@core/types/product.interface';
 import { CartService } from '@features/cart/services/cart.service';
-import { resolveProductOffer } from '@features/cart/utils/cart-offer.utils';
+import { resolveProductOffer } from '@features/offers';
 
 /**
  * AddToCartButton - Add to Cart Button Component

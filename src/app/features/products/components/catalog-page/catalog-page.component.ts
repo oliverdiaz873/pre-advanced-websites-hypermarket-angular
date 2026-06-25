@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductGridComponent } from '../product-grid/product-grid.component';
-import { products, offersData, calculateDiscountPercentage } from '../../../../data/index';
+import { products } from '../../../../data/index';
+import { offersData, calculateDiscountPercentage } from '@features/offers';
 import { ProductUI } from '../../models/product-ui.interface';
 
 @Component({

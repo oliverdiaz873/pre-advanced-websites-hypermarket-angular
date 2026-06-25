@@ -1,5 +1,5 @@
 import { Product } from '@core/types/product.interface';
-import { resolveProductOffer } from './cart-offer.utils';
+import { resolveProductOffer } from './utils/offer.utils';
 
 describe('resolveProductOffer', () => {
   const normalProduct: Product = {

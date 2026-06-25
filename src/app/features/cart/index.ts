@@ -9,4 +9,4 @@ export * from './components/cart-page/cart-page.component';
 export * from './components/add-to-cart-button/add-to-cart-button.component';
 export { CartService } from './services/cart.service';
 export type { CartItem } from './types/cart.interface';
-export { resolveProductOffer } from './utils/cart-offer.utils';
+

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { offerProducts, products } from '@data/index';
+import { products } from '@data/index';
+import { offerProducts } from '@features/offers';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 import { HeroCarouselComponent } from './components/hero-carousel/hero-carousel.component';
 import { CategoryBannersSectionComponent } from './components/category-banners-section/category-banners-section.component';

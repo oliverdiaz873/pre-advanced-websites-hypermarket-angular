@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { offerProducts } from '@data/index';
 import { categories as CATEGORIES } from '@data/index';
+import { offerProducts } from '@features/offers';
 import { ProductUI } from '@features/products/models/product-ui.interface';
 
 export interface OfferFilterCategory {

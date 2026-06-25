@@ -1,6 +1,5 @@
 import { Product } from '@core/types/product.interface';
 import { categories } from './categories.data';
-import { calculateDiscountPercentage, offersData } from './offers.data';
 import { products } from './products.data';
 import { subcategorySlugFromHref } from './category-section-map.data';
 import { ProductUI } from '@features/products/models/product-ui.interface';
@@ -12,19 +11,6 @@ export interface CategorySection {
 }
 
 export const productById = (id: string): ProductUI | undefined => products.find(product => product.id === id);
-
-export const offerProducts = (): ProductUI[] => offersData
-  .map(offer => {
-    const product = productById(offer.id);
-    if (!product) return undefined;
-    const discount = calculateDiscountPercentage(product.precio, offer.oldPrice);
-    return {
-      ...product,
-      oldPrice: offer.oldPrice,
-      badgeText: discount > 0 ? `-${discount}%` : 'Oferta'
-    } satisfies ProductUI;
-  })
-  .filter(Boolean) as ProductUI[];
 
 export const productsByCategoryId = (categoryId: string): ProductUI[] => {
   const category = categories.find(item => item.id === categoryId);
