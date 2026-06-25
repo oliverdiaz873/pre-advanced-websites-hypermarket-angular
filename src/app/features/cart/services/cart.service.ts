@@ -2,6 +2,7 @@ import { Injectable, signal, computed, effect } from '@angular/core';
 import { Product } from '@core/types/product.interface';
 import { CartItem } from '../types/cart.interface';
 import { unitLabel } from '@core/utils/price-utils';
+import { calculateDiscountPercentage } from '@features/offers';
 
 /**
  * Global cart state management service.
@@ -10,8 +11,7 @@ import { unitLabel } from '@core/utils/price-utils';
  * persistence to localStorage under the key 'carrito'. Provides actions
  * to add, remove, update quantity, and clear items.
  *
- * Discount calculation is self-contained: derives isOffer and discountPercentage
- * from the item's own oldPrice + unitPrice, with no external dependencies.
+ * Discount calculation delegates to the offers feature for pricing rules.
  *
  * Functional equivalent of Next.js CartContext + useCart hook.
  */
@@ -68,7 +68,7 @@ export class CartService {
       }
 
       const finalUnidad = this.extractUnidad(product);
-      const discountPercentage = this.calculateDiscountPercentage(oldPrice, product.precio);
+      const discountPercentage = oldPrice ? calculateDiscountPercentage(product.precio, oldPrice) : 0;
 
       const newItem: CartItem = {
         productId: product.id,
@@ -123,9 +123,7 @@ export class CartService {
           const parsed = JSON.parse(stored) as CartItem[];
           if (Array.isArray(parsed)) {
             const normalized = parsed.map(item => {
-              const discountPct = item.oldPrice
-                ? this.calculateDiscountPercentage(item.oldPrice, item.unitPrice)
-                : 0;
+              const discountPct = item.oldPrice ? calculateDiscountPercentage(item.unitPrice, item.oldPrice) : 0;
               return {
                 ...item,
                 unitLabel: item.unitLabel ?? unitLabel({ unidad: item.unidad, precioTexto: item.precioTexto } as Product),
@@ -158,14 +156,5 @@ export class CartService {
     return undefined;
   }
 
-  /**
-   * Calculates the discount percentage based on old and current price.
-   * Returns 0 when no valid discount can be computed.
-   */
-  private calculateDiscountPercentage(oldPrice: string | undefined, currentPrice: number): number {
-    if (!oldPrice || !currentPrice) return 0;
-    const numericOldPrice = parseFloat(oldPrice.replace(/[^\d.-]/g, ''));
-    if (isNaN(numericOldPrice) || numericOldPrice <= currentPrice) return 0;
-    return Math.round(((numericOldPrice - currentPrice) / numericOldPrice) * 100);
-  }
+
 }
