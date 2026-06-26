@@ -6,6 +6,7 @@
  * Emits `onSuccess` after a simulated 1.5s async submission.
  *
  * Dependencies:
+ *  - ContactFormService for validation rules and error translation
  *  - TranslateService (@ngx-translate/core) for i18n error messages
  *  - ToastService for success notifications (handled by parent via onSuccess)
  *
@@ -16,17 +17,10 @@
  *  - mensaje: required, 10-500 chars
  */
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NgClass } from '@angular/common';
-
-function trimmedRequired(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
-    if (value == null) return { required: true };
-    return value.trim().length > 0 ? null : { required: true };
-  };
-}
+import { ContactFormService } from '../../services/contact-form.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -39,35 +33,21 @@ function trimmedRequired(): ValidatorFn {
 export class ContactFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly translate = inject(TranslateService);
+  private readonly validation = inject(ContactFormService);
 
   readonly onSuccess = output<void>();
 
   isSubmitting = false;
 
-  private readonly errorKeyMap: Record<string, string> = {
-    required: 'required',
-    minlength: 'length',
-    maxlength: 'length',
-    format: 'format',
-    alphabetic: 'format',
-    email: 'format'
-  };
-
   readonly form = this.fb.nonNullable.group({
-    nombre: ['', [trimmedRequired(), Validators.minLength(2), Validators.maxLength(50), this.alphabeticValidator]],
-    email: ['', [trimmedRequired(), this.emailValidator]],
-    mensaje: ['', [trimmedRequired(), Validators.minLength(10), Validators.maxLength(500)]],
-    telefono: ['', [this.phoneValidator]]
+    nombre: ['', [this.validation.trimmedRequired(), Validators.minLength(2), Validators.maxLength(50), this.validation.alphabeticValidator]],
+    email: ['', [this.validation.trimmedRequired(), this.validation.emailValidator]],
+    mensaje: ['', [this.validation.trimmedRequired(), Validators.minLength(10), Validators.maxLength(500)]],
+    telefono: ['', [this.validation.phoneValidator]]
   });
 
   getFieldError(field: string): string {
-    const control = this.form.get(field);
-    if (!control || !control.errors || (!control.touched && !this.isSubmitting)) return '';
-
-    const errorType = Object.keys(control.errors).find(k => control.errors?.[k]);
-    const key = errorType ? this.errorKeyMap[errorType] : undefined;
-
-    return key ? this.translate.instant(`contact.validation.${field}.${key}`) : '';
+    return this.validation.getFieldError(this.form, field, this.isSubmitting, this.translate);
   }
 
   submit(): void {
@@ -87,24 +67,5 @@ export class ContactFormComponent {
       });
       this.onSuccess.emit();
     }, 1500);
-  }
-
-  private alphabeticValidator(control: { value: string }) {
-    if (!control.value) return null;
-    return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(control.value) ? null : { alphabetic: true };
-  }
-
-  private emailValidator(control: { value: string }) {
-    if (!control.value) return null;
-    const trimmed = control.value.trim();
-    if (trimmed.length > 254) return { email: true };
-    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return emailRegex.test(trimmed) ? null : { email: true };
-  }
-
-  private phoneValidator(control: { value: string }) {
-    if (!control.value) return null;
-    const clean = control.value.replace(/[\s-()]/g, '');
-    return /^[0-9]{8,15}$/.test(clean) ? null : { format: true };
   }
 }
