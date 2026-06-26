@@ -161,19 +161,19 @@
       "success_toast": "✓ ¡Mensaje enviado con éxito!"
     },
     "validation": {
-      "name": {
-        "required": "El nombre es obligatorio.",
-        "length": "El nombre debe tener entre 2 y 50 caracteres.",
-        "format": "El nombre solo puede contener letras y espacios."
-      },
       "email": {
         "required": "El correo es obligatorio.",
         "format": "El formato del correo no es válido."
       },
-      "phone": {
+      "nombre": {
+        "required": "El nombre es obligatorio.",
+        "length": "El nombre debe tener entre 2 y 50 caracteres.",
+        "format": "El nombre solo puede contener letras y espacios."
+      },
+      "telefono": {
         "format": "El formato del teléfono no es válido. Use 8-15 dígitos (ej: 8095555555 o (809) 555-5555)."
       },
-      "message": {
+      "mensaje": {
         "required": "El mensaje es obligatorio.",
         "length": "El mensaje debe tener entre 10 y 500 caracteres."
       }

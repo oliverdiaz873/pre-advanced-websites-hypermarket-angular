@@ -161,19 +161,19 @@
       "success_toast": "✓ Message sent successfully!"
     },
     "validation": {
-      "name": {
-        "required": "Name is required.",
-        "length": "Name must be between 2 and 50 characters.",
-        "format": "Name can only contain letters and spaces."
-      },
       "email": {
         "required": "Email is required.",
         "format": "Email format is invalid."
       },
-      "phone": {
+      "nombre": {
+        "required": "Name is required.",
+        "length": "Name must be between 2 and 50 characters.",
+        "format": "Name can only contain letters and spaces."
+      },
+      "telefono": {
         "format": "Phone format is invalid. Use 8-15 digits (e.g., 8095555555 or (809) 555-5555)."
       },
-      "message": {
+      "mensaje": {
         "required": "Message is required.",
         "length": "Message must be between 10 and 500 characters."
       }

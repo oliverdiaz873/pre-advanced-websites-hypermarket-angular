@@ -1,7 +1,15 @@
+/**
+ * ContactPageComponent
+ *
+ * Smart component that renders the contact page layout.
+ * Composes the contact form and business info section.
+ * Toggles a dark theme body class on mount/destroy and delegates form
+ * submission feedback to ToastService.
+ */
 import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { ContactFormComponent } from './components/contact-form/contact-form.component';
+import { ContactFormComponent } from '../components/contact-form/contact-form.component';
 import { ToastService } from '@shared/components/toast/toast.service';
 
 @Component({

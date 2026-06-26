@@ -74,7 +74,7 @@ export const routes: Routes = [
       },
       {
         path: 'contact',
-        loadComponent: () => import('./features/contact/contact-page.component').then(m => m.ContactPageComponent),
+        loadComponent: () => import('./features/contact/contact-page/contact-page.component').then(m => m.ContactPageComponent),
         data: {
           seo: seo({
             title: 'Contacto',

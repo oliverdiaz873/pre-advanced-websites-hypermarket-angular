@@ -23,7 +23,7 @@ import { IconComponent } from '../icons/icons.component';
       position: fixed;
       top: 1rem;
       right: 1rem;
-      z-index: 100;
+      z-index: var(--z-toast);
       display: flex;
       align-items: center;
       gap: 0.75rem;

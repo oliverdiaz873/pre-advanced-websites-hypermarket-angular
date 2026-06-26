@@ -24,7 +24,7 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
   styles: [`
     .shell {
       min-height: 100vh;
-      background: #f9fafb;
+      background: var(--page-bg, #f9fafb);
       display: flex;
       flex-direction: column;
       align-items: center;

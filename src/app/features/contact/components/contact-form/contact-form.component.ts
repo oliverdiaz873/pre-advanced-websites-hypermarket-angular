@@ -44,6 +44,15 @@ export class ContactFormComponent {
 
   isSubmitting = false;
 
+  private readonly errorKeyMap: Record<string, string> = {
+    required: 'required',
+    minlength: 'length',
+    maxlength: 'length',
+    format: 'format',
+    alphabetic: 'format',
+    email: 'format'
+  };
+
   readonly form = this.fb.nonNullable.group({
     nombre: ['', [trimmedRequired(), Validators.minLength(2), Validators.maxLength(50), this.alphabeticValidator]],
     email: ['', [trimmedRequired(), this.emailValidator]],
@@ -55,15 +64,10 @@ export class ContactFormComponent {
     const control = this.form.get(field);
     if (!control || !control.errors || (!control.touched && !this.isSubmitting)) return '';
 
-    const errors = control.errors;
+    const errorType = Object.keys(control.errors).find(k => control.errors?.[k]);
+    const key = errorType ? this.errorKeyMap[errorType] : undefined;
 
-    if (errors['required']) return this.translate.instant(`contact.validation.${field}.required`);
-    if (errors['minlength'] || errors['maxlength']) return this.translate.instant(`contact.validation.${field}.length`);
-    if (errors['format']) return this.translate.instant(`contact.validation.${field}.format`);
-    if (errors['alphabetic']) return this.translate.instant('contact.validation.name.format');
-    if (errors['email']) return this.translate.instant('contact.validation.email.format');
-
-    return '';
+    return key ? this.translate.instant(`contact.validation.${field}.${key}`) : '';
   }
 
   submit(): void {
