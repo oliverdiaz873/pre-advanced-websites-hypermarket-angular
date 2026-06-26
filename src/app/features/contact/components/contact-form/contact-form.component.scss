@@ -1,0 +1,223 @@
+/* ===== CONTACT FORM STYLES ===== */
+
+.contacto-form {
+  width: 100%;
+}
+
+.contacto-form h1 {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.input-box {
+  width: 100%;
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.input-box label {
+  font-size: 0.96rem;
+  color: #fff;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.input-box input {
+  width: 100%;
+  height: 3rem;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  font-size: 1rem;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-box input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.input-box input:focus {
+  outline: none;
+  border-color: #ffcc00;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+.contacto-form textarea {
+  width: 100%;
+  height: 11rem;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  font-size: 1rem;
+  color: #fff;
+  padding: 1rem 1.25rem;
+  outline: none;
+  box-sizing: border-box;
+  resize: none;
+  overflow: auto;
+  scrollbar-width: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contacto-form textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.contacto-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contacto-form textarea:focus {
+  border-color: #ffcc00;
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+.input-box input.invalid-value,
+.contacto-form textarea.invalid-value {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+.input-box input:focus:not(.invalid-value),
+.contacto-form textarea:focus:not(.invalid-value) {
+  border-color: #51cf66;
+  box-shadow: 0 0 10px rgba(81, 207, 102, 0.3);
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
+  min-height: 1rem;
+  transition: all 0.3s ease;
+}
+
+.error-message:empty {
+  opacity: 0;
+}
+
+.error-message:not(:empty) {
+  opacity: 1;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.contacto-form button {
+  width: 100%;
+  height: 3rem;
+  background: #fff;
+  outline: none;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  color: #000;
+  font-size: 1.125rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contacto-form button:hover {
+  background: #ffcc00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 204, 0, 0.3);
+}
+
+.contacto-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (min-width: 768px) {
+  .contacto-form h1 {
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+  }
+
+  .input-box {
+    margin: 1.5rem 0;
+    gap: 0.5rem;
+  }
+
+  .input-box label {
+    font-size: 1.25rem;
+    margin-left: 0.625rem;
+  }
+
+  .input-box input {
+    height: 3rem;
+    border-radius: 40px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+  }
+
+  .contacto-form textarea {
+    height: 14rem;
+    border-radius: 1.25rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .contacto-form button {
+    height: 3rem;
+    border-radius: 40px;
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contacto-form h1 {
+    font-size: 1.9rem;
+  }
+
+  .contacto-form textarea {
+    height: 16rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .contacto-form button {
+    height: 2.75rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .contacto-form h1 {
+    font-size: 2rem;
+  }
+
+  .input-box label {
+    font-size: 1.1rem;
+  }
+
+  .contacto-form textarea {
+    height: 18rem;
+    padding: 1.5rem 2rem;
+  }
+}

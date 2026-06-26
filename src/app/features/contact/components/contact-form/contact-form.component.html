@@ -1,0 +1,78 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="contacto-form" novalidate>
+  <h1>{{ 'contact.form.title' | translate }}</h1>
+
+  <div class="input-box mb-5 md:mb-6">
+    <label for="nombre">{{ 'contact.form.labels.name' | translate }}</label>
+    <input
+      id="nombre"
+      formControlName="nombre"
+      type="text"
+      [placeholder]="'contact.form.placeholders.name' | translate"
+      [ngClass]="{ 'invalid-value': form.get('nombre')?.touched && form.get('nombre')?.invalid }"
+      required
+    />
+    @if (getFieldError('nombre')) {
+      <div class="error-message text-red-400 text-sm mt-1 ml-2 min-h-[16px]">
+        {{ getFieldError('nombre') }}
+      </div>
+    }
+  </div>
+
+  <div class="input-box mb-5 md:mb-6">
+    <label for="email">{{ 'contact.form.labels.email' | translate }}</label>
+    <input
+      id="email"
+      formControlName="email"
+      type="email"
+      [placeholder]="'contact.form.placeholders.email' | translate"
+      [ngClass]="{ 'invalid-value': form.get('email')?.touched && form.get('email')?.invalid }"
+      required
+    />
+    @if (getFieldError('email')) {
+      <div class="error-message text-red-400 text-sm mt-1 ml-2 min-h-[16px]">
+        {{ getFieldError('email') }}
+      </div>
+    }
+  </div>
+
+  <div class="input-box mb-5 md:mb-6">
+    <label for="telefono">{{ 'contact.form.labels.phone' | translate }}</label>
+    <input
+      id="telefono"
+      formControlName="telefono"
+      type="text"
+      [placeholder]="'contact.form.placeholders.phone' | translate"
+      [ngClass]="{ 'invalid-value': form.get('telefono')?.touched && form.get('telefono')?.invalid }"
+    />
+    @if (getFieldError('telefono')) {
+      <div class="error-message text-red-400 text-sm mt-1 ml-2 min-h-[16px]">
+        {{ getFieldError('telefono') }}
+      </div>
+    }
+  </div>
+
+  <div class="input-box mb-5 md:mb-6">
+    <label for="mensaje">{{ 'contact.form.labels.message' | translate }}</label>
+    <textarea
+      id="mensaje"
+      formControlName="mensaje"
+      rows="6"
+      [placeholder]="'contact.form.placeholders.message' | translate"
+      [ngClass]="{ 'invalid-value': form.get('mensaje')?.touched && form.get('mensaje')?.invalid }"
+      required
+    ></textarea>
+    @if (getFieldError('mensaje')) {
+      <div class="error-message text-red-400 text-sm mt-1 ml-2 min-h-[16px]">
+        {{ getFieldError('mensaje') }}
+      </div>
+    }
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="isSubmitting"
+    class="w-full"
+  >
+    {{ isSubmitting ? ('contact.form.buttons.submitting' | translate) : ('contact.form.buttons.submit' | translate) }}
+  </button>
+</form>
