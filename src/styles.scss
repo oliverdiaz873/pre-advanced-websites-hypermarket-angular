@@ -75,3 +75,8 @@ a {
   color: #ffffff !important;
   transition: background-color 0.5s ease;
 }
+
+:root {
+  --layout-max-width: 1400px;
+  --layout-padding-x: 20px;
+}

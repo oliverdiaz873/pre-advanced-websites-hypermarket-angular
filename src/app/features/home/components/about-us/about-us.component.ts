@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { getAssetUrl } from '@core/utils';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -7,96 +7,140 @@ import { TranslatePipe } from '@ngx-translate/core';
   selector: 'app-about-us',
   standalone: true,
   imports: [TranslatePipe],
-  template: `
-    <!-- Wrapper seguro: SIN TRANSFORMACIONES, overflow hidden -->
-    <div class="about-us-wrapper w-full overflow-hidden">
-      <!-- Sección animada: transformaciones aisladas -->
-      <section
-        #aboutSection
-        class="about-us-section w-full max-w-full mx-auto mt-10 mb-6 md:mt-9 md:mb-10 bg-black text-white py-5 rounded-[20px] overflow-hidden"
-      >
-        <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-10 lg:gap-16 py-4">
-          <img
-            [src]="getAssetUrl('assets/images/logo/logo-with-background.jpeg')"
-            [alt]="'home.about_us.logo_alt' | translate"
-            class="w-[180px] md:w-[250px] lg:w-[300px] h-auto rounded-[15px] shrink-0"
-          />
-          <div class="max-w-[600px] text-center md:text-left">
-            <h2 class="text-2xl md:text-3xl font-semibold mb-4">
-              {{ 'home.about_us.title' | translate }}
-            </h2>
-            <p class="text-base md:text-lg leading-relaxed">
-              {{ 'home.about_us.description' | translate }}
-            </p>
-          </div>
-        </div>
-      </section>
-    </div>
-  `,
-  styles: [`
-    .about-us-wrapper {
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .about-us-section {
-      transform-origin: center center;
-      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-      overflow: hidden;
-      max-width: 100%;
-      width: calc(100% - 40px);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .about-us-section {
-        transition: none !important;
-      }
-    }
-  `]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './about-us.component.html',
+  styleUrl: './about-us.component.scss',
 })
+/**
+ * AboutUsComponent
+ *
+ * Renders the "About Us" section with a logo image, title and description.
+ * On scroll, applies a scale+opacity animation (smooth interpolation via rAF)
+ * that mirrors the Framer Motion spring-driven animation in the Next.js version.
+ * Uses a manual scroll-driven progress calculation since Angular lacks a native
+ * scroll-linked animation framework.
+ */
 export class AboutUsComponent implements OnInit, OnDestroy {
   protected readonly getAssetUrl = getAssetUrl;
+  protected transformStyle = 'scale(1)';
+  protected opacity = 1;
+
+  @ViewChild('aboutSection', { static: true }) private sectionRef!: ElementRef<HTMLElement>;
+
   private isBrowser: boolean;
-  private isReducedMotion = false;
-  private scrollListener: (() => void) | null = null;
+  private isMobile = false;
+  private resizeTimer: ReturnType<typeof setTimeout> | null = null;
+  private rafId = 0;
+  private currentScale = 1;
+  private currentOpacity = 1;
+  private targetScale = 1;
+  private targetOpacity = 1;
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-    private elRef: ElementRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
-    this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!this.isReducedMotion) {
-      this.setupScrollListener();
-      this.handleScroll();
-    }
+    this.checkMobile();
+    this.updateTargets();
+    this.currentScale = this.targetScale;
+    this.currentOpacity = this.targetOpacity;
+    this.applyValues();
+    window.addEventListener('scroll', this.onScroll, { passive: true });
   }
 
-  private setupScrollListener(): void {
-    this.scrollListener = () => this.handleScroll();
-    window.addEventListener('scroll', this.scrollListener, { passive: true });
-  }
-
-  private handleScroll(): void {
-    const aboutSection = this.elRef.nativeElement.querySelector('.about-us-section') as HTMLElement;
-    if (!aboutSection) return;
-
-    const rect = aboutSection.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-
-    const scrollProgress = Math.max(0, Math.min(1, 1 - (rect.bottom / (viewportHeight + rect.height))));
-
-    aboutSection.style.transform = `translateY(${(1 - scrollProgress) * 8}px)`;
-    aboutSection.style.opacity = `${0.9 + scrollProgress * 0.1}`;
+  @HostListener('window:resize')
+  protected onResize(): void {
+    if (!this.isBrowser) return;
+    if (this.resizeTimer) clearTimeout(this.resizeTimer);
+    this.resizeTimer = setTimeout(() => {
+      this.checkMobile();
+      this.updateTargets();
+      this.smooth();
+    }, 150);
   }
 
   ngOnDestroy(): void {
-    if (this.scrollListener && this.isBrowser) {
-      window.removeEventListener('scroll', this.scrollListener);
+    cancelAnimationFrame(this.rafId);
+    if (this.isBrowser) {
+      window.removeEventListener('scroll', this.onScroll);
+    }
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
     }
   }
+
+  private checkMobile(): void {
+    this.isMobile = window.innerWidth <= 767.98;
+  }
+
+  private updateTargets(): void {
+    const rect = this.sectionRef.nativeElement.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const height = rect.height;
+
+    let progress: number;
+
+    if (this.isMobile) {
+      const startTop = 0.9 * vh;
+      const endTop = 0.35 * vh;
+      const totalDist = startTop - endTop;
+      progress = totalDist > 0 ? (startTop - rect.top) / totalDist : 0;
+    } else {
+      const startTop = 1.02 * vh;
+      const endTop = 0.6 * vh - height / 2;
+      const totalDist = startTop - endTop;
+      progress = totalDist > 0 ? (startTop - rect.top) / totalDist : 0;
+    }
+
+    progress = Math.max(0, Math.min(1, progress));
+
+    if (this.isMobile) {
+      this.targetScale = 0.88 + progress * 0.12;
+      this.targetOpacity = Math.min(1, 0.82 + progress / 0.4 * 0.18);
+    } else {
+      this.targetScale = progress;
+      this.targetOpacity = 1;
+    }
+  }
+
+  private applyValues(): void {
+    this.transformStyle = `scale(${this.currentScale})`;
+    this.opacity = this.currentOpacity;
+    this.cdr.markForCheck();
+  }
+
+  private smooth(): void {
+    cancelAnimationFrame(this.rafId);
+
+    const step = () => {
+      this.currentScale += (this.targetScale - this.currentScale) * 0.12;
+      this.currentOpacity += (this.targetOpacity - this.currentOpacity) * 0.12;
+
+      const nearScale = Math.abs(this.currentScale - this.targetScale) < 0.001;
+      const nearOpacity = Math.abs(this.currentOpacity - this.targetOpacity) < 0.001;
+
+      if (nearScale && nearOpacity) {
+        this.currentScale = this.targetScale;
+        this.currentOpacity = this.targetOpacity;
+      }
+
+      this.applyValues();
+
+      if (!nearScale || !nearOpacity) {
+        this.rafId = requestAnimationFrame(step);
+      }
+    };
+
+    step();
+  }
+
+  private readonly onScroll = (): void => {
+    this.updateTargets();
+    this.smooth();
+  };
 }
