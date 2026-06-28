@@ -13,6 +13,8 @@ export class ScrollAnimateDirective implements OnInit, OnDestroy {
   @Input() scrollDelay = 0;
   @Input() scrollThreshold = 0.15;
   @Input() scrollMargin = '0px';
+  @Input() scrollY = 40;
+  @Input() scrollDuration = 0.6;
 
   private el = inject(ElementRef<HTMLElement>);
   private observer: IntersectionObserver | null = null;
@@ -27,12 +29,12 @@ export class ScrollAnimateDirective implements OnInit, OnDestroy {
 
     const element = this.el.nativeElement;
     element.style.opacity = '0';
-    element.style.transition = `opacity 0.6s ${EASING_CURVE}, transform 0.6s ${EASING_CURVE}`;
+    element.style.transition = `opacity ${this.scrollDuration}s ${EASING_CURVE}, transform ${this.scrollDuration}s ${EASING_CURVE}`;
     element.style.transitionDelay = `${this.scrollDelay}ms`;
 
     switch (this.scrollAnimation) {
       case 'fade-up':
-        element.style.transform = 'translateY(40px)';
+        element.style.transform = `translateY(${this.scrollY}px)`;
         break;
       case 'fade-scale':
         element.style.transform = 'scale(0.9)';

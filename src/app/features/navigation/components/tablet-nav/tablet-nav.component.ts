@@ -1,8 +1,9 @@
-import { Component, ViewChild, ElementRef, inject, HostListener, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef, inject, Renderer2, effect, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { categories } from '../../../../data/categories.data';
+import { ViewportService } from '@core/services/viewport.service';
 
 @Component({
   selector: 'app-tablet-nav',
@@ -15,10 +16,19 @@ export class TabletNavComponent {
   @ViewChild('navRef', { read: ElementRef }) private navRef!: ElementRef;
 
   private renderer = inject(Renderer2);
+  private viewportService = inject(ViewportService);
   protected categories = categories;
 
+  constructor() {
+    effect(() => {
+      if (this.viewportService.viewportMode() !== 'tablet' && this.navRef) {
+        this.closeAllSubmenus();
+      }
+    });
+  }
+
   private isTablet(): boolean {
-    return window.innerWidth >= 768 && window.innerWidth <= 1199;
+    return this.viewportService.viewportMode() === 'tablet';
   }
 
   private getDirectSubmenu(element: Element | null): HTMLUListElement | null {
@@ -94,10 +104,4 @@ export class TabletNavComponent {
     }
   }
 
-  @HostListener('window:resize')
-  onResize(): void {
-    if (this.navRef && !this.isTablet()) {
-      this.closeAllSubmenus();
-    }
-  }
 }

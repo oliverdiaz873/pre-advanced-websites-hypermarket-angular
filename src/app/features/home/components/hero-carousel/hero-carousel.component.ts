@@ -1,5 +1,6 @@
-import { Component, HostListener, OnDestroy, signal } from '@angular/core';
+import { Component, OnDestroy, signal, computed, inject, Signal } from '@angular/core';
 import { getAssetUrl } from '@core/utils';
+import { ViewportService } from '@core/services/viewport.service';
 
 interface Banner {
   id: number;
@@ -180,30 +181,20 @@ const BANNERS: Banner[] = [
 export class HeroCarouselComponent implements OnDestroy {
   protected readonly banners = BANNERS;
   protected readonly currentIndex = signal(0);
-  protected readonly isMobile = signal(false);
-  protected readonly showControls = signal(false);
+  protected readonly isMobile: Signal<boolean>;
+  protected readonly showControls: Signal<boolean>;
   protected readonly paused = signal(false);
   protected readonly getAssetUrl = getAssetUrl;
 
+  private readonly viewportService = inject(ViewportService);
   private touchStartX = 0;
   private touchEndX = 0;
   private autoSlideTimer: ReturnType<typeof setInterval> | null = null;
-  private resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
-    this.checkMobile();
+    this.isMobile = this.viewportService.isBelow(640);
+    this.showControls = computed(() => !this.viewportService.isBelow(1024)());
     this.startAutoSlide();
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    if (this.resizeTimer) clearTimeout(this.resizeTimer);
-    this.resizeTimer = setTimeout(() => this.checkMobile(), 150);
-  }
-
-  private checkMobile(): void {
-    this.isMobile.set(window.innerWidth < 640);
-    this.showControls.set(window.innerWidth >= 1024);
   }
 
   private startAutoSlide(): void {
@@ -244,6 +235,5 @@ export class HeroCarouselComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     if (this.autoSlideTimer) clearInterval(this.autoSlideTimer);
-    if (this.resizeTimer) clearTimeout(this.resizeTimer);
   }
 }

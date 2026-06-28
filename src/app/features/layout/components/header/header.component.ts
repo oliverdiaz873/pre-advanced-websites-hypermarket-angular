@@ -8,9 +8,8 @@ import { CartService } from '@features/cart/services/cart.service';
 import { HeaderSearchComponent } from '../../../search/components/header-search/header-search.component';
 import { LanguageSelectorComponent } from '../../../../shared/components/language-selector/language-selector.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, fromEvent, map, startWith, debounceTime } from 'rxjs';
-
-type ViewportMode = 'mobile' | 'tablet' | 'desktop';
+import { filter } from 'rxjs';
+import { ViewportService } from '@core/services/viewport.service';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +28,7 @@ export class HeaderComponent {
   protected cartService = inject(CartService);
   protected isHomePage = signal(false);
   protected isSearchActive = signal(false);
-  protected viewportMode = signal<ViewportMode>('desktop');
+  protected viewportMode = inject(ViewportService).viewportMode;
 
   protected showBrand = computed(
     () => this.viewportMode() !== 'mobile' || !this.isSearchActive()
@@ -48,20 +47,6 @@ export class HeaderComponent {
       filter(e => e instanceof NavigationEnd),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(() => this.updateHomePage());
-
-    fromEvent(window, 'resize').pipe(
-      debounceTime(150),
-      startWith(null),
-      map(() => this.getViewportMode()),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe(mode => this.viewportMode.set(mode));
-  }
-
-  private getViewportMode(): ViewportMode {
-    const width = window.innerWidth;
-    if (width < 768) return 'mobile';
-    if (width < 1200) return 'tablet';
-    return 'desktop';
   }
 
   private updateHomePage() {

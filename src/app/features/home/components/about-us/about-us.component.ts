@@ -1,7 +1,7 @@
-import { Component, ViewChild, ElementRef, HostListener, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, ViewChild, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, inject, effect } from '@angular/core';
 import { getAssetUrl } from '@core/utils';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ViewportService } from '@core/services/viewport.service';
 
 @Component({
   selector: 'app-about-us',
@@ -27,25 +27,25 @@ export class AboutUsComponent implements OnInit, OnDestroy {
 
   @ViewChild('aboutSection', { static: true }) private sectionRef!: ElementRef<HTMLElement>;
 
-  private isBrowser: boolean;
-  private isMobile = false;
-  private resizeTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly viewportService = inject(ViewportService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private rafId = 0;
   private currentScale = 1;
   private currentOpacity = 1;
   private targetScale = 1;
   private targetOpacity = 1;
 
-  constructor(
-    @Inject(PLATFORM_ID) platformId: Object,
-    private cdr: ChangeDetectorRef,
-  ) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  constructor() {
+    effect(() => {
+      this.viewportService.isMobile();
+      if (this.sectionRef) {
+        this.updateTargets();
+        this.smooth();
+      }
+    });
   }
 
   ngOnInit(): void {
-    if (!this.isBrowser) return;
-    this.checkMobile();
     this.updateTargets();
     this.currentScale = this.targetScale;
     this.currentOpacity = this.targetOpacity;
@@ -53,29 +53,13 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     window.addEventListener('scroll', this.onScroll, { passive: true });
   }
 
-  @HostListener('window:resize')
-  protected onResize(): void {
-    if (!this.isBrowser) return;
-    if (this.resizeTimer) clearTimeout(this.resizeTimer);
-    this.resizeTimer = setTimeout(() => {
-      this.checkMobile();
-      this.updateTargets();
-      this.smooth();
-    }, 150);
-  }
-
   ngOnDestroy(): void {
     cancelAnimationFrame(this.rafId);
-    if (this.isBrowser) {
-      window.removeEventListener('scroll', this.onScroll);
-    }
-    if (this.resizeTimer) {
-      clearTimeout(this.resizeTimer);
-    }
+    window.removeEventListener('scroll', this.onScroll);
   }
 
-  private checkMobile(): void {
-    this.isMobile = window.innerWidth <= 767.98;
+  private get isMobile(): boolean {
+    return this.viewportService.isMobile();
   }
 
   private updateTargets(): void {
