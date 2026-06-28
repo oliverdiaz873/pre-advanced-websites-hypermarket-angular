@@ -63,6 +63,13 @@ import { containerVariants, VIEWPORT_CONFIG } from '../category-banner/category-
     :host {
       display: block;
     }
+
+    @media (min-width: 1024px) {
+      :host {
+        margin-inline: calc(var(--layout-padding-x) * -1);
+        width: calc(100% + var(--layout-padding-x) * 2);
+      }
+    }
   `]
 })
 export class CategoryBannersSectionComponent {
