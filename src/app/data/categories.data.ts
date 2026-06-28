@@ -93,6 +93,10 @@ export const categories: Category[] = [
     },
 ];
 
+/**
+ * Metadata list defining colour mappings, assets, routing, and translation
+ * keys for the 8 featured category banners displayed on the home page.
+ */
 export const CATEGORY_DATA: CategoryBannerData[] = [
     {
         id: 'alimentos',
