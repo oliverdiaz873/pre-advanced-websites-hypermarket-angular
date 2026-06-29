@@ -1,0 +1,63 @@
+<!-- Sección principal del carrusel hero -->
+<section class="hero-carousel-section">
+  <div
+    class="hero-carousel-container relative overflow-hidden rounded-[20px] bg-neutral-900 w-full mx-auto mt-0"
+    (touchstart)="handleTouchStart($event)"
+    (touchmove)="handleTouchMove($event)"
+    (touchend)="handleTouchEnd()"
+  >
+    <!-- Wrapper de slides: se desplaza horizontalmente con transición de 700ms -->
+    <div
+      class="hero-slides-wrapper flex transition-transform duration-700 ease-in-out h-full"
+      [style.transform]="'translateX(-' + currentIndex() * 100 + '%)'"
+    >
+      @for (banner of banners; track banner.id) {
+        <div class="banner w-full h-full flex-shrink-0">
+          <img
+            [src]="getAssetUrl(isMobile() ? banner.mobileImage : banner.desktopImage)"
+            [alt]="banner.altKey | translate"
+            class="w-full h-full object-cover select-none"
+            draggable="false"
+            [attr.fetchpriority]="banner.id === 1 ? 'high' : null"
+          />
+        </div>
+      }
+    </div>
+
+    <!-- Control Anterior - Oculto en mobile/tablet (< 1024px) -->
+    <button
+      (click)="prevSlide()"
+      class="hero-control-prev absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-black/40 text-white rounded-full items-center justify-center hover:bg-black/70 transition-all hidden lg:flex"
+      [class.opacity-0]="!showControls()"
+      [attr.aria-label]="'home.hero.prev' | translate"
+    >
+      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Control Siguiente - Oculto en mobile/tablet (< 1024px) -->
+    <button
+      (click)="nextSlide()"
+      class="hero-control-next absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-black/40 text-white rounded-full items-center justify-center hover:bg-black/70 transition-all hidden lg:flex"
+      [class.opacity-0]="!showControls()"
+      [attr.aria-label]="'home.hero.next' | translate"
+    >
+      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <!-- Indicadores (dots) - Visibles en todos los tamaños de pantalla -->
+    <div class="hero-indicators absolute bottom-4 left-1/2 -translate-x-1/2 gap-2 z-10 flex">
+      @for (banner of banners; track banner.id; let i = $index) {
+        <button
+          (click)="goToSlide(i)"
+          class="indicator-dot rounded-full transition-all duration-300"
+          [class.is-active]="currentIndex() === i"
+          [attr.aria-label]="('home.hero.go_to' | translate: { index: i + 1 })"
+        ></button>
+      }
+    </div>
+  </div>
+</section>
