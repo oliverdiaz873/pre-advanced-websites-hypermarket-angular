@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs/operators';
 import { HeaderComponent } from '../../features/layout/components/header/header.component';
 import { FooterComponent } from '../../features/layout/components/footer/footer.component';
 import { ToastComponent } from '../../shared/components/toast/toast.component';
@@ -13,7 +15,7 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
     <div class="shell">
       <app-header></app-header>
       <div class="h-[60px] xl:h-[85px]"></div>
-      <main class="main-content">
+      <main class="main-content" [class.is-home]="isHome()">
         <router-outlet></router-outlet>
       </main>
       <app-footer></app-footer>
@@ -32,11 +34,25 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
 
     .main-content {
       width: 100%;
-      max-width: var(--layout-max-width);
       margin-inline: auto;
-      padding-inline: var(--layout-padding-x);
       padding-bottom: 4rem;
+    }
+
+    .main-content:not(.is-home) {
+      max-width: var(--layout-max-width);
+      padding-inline: var(--layout-padding-x);
     }
   `]
 })
-export class ShopLayoutComponent {}
+export class ShopLayoutComponent {
+  private readonly router = inject(Router);
+
+  readonly isHome = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map(e => e.urlAfterRedirects === '/' || e.url === '/'),
+      startWith(this.router.url === '/')
+    ),
+    { initialValue: false }
+  );
+}
