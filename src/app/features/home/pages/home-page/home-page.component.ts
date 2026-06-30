@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { products } from '@data/index';
 import { offerProducts } from '@features/offers';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
-import { HeroCarouselComponent } from './components/hero-carousel/hero-carousel.component';
-import { CategoryBannersSectionComponent } from './components/category-banners-section/category-banners-section.component';
-import { AboutUsComponent } from './components/about-us/about-us.component';
+import { HeroCarouselComponent } from '../../components/hero-carousel/hero-carousel.component';
+import { CategoryBannersSectionComponent } from '../../components/category-banners-section/category-banners-section.component';
+import { AboutUsComponent } from '../../components/about-us/about-us.component';
 
 const FEATURED_IDS = [
   'televisor_samsung_75_pulgadas',
@@ -20,20 +20,8 @@ const FEATURED_IDS = [
   selector: 'app-home-page',
   standalone: true,
   imports: [ProductCarouselSectionComponent, HeroCarouselComponent, CategoryBannersSectionComponent, AboutUsComponent],
-  template: `
-    <app-hero-carousel></app-hero-carousel>
-
-    <app-product-carousel-section title="Ofertas destacadas" [products]="offers"></app-product-carousel-section>
-
-    <app-product-carousel-section title="Productos destacados" [products]="featured" class="mt-6 md:mt-8"></app-product-carousel-section>
-
-    <app-category-banners-section></app-category-banners-section>
-
-    <app-about-us></app-about-us>
-  `,
-  styles: [`
-    :host { display: grid; gap: 2rem; }
-  `],
+  templateUrl: './home-page.component.html',
+  styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePageComponent {

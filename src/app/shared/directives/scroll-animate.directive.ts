@@ -11,7 +11,7 @@ const EASING_CURVE = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 export class ScrollAnimateDirective implements OnInit, OnDestroy {
   @Input() scrollAnimation: 'fade-up' | 'fade-scale' | 'slide-left' | 'slide-right' = 'fade-up';
   @Input() scrollDelay = 0;
-  @Input() scrollThreshold = 0.15;
+  @Input() scrollThreshold = 0;
   @Input() scrollMargin = '0px';
   @Input() scrollY = 40;
   @Input() scrollDuration = 0.6;

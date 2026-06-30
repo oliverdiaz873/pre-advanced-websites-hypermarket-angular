@@ -11,7 +11,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./features/home/home-page.component').then(m => m.HomePageComponent),
+        loadComponent: () => import('./features/home/pages/home-page/home-page.component').then(m => m.HomePageComponent),
         data: {
           seo: seo({
             title: 'Hipermercado online',
