@@ -35,12 +35,18 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
     .main-content {
       width: 100%;
       margin-inline: auto;
-      padding-bottom: 4rem;
+      padding-bottom: 1rem;
     }
 
     .main-content:not(.is-home) {
       max-width: var(--layout-max-width);
       padding-inline: var(--layout-padding-x);
+    }
+
+    @media (min-width: 768px) {
+      .main-content {
+        padding-bottom: 2rem;
+      }
     }
   `]
 })

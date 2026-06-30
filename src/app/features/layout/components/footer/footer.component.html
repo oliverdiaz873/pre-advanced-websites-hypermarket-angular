@@ -1,0 +1,33 @@
+<footer class="footer-global">
+  <div class="footer-content">
+    <small>&copy; {{ currentYear }} {{ 'footer.company_name' | translate }}. {{ 'footer.rights_reserved' | translate }}</small>
+
+    <div class="social-icons">
+      <a href="#" target="_blank" rel="nofollow noopener noreferrer"
+         [attr.aria-label]="'footer.social.facebook' | translate"
+         class="social-link" title="Facebook">
+        <app-icon name="facebook" className="w-6 h-6 md:w-7 md:h-7"></app-icon>
+      </a>
+      <a href="#" target="_blank" rel="nofollow noopener noreferrer"
+         [attr.aria-label]="'footer.social.x' | translate"
+         class="social-link" title="X (Twitter)">
+        <app-icon name="x-twitter" className="w-6 h-6 md:w-7 md:h-7"></app-icon>
+      </a>
+      <a href="#" target="_blank" rel="nofollow noopener noreferrer"
+         [attr.aria-label]="'footer.social.instagram' | translate"
+         class="social-link" title="Instagram">
+        <app-icon name="instagram" className="w-6 h-6 md:w-7 md:h-7"></app-icon>
+      </a>
+    </div>
+
+    <div class="footer-links">
+      <a routerLink="/legal/privacy" [title]="'footer.links.privacy' | translate">
+        {{ 'footer.links.privacy' | translate }}
+      </a>
+      <span class="separator">|</span>
+      <a routerLink="/legal/terms" [title]="'footer.links.terms' | translate">
+        {{ 'footer.links.terms' | translate }}
+      </a>
+    </div>
+  </div>
+</footer>
