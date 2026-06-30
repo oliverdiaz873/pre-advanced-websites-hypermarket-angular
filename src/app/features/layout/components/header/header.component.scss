@@ -1,3 +1,4 @@
+/* Header main container — fixed, responsive shell */
 .app-header {
   position: fixed;
   top: 0;
@@ -12,6 +13,7 @@
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
+/* Desktop floating variant (xl breakpoint) */
 @media (min-width: 1280px) {
   .app-header {
     top: 10px;
@@ -115,65 +117,17 @@
   object-fit: contain;
 }
 
+/* Brand typography — design system token */
 .brand-title {
-  font-size: 1rem;
+  font-family: var(--font-family-brand);
+  font-size: 15px;
   font-weight: 700;
+  letter-spacing: 0.5px;
   white-space: nowrap;
   margin: 0;
 }
 
-.cart-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1.25rem;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: transparent;
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.875rem;
-  text-decoration: none;
-  border-radius: 0.5rem;
-  transition: background 200ms, border-color 200ms;
-  cursor: pointer;
-  user-select: none;
-}
-
-.cart-btn:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.3);
-}
-
-.cart-icon-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cart-badge {
-  position: absolute;
-  top: -0.875rem;
-  right: -0.875rem;
-  display: flex;
-  height: 1.25rem;
-  width: 1.25rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: #ef4444;
-  font-size: 0.625rem;
-  font-weight: 900;
-  color: #fff;
-  box-shadow: 0 0 0 2px rgba(0,0,0,0.8);
-}
-
-.cart-label { display: none; }
-
-@media (min-width: 640px) {
-  .cart-label { display: inline; }
-}
-
+/* Mobile navigation wrapper visibility */
 .mobile-nav-wrapper { display: block; }
 
 @media (min-width: 768px) {
