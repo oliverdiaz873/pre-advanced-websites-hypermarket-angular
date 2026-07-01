@@ -1,0 +1,80 @@
+.politica-container {
+  max-width: 900px;
+  margin: 40px auto 60px auto;
+  background-color: #1a1a1c;
+  padding: 30px;
+  border-radius: 20px;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+  font-size: 32px;
+  margin-top: 0;
+  padding-top: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+:host ::ng-deep h2 {
+  margin-top: 25px;
+  color: #fbbf24;
+  text-align: left;
+  font-weight: 500;
+}
+
+:host ::ng-deep ul {
+  margin: 10px 0 20px 20px;
+  line-height: 1.7;
+}
+
+.politica-container > p:first-of-type {
+  font-weight: 600;
+  font-size: 18px;
+  color: #f3f4f6;
+}
+
+:host ::ng-deep p {
+  font-size: 18px;
+  text-align: left;
+  line-height: 1.7;
+  color: #e5e7eb;
+}
+
+@media (max-width: 768px) {
+  .politica-container {
+    padding: 20px;
+    margin: 10px auto 40px auto;
+    width: 95%;
+    border-radius: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+    color: #fbbf24;
+  }
+
+  :host ::ng-deep h2 {
+    font-size: 20px;
+    color: #fbbf24;
+  }
+
+  :host ::ng-deep p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #e5e7eb;
+  }
+
+  .politica-container > p:first-of-type {
+    font-size: 16px;
+    color: #f3f4f6;
+  }
+
+  :host ::ng-deep ul {
+    margin: 10px 0 20px 15px;
+    font-size: 16px;
+  }
+}
