@@ -11,7 +11,7 @@ import { OfferFiltersService } from './services/offer-filters.service';
   imports: [DrawerComponent, ProductGridComponent, OfferFiltersComponent, EmptyOffersComponent],
   template: `
     <div class="offers-page-wrapper">
-      <section class="pt-1 pb-8 min-h-[60vh] flex flex-col">
+      <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">
         <div class="offers-header-container flex items-center justify-between gap-4">
           <h1 class="offers-header__title flex items-center gap-1">
             <svg class="offers-header__icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">

@@ -40,7 +40,6 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
 
     .main-content:not(.is-home) {
       max-width: var(--layout-max-width);
-      padding-inline: var(--layout-padding-x);
     }
 
     @media (min-width: 768px) {
