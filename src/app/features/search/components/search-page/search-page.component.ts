@@ -34,7 +34,7 @@ export class SearchPageComponent {
     return {
       ...p,
       oldPrice: offer.oldPrice,
-      badgeText: discount > 0 ? `-${discount}%` : undefined
+      discountPercentage: discount > 0 ? discount : undefined
     };
   });
 

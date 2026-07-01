@@ -1,6 +1,6 @@
 <article [class.offer-card]="isOffer" class="producto product-card block shrink-0 snap-start">
-  @if (badgeText) {
-    <app-offer-badge class="offer-badge-slot" [text]="badgeText"></app-offer-badge>
+  @if (discountPercentage) {
+    <app-offer-badge class="offer-badge-slot" [discountPercentage]="discountPercentage"></app-offer-badge>
   }
 
   <a [routerLink]="['/product', product.id]"

@@ -3,7 +3,7 @@
     <div class="cart-item__image-container">
       @if (isOffer) {
         <div class="cart-item__badge-wrapper">
-          <app-offer-badge [text]="getDiscountText()"></app-offer-badge>
+          <app-offer-badge [discountPercentage]="discountPercentage"></app-offer-badge>
         </div>
       }
       <img [src]="getImageUrl(item.imagen)" [alt]="(item.productId | productTranslate:item.nombre)" width="100" height="100" loading="lazy" class="cart-item__image" />

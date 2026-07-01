@@ -1,0 +1,60 @@
+/* Estilos para el Badge de Oferta con estética de fuego */
+
+/* ==========================================================================
+   OFFER BADGE - Badge visual para resaltar productos en oferta
+   ========================================================================== */
+.offer-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px 3px 11px;
+
+    /* Gradiente vibrante de fuego */
+    background: linear-gradient(135deg, #ff6b35 0%, hsl(33, 100%, 50%) 100%);
+    color: white;
+    border-radius: 15px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    /* Más padding a la izquierda para el fuego */
+
+    pointer-events: none;
+    user-select: none;
+}
+
+.offer-badge__icon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: -8px;
+    top: -6px;
+    z-index: 15;
+    /* Usar clase genérica .icon-fire para el estilo del fuego incluyendo el efecto amarillo y rojo */
+}
+
+.offer-badge__text {
+    line-height: 1;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsividad: badge ligeramente más grande en desktop */
+@media (min-width: 768px) {
+
+    /* Badge de oferta en desktop */
+    .offer-badge {
+        padding: 4px 10px 4px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    /* Icono de fuego en desktop */
+    .offer-badge__icon {
+        width: 24px;
+        height: 24px;
+        left: -10px;
+        top: -6px;
+    }
+}

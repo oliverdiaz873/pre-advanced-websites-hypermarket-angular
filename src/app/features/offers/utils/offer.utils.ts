@@ -35,7 +35,7 @@ export const offerProducts = (): ProductUI[] => offersData
     return {
       ...product,
       oldPrice: offer.oldPrice,
-      badgeText: discount > 0 ? `-${discount}%` : 'Oferta'
+      discountPercentage: discount > 0 ? discount : undefined
     } satisfies ProductUI;
   })
   .filter(Boolean) as ProductUI[];

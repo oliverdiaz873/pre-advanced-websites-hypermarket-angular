@@ -19,7 +19,7 @@ import { OfferBadgeComponent } from '../offer-badge/offer-badge.component';
 export class ProductCardComponent {
   @Input() product!: ProductUI;
   @Input() oldPrice?: string;
-  @Input() badgeText?: string;
+  @Input() discountPercentage?: number;
 
   public readonly cleanPrice = cleanPrice;
   public readonly getAssetUrl = getAssetUrl;

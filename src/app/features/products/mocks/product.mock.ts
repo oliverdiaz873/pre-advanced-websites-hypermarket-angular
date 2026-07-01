@@ -21,7 +21,7 @@ export const MOCK_PRODUCTS: ProductUI[] = [
         imagen: "/assets/images/productos/alimentos/bebidas/refresco/coca-cola-zero.avif",
         unidad: "2 Litros",
         oldPrice: "Precio: $100 / 2 Litros",
-        badgeText: "20% OFF"
+        discountPercentage: 20
     },
     {
         id: "country_club_frambuesa",
@@ -43,6 +43,6 @@ export const MOCK_PRODUCTS: ProductUI[] = [
         imagen: "/assets/images/productos/alimentos/bebidas/refresco/country-club-uva.avif",
         unidad: "2 Litros",
         oldPrice: "Precio: $90 / 2 Litros",
-        badgeText: "Oferta"
+        discountPercentage: 22
     }
 ];
