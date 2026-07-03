@@ -1,7 +1,7 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductTranslatePipe } from '../../pipes/product-translate.pipe';
 import { AddToCartButtonComponent } from '../../../cart/components/add-to-cart-button/add-to-cart-button.component';
@@ -17,6 +17,8 @@ import { OfferBadgeComponent } from '../offer-badge/offer-badge.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCardComponent {
+  private translate = inject(TranslateService);
+
   @Input() product!: ProductUI;
   @Input() oldPrice?: string;
   @Input() discountPercentage?: number;
@@ -27,5 +29,12 @@ export class ProductCardComponent {
 
   public get isOffer(): boolean {
     return !!this.oldPrice;
+  }
+
+  getUnitLabel(product: ProductUI): string {
+    const label = unitLabel(product);
+    const key = `common.units.${label}`;
+    const translated = this.translate.instant(key);
+    return translated !== key ? translated : label;
   }
 }

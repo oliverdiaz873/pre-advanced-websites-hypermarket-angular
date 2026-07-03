@@ -22,7 +22,7 @@
       }
     </div>
     <p class="producto-unit-format">
-      ${{ product.precio.toLocaleString() }} / {{ 'common.units.' + unitLabel(product) | translate }}
+      ${{ product.precio.toLocaleString() }} / {{ getUnitLabel(product) }}
     </p>
   </div>
 

@@ -13,3 +13,32 @@
         gap: 16px;
     }
 }
+
+.offers-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px !important;
+    width: 100%;
+    --card-width: 160px;
+    --card-padding: 12px;
+}
+
+@media (min-width: 768px) {
+    .offers-grid {
+        gap: 20px !important;
+        --card-width: 220px;
+        --card-padding: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .offers-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1280px) {
+    .offers-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

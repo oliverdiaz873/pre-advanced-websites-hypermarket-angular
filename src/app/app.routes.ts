@@ -56,7 +56,7 @@ export const routes: Routes = [
       },
       {
         path: 'offers',
-        loadComponent: () => import('./features/offers/offers-page.component').then(m => m.OffersPageComponent),
+        loadComponent: () => import('./features/offers/offers-page/offers-page.component').then(m => m.OffersPageComponent),
         data: {
           seo: seo({
             title: 'Ofertas',
