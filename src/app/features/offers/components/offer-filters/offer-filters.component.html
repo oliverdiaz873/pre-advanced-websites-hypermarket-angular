@@ -1,0 +1,28 @@
+<div class="offer-filters" [class.offer-filters--drawer]="isDrawer">
+  @if (!isDrawer) {
+    <div class="offer-filters__header">
+      <h2 class="offer-filters__title">{{ 'offers.filters.title' | translate }}</h2>
+      <div class="offer-filters__badge">{{ service.filteredProducts().length }} / {{ service.offers.length }}</div>
+    </div>
+  }
+
+  <div class="offer-filters__section">
+    <label class="offer-filters__option" [class.is-active]="service.selectedCategory() === 'all'">
+      <input type="radio" id="category-all" name="category" value="all" [checked]="service.selectedCategory() === 'all'" (change)="onCategorySelect('all')" class="offer-filters__radio" />
+      <span class="offer-filters__indicator is-active-target"></span>
+      <span class="offer-filters__label">{{ 'offers.filters.all_categories' | translate }}</span>
+    </label>
+
+    @for (cat of service.categories(); track cat.id) {
+      <label class="offer-filters__option" [class.is-active]="service.selectedCategory() === cat.id">
+        <input type="radio" [id]="'category-' + cat.id" name="category" [value]="cat.id" [checked]="service.selectedCategory() === cat.id" (change)="onCategorySelect(cat.id)" class="offer-filters__radio" />
+        <span class="offer-filters__indicator is-active-target"></span>
+        <span class="offer-filters__label">{{ 'categories.' + cat.id | translate }}</span>
+      </label>
+    }
+  </div>
+
+  @if (!isDrawer) {
+    <div class="offer-filters__info" [innerHTML]="'offers.filters.info' | translate:{ filtered: service.filteredProducts().length, total: service.offers.length }"></div>
+  }
+</div>

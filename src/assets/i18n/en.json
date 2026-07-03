@@ -428,7 +428,7 @@
     "filters": {
       "title": "Filters",
       "all_categories": "All Categories",
-      "info": "Showing <strong>{filtered}</strong> of <strong>{total}</strong> active offers",
+      "info": "Showing <strong>{{filtered}}</strong> of <strong>{{total}}</strong> active offers",
       "drawer_btn_one": "View 1 result",
       "drawer_btn_other": "View {count} results"
     },

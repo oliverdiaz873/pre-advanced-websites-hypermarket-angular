@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { DrawerComponent } from '@shared/components/drawer/drawer.component';
 import { ProductGridComponent } from '@features/products/components/product-grid/product-grid.component';
 import { OfferFiltersComponent } from './components/offer-filters/offer-filters.component';
@@ -8,7 +9,7 @@ import { OfferFiltersService } from './services/offer-filters.service';
 @Component({
   selector: 'app-offers-page',
   standalone: true,
-  imports: [DrawerComponent, ProductGridComponent, OfferFiltersComponent, EmptyOffersComponent],
+  imports: [TranslatePipe, DrawerComponent, ProductGridComponent, OfferFiltersComponent, EmptyOffersComponent],
   template: `
     <div class="offers-page-wrapper">
       <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">
@@ -17,7 +18,7 @@ import { OfferFiltersService } from './services/offer-filters.service';
             <svg class="offers-header__icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
               <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"/>
             </svg>
-            Ofertas
+            {{ 'offers.header.title' | translate }}
           </h1>
           <button
             type="button"
@@ -31,9 +32,9 @@ import { OfferFiltersService } from './services/offer-filters.service';
               <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/>
               <line x1="17" y1="16" x2="23" y2="16"/>
             </svg>
-            Filtros
+            {{ 'offers.header.filter_btn' | translate }}
             @if (filtersService.selectedCategory() !== 'all') {
-              <span class="offers-mobile-filters-active-chip">{{ selectedCategoryName() }}</span>
+              <span class="offers-mobile-filters-active-chip">{{ 'categories.' + filtersService.selectedCategory() | translate }}</span>
             }
           </button>
         </div>
@@ -44,8 +45,8 @@ import { OfferFiltersService } from './services/offer-filters.service';
           </aside>
 
           <div class="flex flex-col">
-            @if (filteredProducts().length > 0) {
-              <app-product-grid [products]="filteredProducts()"></app-product-grid>
+            @if (filtersService.sortedProducts().length > 0) {
+              <app-product-grid [products]="filtersService.sortedProducts()"></app-product-grid>
             } @else {
               <div class="flex-1 flex items-start justify-center">
                 <app-empty-offers></app-empty-offers>
@@ -57,7 +58,7 @@ import { OfferFiltersService } from './services/offer-filters.service';
     </div>
 
     <app-drawer [isOpen]="isDrawerOpen()" (closeDrawer)="isDrawerOpen.set(false)">
-      <app-offer-filters [isDrawer]="true"></app-offer-filters>
+      <app-offer-filters [isDrawer]="true" (categorySelected)="isDrawerOpen.set(false)"></app-offer-filters>
     </app-drawer>
   `,
   styles: [`
@@ -132,14 +133,4 @@ import { OfferFiltersService } from './services/offer-filters.service';
 export class OffersPageComponent {
   protected filtersService = inject(OfferFiltersService);
   protected isDrawerOpen = signal(false);
-
-  protected readonly filteredProducts = computed(() => {
-    return this.filtersService.filteredProducts();
-  });
-
-  protected readonly selectedCategoryName = computed(() => {
-    const selectedId = this.filtersService.selectedCategory();
-    const cat = this.filtersService.categories().find(c => c.id === selectedId);
-    return cat?.name ?? '';
-  });
 }
