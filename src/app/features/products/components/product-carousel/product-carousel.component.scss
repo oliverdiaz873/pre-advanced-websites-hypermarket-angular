@@ -1,6 +1,8 @@
 :host {
   display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .productos-container-wrapper {
@@ -9,14 +11,34 @@
   align-items: center;
   justify-content: center;
   overflow: visible;
+  width: 100%;
+  min-width: 0;
 }
 
 .productos-container {
+  --card-width: 160px;
+  --card-padding: 12px;
   display: flex;
-  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  gap: 22px;
+  justify-content: flex-start;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 0 8px 16px 8px;
+  padding: 0 24px 16px 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.productos-container::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .productos-container {
+    --card-width: 220px;
+    --card-padding: 20px;
+  }
 }
 
 .productos-control-prev,

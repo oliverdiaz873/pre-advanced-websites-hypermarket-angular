@@ -1,4 +1,6 @@
 .product-grid {
+    --card-width: 160px;
+    --card-padding: 12px;
     display: flex;
     flex-wrap: wrap;
     gap: 22px;
@@ -11,6 +13,13 @@
     .product-grid {
         justify-content: flex-start;
         gap: 16px;
+    }
+}
+
+@media (min-width: 768px) {
+    .product-grid {
+        --card-width: 220px;
+        --card-padding: 20px;
     }
 }
 

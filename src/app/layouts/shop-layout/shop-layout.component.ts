@@ -29,11 +29,13 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
       background: var(--page-bg, #f9fafb);
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
     }
 
     .main-content {
       width: 100%;
+      max-width: 100%;
+      min-width: 0;
       margin-inline: auto;
       padding-bottom: 1rem;
     }

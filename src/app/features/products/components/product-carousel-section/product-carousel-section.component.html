@@ -1,9 +1,11 @@
 <section class="product-carousel-section">
-  @if (title) {
-    <h2 class="product-carousel-section__title">
-      {{ title }}
-    </h2>
-  }
+  <div class="product-carousel-section__inner">
+    @if (title) {
+      <h2 class="product-carousel-section__title">
+        {{ title }}
+      </h2>
+    }
 
-  <app-product-carousel [products]="products"></app-product-carousel>
+    <app-product-carousel [products]="products"></app-product-carousel>
+  </div>
 </section>

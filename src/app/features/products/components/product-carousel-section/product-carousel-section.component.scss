@@ -1,20 +1,29 @@
 :host {
   display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .product-carousel-section {
   background-color: #ffffff;
-  padding: 0.5rem 0;
+  padding: 0.5rem 1rem;
   margin-bottom: 1.5rem;
   width: 100%;
+  max-width: none;
+  box-sizing: border-box;
   border-top: 1px solid #e5e5e5;
 }
 
 @media (min-width: 768px) {
   .product-carousel-section {
-    padding: 1.5rem 0;
+    padding: 1.5rem 2rem;
   }
+}
+
+.product-carousel-section__inner {
+  width: 100%;
+  min-width: 0;
 }
 
 .product-carousel-section__title {
@@ -26,6 +35,8 @@
   margin-bottom: 1rem;
   width: fit-content;
   margin-left: 0;
+  margin-right: auto;
+  text-align: left;
   font-weight: 700;
 }
 

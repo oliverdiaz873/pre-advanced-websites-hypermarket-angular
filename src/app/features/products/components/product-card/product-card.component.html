@@ -5,13 +5,15 @@
 
   <a [routerLink]="['/product', product.id]"
      class="product-card__overlay-link"
-     [attr.aria-label]="'Ver detalles de ' + (product.id | productTranslate:product.nombre)">
+     [attr.aria-label]="'common.product.view_details' | translate: { name: (product.id | productTranslate:product.nombre) }">
   </a>
 
   <div class="producto-img-container">
     <img [src]="getAssetUrl(product.imagen)" [alt]="(product.id | productTranslate:product.nombre)" loading="lazy" />
   </div>
 
+  <!-- Lógica de precio: Si es oferta y tiene precio antiguo, mostramos el bloque de descuento.
+       De lo contrario, mostramos solo el precio normal. -->
   <div class="price-block-container">
     <div class="price-block">
       @if (isOffer && oldPrice) {
