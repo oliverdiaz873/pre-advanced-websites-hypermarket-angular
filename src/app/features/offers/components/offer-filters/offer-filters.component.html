@@ -22,7 +22,5 @@
     }
   </div>
 
-  @if (!isDrawer) {
-    <div class="offer-filters__info" [innerHTML]="'offers.filters.info' | translate:{ filtered: service.filteredProducts().length, total: service.offers.length }"></div>
-  }
+  <div class="offer-filters__info" [innerHTML]="'offers.filters.info' | translate:{ filtered: service.filteredProducts().length, total: service.offers.length }"></div>
 </div>
