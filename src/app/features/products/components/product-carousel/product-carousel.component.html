@@ -1,5 +1,5 @@
 <div class="productos-container-wrapper relative flex items-center justify-center">
-  @if (showPrev() && products.length > 3) {
+  @if (showPrev()) {
     <button
       type="button"
       (click)="scrollLeft()"
@@ -25,7 +25,7 @@
     }
   </div>
 
-  @if (showNext() && products.length > 3) {
+  @if (showNext()) {
     <button
       type="button"
       (click)="scrollRight()"

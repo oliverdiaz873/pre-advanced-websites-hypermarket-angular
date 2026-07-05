@@ -14,6 +14,13 @@ import { CommonModule } from '@angular/common';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
 
+/**
+ * ProductCarousel - Technical carousel engine.
+ * Handles only scroll logic, navigation buttons, and container layout.
+ * Content-agnostic (receives products as input).
+ * Difference from ProductCarouselSection: This is just the "mechanism",
+ * while the Section adds title, background, and data mapping.
+ */
 @Component({
   selector: 'app-product-carousel',
   standalone: true,
@@ -22,7 +29,7 @@ import { ProductCardComponent } from '../product-card/product-card.component';
   styleUrl: './product-carousel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCarouselComponent implements AfterViewInit {
+export class ProductCarouselComponent implements AfterViewInit, OnDestroy {
   @Input() products: ProductUI[] = [];
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
@@ -31,6 +38,7 @@ export class ProductCarouselComponent implements AfterViewInit {
   readonly showNext = signal(false);
 
   private scrollListener: (() => void) | null = null;
+  private resizeListener: (() => void) | null = null;
 
   ngAfterViewInit(): void {
     this.updateButtons();
@@ -40,6 +48,21 @@ export class ProductCarouselComponent implements AfterViewInit {
       el.addEventListener('scroll', handler);
       this.scrollListener = () => el.removeEventListener('scroll', handler);
     }
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => this.updateButtons(), 150);
+    };
+    window.addEventListener('resize', debouncedResize);
+    this.resizeListener = () => {
+      window.removeEventListener('resize', debouncedResize);
+      clearTimeout(resizeTimeout);
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.scrollListener?.();
+    this.resizeListener?.();
   }
 
   private updateButtons(): void {
