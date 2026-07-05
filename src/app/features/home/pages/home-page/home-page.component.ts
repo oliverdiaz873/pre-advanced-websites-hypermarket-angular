@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { products } from '@data/index';
 import { offerProducts } from '@features/offers';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
@@ -19,7 +20,7 @@ const FEATURED_IDS = [
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [ProductCarouselSectionComponent, HeroCarouselComponent, CategoryBannersSectionComponent, AboutUsComponent],
+  imports: [TranslatePipe, ProductCarouselSectionComponent, HeroCarouselComponent, CategoryBannersSectionComponent, AboutUsComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
