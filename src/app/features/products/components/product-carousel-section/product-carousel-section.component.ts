@@ -22,4 +22,10 @@ import { ProductCarouselComponent } from '../product-carousel/product-carousel.c
 export class ProductCarouselSectionComponent {
   @Input() title = '';
   @Input() products: ProductUI[] = [];
+  @Input() id = '';
+  @Input() sectionClass = '';
+
+  get sectionClassNames(): string {
+    return 'product-carousel-section' + (this.sectionClass ? ' ' + this.sectionClass : '');
+  }
 }
