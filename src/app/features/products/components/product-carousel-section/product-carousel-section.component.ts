@@ -24,6 +24,7 @@ export class ProductCarouselSectionComponent {
   @Input() products: ProductUI[] = [];
   @Input() id = '';
   @Input() sectionClass = '';
+  @Input() idPrefix = '';
 
   get sectionClassNames(): string {
     return 'product-carousel-section' + (this.sectionClass ? ' ' + this.sectionClass : '');

@@ -34,7 +34,7 @@ import { ProductGridComponent } from '@features/products/components/product-grid
       @if (selectedSection() === 'all') {
         @for (section of sections(); track section.id; let i = $index) {
           @if (section.products.length) {
-            <app-product-carousel-section [title]="section.name" [products]="section.products" [sectionClass]="i === 0 ? 'category-page-first-carousel' : ''"></app-product-carousel-section>
+            <app-product-carousel-section [title]="section.name" [products]="section.products" [sectionClass]="i === 0 ? 'category-page-first-carousel' : ''" [id]="section.id" [idPrefix]="categoryId() + '-' + section.id"></app-product-carousel-section>
           }
         }
       } @else {

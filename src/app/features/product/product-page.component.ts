@@ -18,7 +18,7 @@ import { ProductUI } from '@features/products/models/product-ui.interface';
     @if (product()) {
       <app-breadcrumb [items]="[{ label: product()!.nombre }]"></app-breadcrumb>
       <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
-      <app-product-carousel-section title="Productos relacionados" [products]="related()"></app-product-carousel-section>
+      <app-product-carousel-section title="Productos relacionados" [products]="related()" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-similares'" [idPrefix]="'similares'"></app-product-carousel-section>
     } @else {
       <app-empty-state title="Producto no encontrado" description="No encontramos el producto solicitado." actionLabel="Volver al inicio" actionHref="/"></app-empty-state>
     }

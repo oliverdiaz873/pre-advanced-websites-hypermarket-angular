@@ -11,29 +11,29 @@
         [title]="'productDetail.clickToEnlarge' | translate" />
     </figure>
 
-    @if (modalOpen) {
-      <div
-        class="modal-imagen modal-activo"
-        role="dialog"
-        aria-modal="true"
-        [attr.aria-label]="'productDetail.expandedImage' | translate"
-        (click)="closeModal()"
-        (keydown.escape)="closeModal()">
-        <button
-          class="modal-close-button"
-          [attr.aria-label]="'productDetail.closeModal' | translate"
-          (click)="closeModal(); $event.stopPropagation()">
-          &#10005;
-        </button>
-        <img
-          [src]="getAssetUrl(product.imagen)"
-          [alt]="'productDetail.expandedImage' | translate"
-          width="1200"
-          height="1200"
-          class="max-w-[90vw] max-h-[90vh] object-contain"
-          (click)="$event.stopPropagation()" />
-      </div>
-    }
+    <div
+      #modalContainer
+      class="modal-imagen"
+      [class.modal-activo]="modalOpen"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'productDetail.expandedImage' | translate"
+      (click)="closeModal()">
+      <button
+        #closeBtn
+        class="modal-close-button"
+        [attr.aria-label]="'productDetail.closeModal' | translate"
+        (click)="closeModal(); $event.stopPropagation()">
+        &#10005;
+      </button>
+      <img
+        [src]="getAssetUrl(product.imagen)"
+        [alt]="'productDetail.expandedImage' | translate"
+        width="1200"
+        height="1200"
+        class="max-w-[90vw] max-h-[90vh] object-contain"
+        (click)="$event.stopPropagation()" />
+    </div>
 
     <div class="info-producto">
       <h1>{{ product.id | productTranslate: product.nombre }}</h1>
