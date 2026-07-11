@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
@@ -6,7 +6,14 @@ import { ProductPageData } from '../../../../data/product-page-data.data';
 import { ProductTranslatePipe } from '../../pipes/product-translate.pipe';
 import { AddToCartButtonComponent } from '../../../cart/components/add-to-cart-button/add-to-cart-button.component';
 import { getAssetUrl } from '../../../../core/utils';
+import { ProductTranslationService } from '../../services/product-translation.service';
 
+/**
+ * ProductDetailSection - Main product detail section.
+ * Displays product image with lightbox modal, name, price,
+ * rich description, technical detail bullet points, and
+ * an add-to-cart button.
+ */
 @Component({
   selector: 'app-product-detail-section',
   standalone: true,
@@ -20,6 +27,16 @@ export class ProductDetailSectionComponent {
   @Input() pageData?: ProductPageData;
 
   public readonly getAssetUrl = getAssetUrl;
+
+  private productTranslation = inject(ProductTranslationService);
+
+  get description(): string {
+    return this.productTranslation.getDescription(this.product, this.pageData);
+  }
+
+  get specs(): string[] {
+    return this.productTranslation.getSpecs(this.product, this.pageData);
+  }
 
   @ViewChild('modalContainer') modalContainer!: ElementRef<HTMLElement>;
   @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLElement>;

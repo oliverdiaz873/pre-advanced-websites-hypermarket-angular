@@ -17,8 +17,8 @@ import { OfferBadgeComponent } from '../offer-badge/offer-badge.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
- * ProductCardComponent - Tarjeta de producto reutilizable.
- * Migrado desde Next.js ProductCard con paridad visual completa.
+ * ProductCardComponent - Reusable product card.
+ * Migrated from Next.js ProductCard with full visual parity.
  */
 export class ProductCardComponent {
   private translate = inject(TranslateService);

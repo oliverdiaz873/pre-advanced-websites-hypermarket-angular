@@ -10,8 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 /**
- * OfferBadge - Un badge visual para resaltar productos en oferta.
- * Incluye un icono de fuego y muestra el porcentaje de descuento.
+ * OfferBadge - Visual badge for highlighting products on offer.
+ * Includes a fire icon and displays the discount percentage.
  */
 export class OfferBadgeComponent implements OnChanges {
   @Input() discountPercentage: number | null = null;

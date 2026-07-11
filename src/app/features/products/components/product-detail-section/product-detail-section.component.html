@@ -39,11 +39,11 @@
       <h1>{{ product.id | productTranslate: product.nombre }}</h1>
       <p class="precio">{{ product.precioTexto }}</p>
 
-      <p class="descripcion">{{ pageData?.descripcion ?? ('productDetail.defaultDescription' | translate) }}</p>
+      <p class="descripcion">{{ description }}</p>
 
-      @if (pageData?.detalles?.length) {
+      @if (specs.length) {
         <ul class="detalles">
-          @for (detalle of pageData!.detalles; track detalle) {
+          @for (detalle of specs; track detalle) {
             <li>{{ detalle }}</li>
           }
         </ul>
