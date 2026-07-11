@@ -3,9 +3,8 @@ import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { Product } from '@core/types/product.interface';
 import { products } from '@data/products.data';
-import { normalizarTexto } from '@core/utils';
+import { normalizarTexto, hasSearchQuery } from '@core/utils';
 
 /**
  * SearchService — URL is the single source of truth for the search results page.
@@ -16,6 +15,12 @@ import { normalizarTexto } from '@core/utils';
  * Extended with header search state (searchTerm, isSearchActive, searchResults)
  * for the live-search typeahead used by DesktopSearchComponent.
  */
+export interface HeaderSearchProduct {
+  id: string;
+  nombre: string;
+  imagen: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -58,7 +63,7 @@ export class SearchService {
    * - Matches against ES name and EN translated name
    * - Returns at most 8 results
    */
-  public readonly searchResults: Signal<Product[]> = computed(() => {
+  public readonly searchResults: Signal<HeaderSearchProduct[]> = computed(() => {
     this.langVersion();
     const term = this.searchTerm().trim();
     if (!term) return [];
@@ -74,6 +79,16 @@ export class SearchService {
           translated !== key ? normalizarTexto(translated) : nombreEs;
 
         return nombreEs.includes(normalizedTerm) || nombreEn.includes(normalizedTerm);
+      })
+      .map((product) => {
+        const key = `products.${product.id}.name`;
+        const translated = this.translate.instant(key);
+
+        return {
+          id: product.id,
+          nombre: translated !== key ? translated : product.nombre,
+          imagen: product.imagen
+        };
       })
       .slice(0, 8);
   });
@@ -131,12 +146,13 @@ export class SearchService {
       return;
     }
 
-    const term = this.searchTerm().trim();
-    if (!term) {
+    if (!hasSearchQuery(this.searchTerm())) {
       this.isSearchActive.set(false);
       this.searchTerm.set('');
       return;
     }
+
+    const term = this.searchTerm().trim();
 
     this.router.navigate(['/search'], { queryParams: { q: term } });
     this.searchTerm.set('');

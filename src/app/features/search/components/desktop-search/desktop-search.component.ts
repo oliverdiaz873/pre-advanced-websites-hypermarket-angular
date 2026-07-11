@@ -1,6 +1,7 @@
 import { Component, inject, ViewChild, ElementRef, HostListener, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { CartService } from '@features/cart/services/cart.service';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
@@ -9,7 +10,7 @@ import { getAssetUrl } from '../../../../core/utils';
 @Component({
   selector: 'app-desktop-search',
   standalone: true,
-  imports: [CommonModule, RouterLink, IconComponent],
+  imports: [CommonModule, RouterLink, TranslatePipe, IconComponent],
   templateUrl: './desktop-search.component.html',
   styleUrl: './desktop-search.component.scss'
 })
