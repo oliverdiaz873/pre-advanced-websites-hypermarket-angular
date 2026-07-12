@@ -1,6 +1,7 @@
 import { Component, inject, ViewChild, ElementRef, HostListener, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SearchService } from '../../services/search.service';
 import { CartService } from '@features/cart/services/cart.service';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
@@ -9,10 +10,35 @@ import { getAssetUrl } from '../../../../core/utils';
 @Component({
   selector: 'app-mobile-search',
   standalone: true,
-  imports: [CommonModule, RouterLink, IconComponent],
+  imports: [CommonModule, RouterLink, IconComponent, TranslatePipe],
   templateUrl: './mobile-search.component.html',
   styleUrl: './mobile-search.component.scss'
 })
+/**
+ * Componente de búsqueda optimizado para mobile (< 768px).
+ *
+ * CARACTERÍSTICAS:
+ * - Input a pantalla completa: cuando activo, ocupa todo el ancho disponible
+ * - Carrito oculto: se oculta al activar búsqueda para ahorrar espacio
+ * - Dropdown contextual: resultados ajustados al ancho de pantalla
+ * - Scroll automático: lista de resultados con scroll independiente
+ * - Mayor área de toque: items con padding optimizado para dedos
+ * - Búsqueda rápida: focus automático para empezar a escribir
+ *
+ * LAYOUT MOBILE (< 768px):
+ * [Menu] [Search Button]
+ *          ↓ (cuando activo)
+ * [Search Input (full width)]
+ *    ↓
+ * [Dropdown Resultados (responsive)]
+ *
+ * DEPENDENCIAS:
+ * - SearchService: searchTerm, isSearchActive, searchResults
+ * - CartService: totalItems para badge del carrito
+ *
+ * @component
+ * @usageNote Renderizado condicional cuando viewportMode === 'mobile'
+ */
 export class MobileSearchComponent {
   protected searchService = inject(SearchService);
   protected cartService = inject(CartService);

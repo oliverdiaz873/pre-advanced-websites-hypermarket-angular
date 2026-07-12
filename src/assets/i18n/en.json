@@ -2489,10 +2489,10 @@
       "usage_pattern": "t('search:{key}') para acceso anidado, ej: t('search:input.placeholder')"
     },
     "input": {
-      "placeholder": "Search your products..."
+      "placeholder": "Search products..."
     },
     "button": {
-      "submit": "Search products",
+      "submit": "Search",
       "open": "Open search",
       "cancel": "Cancel search"
     },
