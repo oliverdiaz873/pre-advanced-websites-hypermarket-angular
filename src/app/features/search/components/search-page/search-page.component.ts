@@ -8,6 +8,7 @@ import { offersData, calculateDiscountPercentage } from '@features/offers';
 import { ProductUI } from '../../../products/models/product-ui.interface';
 import { matchesSearchQuery } from '../../../../core/utils/search-utils';
 import { SeoService } from '../../../../core/services/seo.service';
+import { ProductTranslationService } from '@features/products/services/product-translation.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductGridComponent } from '../../../products/components/product-grid/product-grid.component';
 import { EmptySearchResultsComponent } from '../empty-search-results/empty-search-results.component';
@@ -21,6 +22,7 @@ import { EmptySearchResultsComponent } from '../empty-search-results/empty-searc
 })
 export class SearchPageComponent {
   private route = inject(ActivatedRoute);
+  private productTranslation = inject(ProductTranslationService);
   private seo = inject(SeoService);
 
   public readonly query = toSignal(
@@ -41,10 +43,12 @@ export class SearchPageComponent {
 
   public readonly results = computed(() => {
     const q = this.query();
-    if (!q.trim()) return this.allProducts;
-    return this.allProducts.filter(p =>
-      matchesSearchQuery(p.nombre, q)
-    );
+    if (!q.trim()) return [];
+    return this.allProducts.filter(p => {
+      const translatedName = this.productTranslation.getName(p);
+      return [p.nombre, translatedName]
+        .some(value => matchesSearchQuery(value, q));
+    });
   });
 
   constructor() {
