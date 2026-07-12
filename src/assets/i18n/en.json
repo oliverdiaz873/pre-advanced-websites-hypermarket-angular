@@ -2508,11 +2508,11 @@
       "keywords": "product search, hypermarket, supermarket, offers, online shopping, superior catalog"
     },
     "hero": {
-      "title_query": "Results for: \"{query}\"",
+      "title_query": "Results for: \"{{query}}\"",
       "title_empty": "Type something in the search bar",
       "summary_query": "{count, plural, one {# product found.} other {# products found.}}",
-      "summary_query_one": "{count} product found.",
-      "summary_query_other": "{count} products found.",
+      "summary_query_one": "{{count}} product found.",
+      "summary_query_other": "{{count}} products found.",
       "summary_empty": "Use the search bar in the header to view related products."
     },
     "empty_state": {

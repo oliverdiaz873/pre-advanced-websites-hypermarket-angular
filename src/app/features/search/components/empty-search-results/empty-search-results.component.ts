@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 
@@ -7,9 +7,17 @@ import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.
   standalone: true,
   imports: [TranslatePipe, EmptyStateComponent],
   templateUrl: './empty-search-results.component.html',
-  styleUrl: './empty-search-results.component.scss'
+  styleUrl: './empty-search-results.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
+/**
+ * EmptySearchResultsComponent - Componente para estados vacíos en la página de búsqueda
+ *
+ * Se muestra cuando una búsqueda no tiene resultados o cuando la página
+ * se carga sin una consulta inicial.
+ */
 export class EmptySearchResultsComponent {
+  /** La consulta de búsqueda que no arrojó resultados */
   @Input() query = '';
 
   get titleKey(): string {

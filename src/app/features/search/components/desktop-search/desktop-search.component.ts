@@ -14,8 +14,30 @@ import { getAssetUrl } from '../../../../core/utils';
   templateUrl: './desktop-search.component.html',
   styleUrl: './desktop-search.component.scss'
 })
+/**
+ * DesktopSearchComponent - Componente de búsqueda optimizado para desktop.
+ *
+ * CARACTERÍSTICAS:
+ * - Input expandible: comienza oculto, se expande al activarse.
+ * - Dropdown de resultados: mostrado debajo del input con máximo 8 items.
+ * - Integración con carrito: botón de carrito con badge de cantidad.
+ * - Animaciones: cambios suaves de tamaño y color.
+ * - Responsive: se oculta en viewports menores a 1200px.
+ * - Accesibilidad: aria-labels con contexto (submit/open/close).
+ *
+ * LAYOUT DESKTOP:
+ * [Search Input (expandible)] [Cart Button] [Language Selector]
+ *            ↓
+ *   [Dropdown Resultados]
+ *
+ * ESTILOS:
+ * - Input: 400px cuando activo, flex automático.
+ * - Resultados: dropdown con scroll, max-height 250px.
+ * - Botón: tamaño 6x6, cambia color a rojo cuando activo.
+ */
 export class DesktopSearchComponent {
   protected searchService = inject(SearchService);
+  /** Servicio del carrito (totalItems para badge) */
   protected cartService = inject(CartService);
   protected getAssetUrl = getAssetUrl;
 
@@ -47,6 +69,7 @@ export class DesktopSearchComponent {
     this.searchService.setSearchTerm((event.target as HTMLInputElement).value);
   }
 
+  /** Maneja tecla Enter en el input para enviar la búsqueda */
   handleKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -58,6 +81,7 @@ export class DesktopSearchComponent {
     this.searchService.selectResult(id);
   }
 
+  /** Alterna entre abrir/cerrar buscador o enviar la búsqueda según estado */
   handleToggleClick(): void {
     if (this.searchService.isSearchActive()) {
       this.searchService.submitSearch();

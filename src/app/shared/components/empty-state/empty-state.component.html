@@ -1,4 +1,4 @@
-<section class="empty-state" [ngClass]="className">
+<section class="empty-state" [ngClass]="[className || '', 'empty-state--' + appearance]">
   <div class="icon-wrapper">
     @if (icon) {
       <span class="icon-string" aria-hidden="true">{{ icon }}</span>

@@ -36,6 +36,8 @@ export class EmptyStateComponent implements OnInit {
   @Input() onAction?: () => void;
   /** Additional CSS classes for customization */
   @Input() className?: string;
+  /** Visual variant of the empty state */
+  @Input() appearance: 'default' | 'flat' = 'default';
 
   ngOnInit(): void {
     if (isDevMode() && this.actionHref && this.onAction) {

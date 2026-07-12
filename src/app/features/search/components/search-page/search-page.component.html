@@ -1,14 +1,20 @@
-<div class="w-full">
+<section class="mx-auto w-full max-w-7xl px-4 pt-4 pb-8 md:px-6 md:pt-6 min-h-[60vh] flex flex-col">
   <!-- Header -->
-  <div class="mb-6 pb-4 border-b border-gray-100">
-    <h1 class="text-2xl font-extrabold text-gray-950 tracking-tight">
-      Resultados de búsqueda
+  <div class="mb-6">
+    <h1 class="text-xl md:text-2xl font-bold text-neutral-900 leading-tight">
+      @if (query()) {
+        {{ 'search.hero.title_query' | translate: { query: query() } }}
+      } @else {
+        {{ 'search.hero.title_empty' | translate }}
+      }
     </h1>
     @if (query()) {
-      <p class="text-sm text-gray-500 mt-1">
-        <span class="font-semibold text-gray-700">{{ results().length }}</span>
-        {{ results().length === 1 ? 'resultado' : 'resultados' }} para
-        "<span class="font-semibold text-green-700">{{ query() }}</span>"
+      <p class="mt-1.5 text-sm md:text-base text-neutral-600">
+        {{ (results().length === 1 ? 'search.hero.summary_query_one' : 'search.hero.summary_query_other') | translate: { count: results().length } }}
+      </p>
+    } @else {
+      <p class="mt-1.5 text-sm md:text-base text-neutral-600">
+        {{ 'search.hero.summary_empty' | translate }}
       </p>
     }
   </div>
@@ -20,4 +26,4 @@
   } @else {
     <app-empty-search-results [query]="query()"></app-empty-search-results>
   }
-</div>
+</section>
