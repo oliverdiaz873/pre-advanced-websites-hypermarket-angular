@@ -3,7 +3,7 @@
     <input
       #searchInput
       type="text"
-      placeholder="Buscar productos..."
+      [placeholder]="'search.input.placeholder' | translate"
       class="tablet-search__input search-input-modern bg-white text-black px-3 py-1.5 rounded-lg outline-none"
       [class.is-active]="searchService.isSearchActive()"
       [value]="searchService.searchTerm()"
@@ -16,12 +16,12 @@
           <li (click)="handleResultClick(product.id)" class="tablet-search__result">
             <img
               [src]="getAssetUrl(product.imagen)"
-              [alt]="product.nombre"
+              [alt]="getProductName(product)"
               width="40"
               height="40"
               class="tablet-search__thumb" />
             <div class="tablet-search__item-content">
-              <span class="tablet-search__label">{{ product.nombre }}</span>
+              <span class="tablet-search__label">{{ getProductName(product) }}</span>
             </div>
           </li>
         }
@@ -32,7 +32,7 @@
   <button
     (click)="handleToggleClick()"
     class="util-btn group relative"
-    [attr.aria-label]="searchService.isSearchActive() ? 'Buscar' : 'Abrir búsqueda'">
+    [attr.aria-label]="(searchService.isSearchActive() ? ('search.button.submit' | translate) : ('search.button.open' | translate))">
     @if (searchService.isSearchActive()) {
       <app-icon name="close" className="util-icon w-6 h-6 transition-all duration-300 text-red-500 scale-[2]"></app-icon>
     } @else {
@@ -40,7 +40,7 @@
     }
   </button>
 
-  <a routerLink="/cart" class="util-btn tablet-search__cart group relative" aria-label="Carrito">
+  <a routerLink="/cart" class="util-btn tablet-search__cart group relative" [attr.aria-label]="'header.cart_label' | translate">
     <app-icon name="cart" className="util-icon w-6 h-6 md:w-[27px] md:h-[27px]"></app-icon>
     @if (cartService.totalItems() > 0) {
       <span class="cart-badge absolute -top-1 -right-1 bg-red-600 text-[9px] font-bold px-1.5 py-0.5 rounded-full">

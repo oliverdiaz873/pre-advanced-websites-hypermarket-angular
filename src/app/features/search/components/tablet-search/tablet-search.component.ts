@@ -1,6 +1,8 @@
 import { Component, inject, ViewChild, ElementRef, HostListener, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import type { HeaderSearchProduct } from '../../services/search.service';
 import { SearchService } from '../../services/search.service';
 import { CartService } from '@features/cart/services/cart.service';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
@@ -9,13 +11,34 @@ import { getAssetUrl } from '../../../../core/utils';
 @Component({
   selector: 'app-tablet-search',
   standalone: true,
-  imports: [CommonModule, RouterLink, IconComponent],
+  imports: [CommonModule, RouterLink, TranslatePipe, IconComponent],
   templateUrl: './tablet-search.component.html',
   styleUrl: './tablet-search.component.scss'
 })
+/**
+ * Tablet search component optimized for tablet viewports (768px - 1199px).
+ *
+ * FEATURES:
+ * - Logo-search balance: keeps logo visible while space permits
+ * - Flexible input: expands using available space when active
+ * - Cart hidden: hidden when search is active
+ * - Breakpoint specific: only rendered in 768px - 1199px (CSS media query)
+ * - Dropdown 400px: max-width leveraging tablet space
+ * - UX focus: keeps brand visible but prioritizes search
+ *
+ * LAYOUT TABLET (768px - 1199px):
+ * [Logo] [Search Field (flexible)] [Cart]
+ *                    ↓ (when active)
+ *       [Search Input (expand)] [Search Results]
+ *
+ * DIFFERENCES FROM DESKTOP/MOBILE:
+ * - Vs Desktop: less space, logo always visible
+ * - Vs Mobile: more space, cart visible when not searching
+ */
 export class TabletSearchComponent {
   protected searchService = inject(SearchService);
   protected cartService = inject(CartService);
+  protected translate = inject(TranslateService);
   protected getAssetUrl = getAssetUrl;
 
   @ViewChild('searchInput', { read: ElementRef })
@@ -63,5 +86,11 @@ export class TabletSearchComponent {
     } else {
       this.searchService.toggleSearch();
     }
+  }
+
+  getProductName(product: HeaderSearchProduct): string {
+    const key = `products.${product.id}.name`;
+    const translated = this.translate.instant(key);
+    return translated !== key ? translated : product.nombre;
   }
 }
