@@ -13,6 +13,21 @@
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
+/* Internal overlay when mobile menu is open:
+   - Covers search/cart (z-auto < z-1) → blocks clicks
+   - Does NOT cover .menu-btn (position:relative; z-index:1000 > z-1)
+   - Mirrors the Next.js backdrop-inside-header mechanism */
+.app-header.menu-open::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+  pointer-events: auto;
+  transition: opacity 300ms ease;
+}
+
 /* Desktop floating variant (xl breakpoint) */
 @media (min-width: 1280px) {
   .app-header {
