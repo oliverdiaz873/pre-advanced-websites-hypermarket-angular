@@ -7,13 +7,10 @@ import { products } from '@data/products.data';
 import { normalizarTexto, hasSearchQuery } from '@core/utils';
 
 /**
- * SearchService — URL is the single source of truth for the search results page.
+ * Representa un producto en los resultados del typeahead del header.
  *
- * The `query` signal is derived from the router query params, not stored
- * in-memory independently. This avoids desyncs between URL and state.
- *
- * Extended with header search state (searchTerm, isSearchActive, searchResults)
- * for the live-search typeahead used by DesktopSearchComponent.
+ * Contiene solo la información necesaria para renderizar el dropdown:
+ * identificador, nombre visible (traducido) y ruta de la imagen.
  */
 export interface HeaderSearchProduct {
   id: string;
@@ -21,6 +18,31 @@ export interface HeaderSearchProduct {
   imagen: string;
 }
 
+/**
+ * Servicio central de búsqueda del header y de la página de resultados.
+ *
+ * Responsabilidades:
+ * - Gestionar el estado del typeahead del header (searchTerm, isSearchActive, searchResults)
+ * - Ejecutar la navegación a /search y a /product/:id
+ * - Sincronizar la señal query con el parámetro ?q= de la URL
+ *
+ * Características:
+ * - Búsqueda bilingüe: busca simultáneamente en español e inglés
+ * - Filtrado en tiempo real: los resultados se actualizan al escribir
+ * - Normalización: ignora acentos, diéresis y mayúsculas
+ * - Máximo 8 resultados en el typeahead
+ * - Estado compartido mediante Signals
+ * - Re-evaluación automática al cambiar de idioma
+ *
+ * Flujo de funcionamiento:
+ *   1. El usuario escribe en el input → setSearchTerm() actualiza searchTerm
+ *   2. El computed searchResults reacciona al cambio y filtra productos
+ *   3. El usuario hace clic en un resultado → selectResult() limpia estado y navega
+ *   4. El usuario pulsa Enter o el botón de enviar → submitSearch() decide:
+ *      - Si el search está cerrado → lo abre (el componente se encarga del foco)
+ *      - Si está abierto sin contenido → lo cierra
+ *      - Si está abierto con contenido → navega a /search?q=...
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -41,14 +63,8 @@ export class SearchService {
     { initialValue: '' }
   );
 
-  /**
-   * Header search — current input value for the typeahead.
-   */
   public readonly searchTerm = signal('');
 
-  /**
-   * Header search — whether the desktop search input is expanded.
-   */
   public readonly isSearchActive = signal(false);
 
   /**
@@ -58,10 +74,12 @@ export class SearchService {
   private readonly langVersion = signal(0);
 
   /**
-   * Live-filtered products for the header typeahead dropdown.
-   * - Normalises query and product names (lowercase, no accents)
-   * - Matches against ES name and EN translated name
-   * - Returns at most 8 results
+   * Resultados filtrados en tiempo real para el dropdown del header.
+   *
+   * Es un computed que reacciona a searchTerm y al idioma activo.
+   * - Normaliza el término y los nombres (minúsculas, sin acentos)
+   * - Compara contra el nombre en español y su traducción al inglés
+   * - Devuelve máximo 8 resultados
    */
   public readonly searchResults: Signal<HeaderSearchProduct[]> = computed(() => {
     this.langVersion();
@@ -93,16 +111,17 @@ export class SearchService {
       .slice(0, 8);
   });
 
+  /**
+   * Suscripción a onLangChange para forzar el recálculo de searchResults
+   * cuando el usuario cambia de idioma, ya que computed no detecta
+   * automáticamente las llamadas a translate.instant().
+   */
   constructor() {
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.langVersion.update((v) => v + 1));
   }
 
-  /**
-   * Navigate to /search with the provided query string.
-   * This is the only way to mutate the search state.
-   */
   public search(q: string): void {
     const trimmed = q.trim();
     if (trimmed) {
@@ -110,23 +129,14 @@ export class SearchService {
     }
   }
 
-  /**
-   * Clear the search query by navigating back to home.
-   */
   public clear(): void {
     this.router.navigate(['/']);
   }
 
-  // ──────────────────────────────────────────────
-  //  Header search handlers  (replaces useHeaderSearch)
-  // ──────────────────────────────────────────────
-
-  /** Update the typeahead input value. */
   public setSearchTerm(value: string): void {
     this.searchTerm.set(value);
   }
 
-  /** Toggle the search field open/closed. Clears term when closing. */
   public toggleSearch(): void {
     this.isSearchActive.update((current) => !current);
     if (!this.isSearchActive()) {
@@ -135,10 +145,11 @@ export class SearchService {
   }
 
   /**
-   * Submit the current search term.
-   * - If search is closed → opens it (caller should auto-focus)
-   * - If search is open but empty → closes it
-   * - If search is open with text → navigates to /search?q=...
+   * Ejecuta la acción de búsqueda según el estado actual del typeahead.
+   *
+   * - Si el search está cerrado → solo lo activa (el componente se encarga del foco)
+   * - Si está abierto pero vacío → lo cierra y limpia el término
+   * - Si está abierto con contenido → navega a /search?q=... y limpia el estado
    */
   public submitSearch(): void {
     if (!this.isSearchActive()) {
@@ -159,7 +170,10 @@ export class SearchService {
     this.isSearchActive.set(false);
   }
 
-  /** Navigate to a product detail page. */
+  /**
+   * Navega al detalle del producto seleccionado.
+   * Limpia el término de búsqueda y cierra el typeahead antes de navegar.
+   */
   public selectResult(id: string): void {
     this.searchTerm.set('');
     this.isSearchActive.set(false);
