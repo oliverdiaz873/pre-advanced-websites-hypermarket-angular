@@ -8,7 +8,7 @@ const DEFAULT_LANG = 'es';
 function getInitialLang(): string {
   if (typeof window !== 'undefined' && window.localStorage) {
     const saved = localStorage.getItem('language');
-    if (saved && SUPPORTED_LANGS.includes(saved)) {
+    if (saved && (SUPPORTED_LANGS as readonly string[]).includes(saved)) {
       return saved;
     }
   }
