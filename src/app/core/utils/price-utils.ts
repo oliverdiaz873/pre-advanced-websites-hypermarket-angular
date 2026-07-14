@@ -1,19 +1,33 @@
+/**
+ * @fileoverview Utilidades para procesamiento y formateo de precios.
+ *
+ * Centraliza la lógica de limpieza de precios, extracción de unidades
+ * y construcción de etiquetas de precio para evitar duplicación.
+ */
+
 import { Product } from '@core/types/product.interface'
 
+/**
+ * Extrae el valor del precio desde un texto formateado.
+ *
+ * @example
+ * cleanPrice("Precio: $2,500.00") // "$2,500.00"
+ */
 export const cleanPrice = (text: string): string => {
     const cleaned = text.replace(/^[a-z]+:\s*/i, '').trim()
     const match = cleaned.match(/(\$?\d+(?:,\d+)?(?:\.\d+)?)/)
     return match ? match[1] : cleaned
 }
 
-export const formatPrice = (value: number): string =>
-    new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-    }).format(value)
-
+/**
+ * Obtiene la unidad de medida de un producto.
+ *
+ * Prioridad:
+ * 1. Campo explícito `unidad`.
+ * 2. Unidad definida en `precioTexto`.
+ * 3. Texto descriptivo restante.
+ * 4. Fallback: "unidad".
+ */
 export const unitLabel = (product: Product): string => {
     const explicit = product.unidad?.trim()
     if (explicit) return explicit
@@ -38,6 +52,9 @@ interface FormatPriceOptions {
     translatedUnit?: string
 }
 
+/**
+ * Construye el texto del precio para mostrar en la interfaz.
+ */
 export const formatProductPrice = (
     product: Product,
     { pricePrefix = 'Precio: ', translatedUnit }: FormatPriceOptions = {}

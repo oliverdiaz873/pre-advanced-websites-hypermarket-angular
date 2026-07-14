@@ -6,7 +6,7 @@ import { CartItem } from '@features/cart/types/cart.interface';
 import { ProductTranslatePipe } from '../../../products/pipes/product-translate.pipe';
 import { OfferBadgeComponent } from '../../../products/components/offer-badge/offer-badge.component';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
-import { getAssetUrl, cleanPrice, formatPrice } from '../../../../core/utils';
+import { getAssetUrl, cleanPrice } from '../../../../core/utils';
 import { QuantityControlsComponent } from '../quantity-controls/quantity-controls.component';
 
 /**
@@ -49,7 +49,7 @@ export class CartItemComponent {
   }
 
   public getFormattedPrice(price: number): string {
-    return formatPrice(price);
+    return `$${price.toLocaleString()}`;
   }
 
   public getDiscountText(): string {
