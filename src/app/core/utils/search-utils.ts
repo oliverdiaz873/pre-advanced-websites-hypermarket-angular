@@ -1,3 +1,22 @@
+/**
+ * @fileoverview Utilidades para búsqueda y normalización de texto.
+ *
+ * Centraliza funciones auxiliares para procesar consultas de búsqueda,
+ * permitiendo comparaciones sin distinguir mayúsculas ni acentos.
+ */
+
+/**
+ * Normaliza un texto para realizar búsquedas consistentes.
+ *
+ * Convierte el texto a minúsculas y elimina caracteres diacríticos
+ * como acentos para facilitar comparaciones.
+ *
+ * @param texto - Texto que será normalizado.
+ * @returns Texto normalizado sin acentos y en minúsculas.
+ *
+ * @example
+ * normalizarTexto("CAFÉ") // "cafe"
+ */
 export const normalizarTexto = (texto: string | null | undefined): string => {
     if (!texto || typeof texto !== 'string') return ''
     return texto
