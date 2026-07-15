@@ -1,6 +1,9 @@
 import { Category } from '@core/types/category.interface';
 import { CategoryBannerData } from '@features/home/components/category-banner/category-banner.component';
 
+/**
+ * Static catalog categories and subcategories.
+ */
 export const categories: Category[] = [
     {
         name: 'Alimentos',

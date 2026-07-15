@@ -1,9 +1,10 @@
-﻿import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
 import { categories, categorySections } from '@data/index';
 import { SeoService } from '@core/services/seo.service';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 import { ProductGridComponent } from '@features/products/components/product-grid/product-grid.component';
@@ -13,7 +14,7 @@ import { ProductGridComponent } from '@features/products/components/product-grid
   standalone: true,
   imports: [BreadcrumbComponent, EmptyStateComponent, ProductCarouselSectionComponent, ProductGridComponent],
   template: `
-    <app-breadcrumb [items]="[{ label: categoryName() }]"></app-breadcrumb>
+    <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
 
     @if (category()) {
       <section class="category-hero">
@@ -60,10 +61,24 @@ export class CategoryPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly seo = inject(SeoService);
+  private readonly translate = inject(TranslateService);
+  private readonly langVersion = signal(0);
   readonly categoryId = signal('');
   readonly selectedSection = signal('all');
 
+  readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    this.langVersion();
+    return [
+      { label: this.translate.instant('common.breadcrumb.home'), url: '/' },
+      { label: this.categoryName() },
+    ];
+  });
+
   constructor() {
+    this.translate.onLangChange
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.langVersion.update(v => v + 1));
+
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.categoryId.set(params.get('id') ?? '');
       this.selectedSection.set('all');

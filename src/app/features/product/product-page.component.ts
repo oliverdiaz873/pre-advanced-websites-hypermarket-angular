@@ -1,10 +1,11 @@
-﻿import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+﻿import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { productById, productPageData, relatedProducts } from '@data/index';
+import { TranslateService } from '@ngx-translate/core';
+import { categories, productById, productPageData, relatedProducts } from '@data/index';
 import { getAssetUrl } from '@core/utils';
 import { SeoService } from '@core/services/seo.service';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { ProductDetailSectionComponent } from '@features/products/components/product-detail-section/product-detail-section.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
@@ -16,7 +17,7 @@ import { ProductUI } from '@features/products/models/product-ui.interface';
   imports: [BreadcrumbComponent, EmptyStateComponent, ProductDetailSectionComponent, ProductCarouselSectionComponent],
   template: `
     @if (product()) {
-      <app-breadcrumb [items]="[{ label: product()!.nombre }]"></app-breadcrumb>
+      <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
       <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
       <app-product-carousel-section title="Productos relacionados" [products]="related()" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-similares'" [idPrefix]="'similares'"></app-product-carousel-section>
     } @else {
@@ -30,9 +31,42 @@ export class ProductPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly seo = inject(SeoService);
+  private readonly translate = inject(TranslateService);
+  private readonly langVersion = signal(0);
   readonly productId = signal('');
 
+  readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
+    this.langVersion();
+    const product = this.product();
+    const items: BreadcrumbItem[] = [
+      { label: this.translate.instant('common.breadcrumb.home'), url: '/' },
+    ];
+
+    if (product) {
+      const parentCategory = categories.find(cat =>
+        cat.subcategories.some(sub => sub.href.includes(`#${product.categoria}`))
+      );
+      const subcategory = parentCategory?.subcategories.find(sub =>
+        sub.href.includes(`#${product.categoria}`)
+      );
+
+      if (parentCategory) {
+        items.push({ label: parentCategory.name, url: parentCategory.href });
+      }
+      if (subcategory) {
+        items.push({ label: subcategory.name, url: subcategory.href });
+      }
+      items.push({ label: product.nombre });
+    }
+
+    return items;
+  });
+
   constructor() {
+    this.translate.onLangChange
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.langVersion.update(v => v + 1));
+
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.productId.set(params.get('id') ?? '');
       this.applyProductSeo();
