@@ -2,7 +2,7 @@ import { Component, Input, inject, ChangeDetectionStrategy, ViewChild, ElementRe
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
-import { ProductPageData } from '../../../../data/product-page-data.data';
+import { ProductPageData } from '../../../../data/product-page.data';
 import { ProductTranslatePipe } from '../../pipes/product-translate.pipe';
 import { AddToCartButtonComponent } from '../../../cart/components/add-to-cart-button/add-to-cart-button.component';
 import { getAssetUrl } from '../../../../core/utils';

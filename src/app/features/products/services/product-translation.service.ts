@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ProductUI } from '../models/product-ui.interface';
-import { ProductPageData } from '@data/product-page-data.data';
+import { ProductPageData } from '@data/product-page.data';
 
 /**
  * ProductTranslationService - Product i18n resolution with Overlay & Fallback pattern.

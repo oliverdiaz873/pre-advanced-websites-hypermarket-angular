@@ -6,8 +6,8 @@ export type { Category, Subcategory } from '@core/types/category.interface';
 
 export { sectionSlugToProductCategoria, subcategorySlugFromHref } from './category-section-map.data';
 
-export { productPageData } from './product-page-data.data';
-export type { ProductPageData } from './product-page-data.data';
+export { productPageData } from './product-page.data';
+export type { ProductPageData } from './product-page.data';
 
 export { productById, productsByCategoryId, categorySections, relatedProducts } from './catalog.helpers';
 export type { CategorySection } from './catalog.helpers';
