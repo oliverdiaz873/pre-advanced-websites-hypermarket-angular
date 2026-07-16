@@ -1,0 +1,26 @@
+<div class="drawer-backdrop" [class.is-open]="isOpen" (click)="closeDrawer.emit()" aria-hidden="true"></div>
+
+<aside
+  class="drawer-panel drawer-panel--{{ position }}"
+  [class.is-open]="isOpen"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="title ? 'drawer-title' : null"
+>
+  @if (title) {
+    <div class="drawer__header">
+      <h2 id="drawer-title" class="drawer__title">{{ title }}</h2>
+      <button class="drawer__close" (click)="closeDrawer.emit()" aria-label="Cerrar panel">
+        <app-icon name="close" className="w-5 h-5"></app-icon>
+      </button>
+    </div>
+  } @else {
+    <button class="drawer-close" (click)="closeDrawer.emit()" aria-label="Cerrar panel">
+      <app-icon name="close" className="w-5 h-5"></app-icon>
+    </button>
+  }
+
+  <div class="drawer__content" [class.drawer__content--with-header]="!!title">
+    <ng-content></ng-content>
+  </div>
+</aside>

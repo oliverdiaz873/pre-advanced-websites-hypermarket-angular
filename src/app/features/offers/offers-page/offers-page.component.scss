@@ -73,3 +73,9 @@
   white-space: nowrap;
   font-size: 0.75rem;
 }
+
+@media (min-width: 1024px) {
+  .offers-mobile-filters-btn {
+    display: none;
+  }
+}
