@@ -87,7 +87,20 @@ import { Component, Input } from '@angular/core';
       }
     }
   `,
-  styles: `:host { display: inline-flex; align-items: center; justify-content: center; }`
+  styles: [
+    `
+    :host {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    :host(.icon-fill) svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    `
+  ]
 })
 export class IconComponent {
   @Input({ required: true }) name!: string;

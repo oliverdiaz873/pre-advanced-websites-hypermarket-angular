@@ -1,8 +1,5 @@
 <section class="empty-state" [ngClass]="[className || '', 'empty-state--' + appearance]">
   <div class="icon-wrapper">
-    @if (icon) {
-      <span class="icon-string" aria-hidden="true">{{ icon }}</span>
-    }
     <ng-content select="[icon]"></ng-content>
   </div>
   <h2>{{ title }}</h2>

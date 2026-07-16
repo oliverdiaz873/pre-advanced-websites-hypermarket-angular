@@ -26,8 +26,6 @@ export class EmptyStateComponent implements OnInit {
   @Input({ required: true }) title!: string;
   /** Detailed description or informational message */
   @Input() description?: string;
-  /** Icon string (simple text fallback) */
-  @Input() icon?: string;
   /** Text for the action button */
   @Input() actionLabel?: string;
   /** RouterLink URL for the action button */
