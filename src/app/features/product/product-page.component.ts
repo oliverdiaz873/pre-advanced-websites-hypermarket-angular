@@ -17,7 +17,7 @@ import { ProductUI } from '@features/products/models/product-ui.interface';
   imports: [BreadcrumbComponent, EmptyStateComponent, ProductDetailSectionComponent, ProductCarouselSectionComponent],
   template: `
     @if (product()) {
-      <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
+      <app-breadcrumb variant="category" [items]="breadcrumbItems()"></app-breadcrumb>
       <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
       <app-product-carousel-section title="Productos relacionados" [products]="related()" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-similares'" [idPrefix]="'similares'"></app-product-carousel-section>
     } @else {
@@ -51,10 +51,10 @@ export class ProductPageComponent {
       );
 
       if (parentCategory) {
-        items.push({ label: parentCategory.name, url: parentCategory.href });
+        items.push({ label: this.translate.instant('categories.' + parentCategory.id), url: parentCategory.href });
       }
       if (subcategory) {
-        items.push({ label: subcategory.name, url: subcategory.href });
+        items.push({ label: this.translate.instant('categories.sub.' + product.categoria), url: subcategory.href });
       }
       items.push({ label: product.nombre });
     }

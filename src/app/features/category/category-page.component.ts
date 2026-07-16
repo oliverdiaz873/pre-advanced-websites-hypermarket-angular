@@ -14,7 +14,7 @@ import { ProductGridComponent } from '@features/products/components/product-grid
   standalone: true,
   imports: [BreadcrumbComponent, EmptyStateComponent, ProductCarouselSectionComponent, ProductGridComponent],
   template: `
-    <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
+    <app-breadcrumb variant="category" [items]="breadcrumbItems()"></app-breadcrumb>
 
     @if (category()) {
       <section class="category-hero">
@@ -68,9 +68,10 @@ export class CategoryPageComponent {
 
   readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     this.langVersion();
+    const catId = this.categoryId();
     return [
       { label: this.translate.instant('common.breadcrumb.home'), url: '/' },
-      { label: this.categoryName() },
+      { label: catId ? this.translate.instant('categories.' + catId) : this.categoryName() },
     ];
   });
 

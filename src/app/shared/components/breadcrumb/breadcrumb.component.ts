@@ -16,6 +16,7 @@ export interface BreadcrumbItem {
         @for (item of items; track item.label; let i = $index, first = $first, last = $last) {
           <li
             class="breadcrumb-item"
+            [attr.aria-current]="last ? 'page' : null"
             [class.breadcrumb-item--first]="first"
             [class.breadcrumb-item--parent]="!first && !last && i === items.length - 2"
             [class.breadcrumb-item--middle]="!first && !last && i !== items.length - 2 && items.length > 3"
@@ -23,7 +24,7 @@ export interface BreadcrumbItem {
             [class.breadcrumb-item--current]="last"
           >
             @if (last) {
-              <span aria-current="page">{{ item.label }}</span>
+              <span>{{ item.label }}</span>
             } @else if (item.url) {
               <a [routerLink]="item.url">{{ item.label }}</a>
             } @else {
