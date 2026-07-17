@@ -33,8 +33,8 @@ const languages = [
       <div
         class="lang-dropdown-container"
         #dropdownRef
-        (mouseenter)="isDesktop() && isDropdownOpen.set(true)"
-        (mouseleave)="isDesktop() && isDropdownOpen.set(false)"
+        (mouseenter)="cancelClose(); isDropdownOpen.set(true)"
+        (mouseleave)="onContainerLeave()"
       >
         <button
           type="button"
@@ -55,6 +55,7 @@ const languages = [
             role="menu"
             aria-orientation="vertical"
             [attr.aria-hidden]="!isDropdownOpen()"
+            (mouseenter)="cancelClose()"
           >
             @for (lang of languages; track lang.code) {
               <button
@@ -221,6 +222,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   protected currentLang = signal('es');
 
   private checkDesktop = () => this.isDesktop.set(window.innerWidth >= 1024);
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     this.currentLang.set(this.translate.currentLang() ?? 'es');
@@ -234,8 +236,23 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('resize', this.checkDesktop);
+    if (this.closeTimeout) clearTimeout(this.closeTimeout);
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  protected onContainerLeave(): void {
+    if (!this.isDesktop()) return;
+    this.closeTimeout = setTimeout(() => {
+      this.isDropdownOpen.set(false);
+    }, 200);
+  }
+
+  protected cancelClose(): void {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
   }
 
   protected toggleDropdown(): void {
