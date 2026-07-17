@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal, computed, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, inject, signal, computed, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -33,14 +33,15 @@ const languages = [
       <div
         class="lang-dropdown-container"
         #dropdownRef
-        (mouseenter)="isDropdownOpen.set(true)"
-        (mouseleave)="isDropdownOpen.set(false)"
+        (mouseenter)="isDesktop() && isDropdownOpen.set(true)"
+        (mouseleave)="isDesktop() && isDropdownOpen.set(false)"
       >
         <button
           type="button"
           class="lang-dropdown-trigger"
           aria-haspopup="true"
           [attr.aria-expanded]="isDropdownOpen()"
+          (click)="onTriggerClick($event)"
           [attr.aria-label]="'common.select_language' | translate"
         >
           <app-icon name="world" className="w-4 h-4 shrink-0"></app-icon>
@@ -48,8 +49,13 @@ const languages = [
           <app-icon name="chevron-down" className="w-3 h-3 shrink-0 chevron-icon"></app-icon>
         </button>
 
-        @if (isDropdownOpen()) {
-          <div class="lang-dropdown-menu" role="menu" aria-orientation="vertical">
+          <div
+            class="lang-dropdown-menu"
+            [class.open]="isDropdownOpen()"
+            role="menu"
+            aria-orientation="vertical"
+            [attr.aria-hidden]="!isDropdownOpen()"
+          >
             @for (lang of languages; track lang.code) {
               <button
                 type="button"
@@ -67,7 +73,6 @@ const languages = [
               </button>
             }
           </div>
-        }
       </div>
     }
   `,
@@ -157,6 +162,18 @@ const languages = [
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       z-index: 1100;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+      pointer-events: none;
+    }
+
+    .lang-dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     .lang-dropdown-item {
@@ -199,19 +216,45 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   protected languages = languages;
+  protected isDesktop = signal(false);
   protected isDropdownOpen = signal(false);
   protected currentLang = signal('es');
+
+  private checkDesktop = () => this.isDesktop.set(window.innerWidth >= 1024);
 
   ngOnInit(): void {
     this.currentLang.set(this.translate.currentLang() ?? 'es');
     this.translate.onLangChange
       .pipe(takeUntil(this.destroy$))
       .subscribe(event => this.currentLang.set(event.lang));
+
+    this.checkDesktop();
+    window.addEventListener('resize', this.checkDesktop);
   }
 
   ngOnDestroy(): void {
+    window.removeEventListener('resize', this.checkDesktop);
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  protected toggleDropdown(): void {
+    this.isDropdownOpen.update(value => !value);
+  }
+
+  protected onTriggerClick(event: MouseEvent): void {
+    event.stopPropagation();
+    if (!this.isDesktop()) {
+      this.toggleDropdown();
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  protected handleClickOutside(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.lang-dropdown-container')) {
+      this.isDropdownOpen.set(false);
+    }
   }
 
   protected changeLanguage(lng: string): void {
@@ -220,5 +263,6 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem('language', lang);
     }
+    this.isDropdownOpen.set(false);
   }
 }
