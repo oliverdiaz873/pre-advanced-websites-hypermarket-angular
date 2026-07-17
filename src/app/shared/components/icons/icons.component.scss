@@ -1,3 +1,7 @@
+/* ==========================================================================
+   ICON SYSTEM STYLES
+   ========================================================================== */
+
 :host {
   display: inline-flex;
   align-items: center;
@@ -10,12 +14,14 @@
   display: block;
 }
 
+/* Base fire icon style */
 .icon-fire {
   fill: #ff0000f8;
   background: radial-gradient(circle at 50% 65%, #ffff00 34%, transparent 36%);
   border-radius: 50%;
 }
 
+/* Offers header icon */
 .offers-header__icon {
   width: 2.5rem;
   height: 2.5rem;
@@ -32,6 +38,7 @@
   .offers-header__icon { width: 1.5rem; height: 1.5rem; }
 }
 
+/* Offer badge icon */
 .offer-badge__icon {
   width: 20px;
   height: 20px;
@@ -39,6 +46,7 @@
   left: -8px;
   top: -6px;
   z-index: 15;
+  /* Usar clase genérica .icon-fire para el estilo del fuego incluyendo el efecto amarillo y rojo */
 }
 
 @media (min-width: 768px) {
