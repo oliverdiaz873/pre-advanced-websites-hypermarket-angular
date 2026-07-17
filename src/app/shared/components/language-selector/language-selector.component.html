@@ -1,0 +1,61 @@
+@if (variant === 'inline') {
+  <div class="lang-list-inline">
+    @for (lang of languages; track lang.code) {
+      <button
+        type="button"
+        class="lang-btn-inline"
+        [class.is-active]="currentLang() === lang.code"
+        (click)="changeLanguage(lang.code)"
+        [attr.aria-label]="('common.switch_to_' + lang.code) | translate"
+      >
+        {{ lang.code | uppercase }}
+      </button>
+    }
+  </div>
+} @else {
+  <div
+    class="lang-dropdown-container"
+    #dropdownRef
+    (mouseenter)="cancelClose(); isDropdownOpen.set(true)"
+    (mouseleave)="onContainerLeave()"
+  >
+    <button
+      type="button"
+      class="lang-dropdown-trigger"
+      aria-haspopup="true"
+      [attr.aria-expanded]="isDropdownOpen()"
+      (click)="onTriggerClick($event)"
+      [attr.aria-label]="'common.select_language' | translate"
+    >
+      <app-icon name="world" className="w-4 h-4 shrink-0"></app-icon>
+      <span class="lang-code">{{ currentLang() | uppercase }}</span>
+      <app-icon name="chevron-down" className="w-3 h-3 shrink-0 chevron-icon"></app-icon>
+    </button>
+
+    <div
+      class="lang-dropdown-menu"
+      [class.open]="isDropdownOpen()"
+      role="menu"
+      aria-orientation="vertical"
+      [attr.aria-hidden]="!isDropdownOpen()"
+      (mouseenter)="cancelClose()"
+    >
+      @for (lang of languages; track lang.code) {
+        <button
+          type="button"
+          class="lang-dropdown-item"
+          [class.is-active]="currentLang() === lang.code"
+          (click)="changeLanguage(lang.code)"
+          role="menuitem"
+        >
+          <span>{{ lang.nativeName }}</span>
+          @if (currentLang() === lang.code) {
+            <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          }
+        </button>
+      }
+    </div>
+  </div>
+}
