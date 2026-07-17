@@ -1,6 +1,7 @@
 import { Component, OnDestroy, signal, computed, inject, Signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { getAssetUrl } from '@core/utils';
+import { IconComponent } from '@shared/components/icons/icons.component';
 import { ViewportService } from '@core/services/viewport.service';
 
 /**
@@ -23,7 +24,7 @@ const BANNERS: Banner[] = [
 @Component({
   selector: 'app-hero-carousel',
   standalone: true,
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, IconComponent],
   templateUrl: './hero-carousel.component.html',
   styleUrls: ['./hero-carousel.component.scss']
 })

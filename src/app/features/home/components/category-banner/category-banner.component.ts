@@ -1,6 +1,7 @@
 import { Component, Input, inject, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ScrollAnimateDirective } from '@shared/directives/scroll-animate.directive';
+import { IconComponent } from '@shared/components/icons/icons.component';
 import { getAssetUrl } from '@core/utils';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ViewportService } from '@core/services/viewport.service';
@@ -43,7 +44,7 @@ export interface CategoryBannerData {
 @Component({
   selector: 'app-category-banner',
   standalone: true,
-  imports: [RouterLink, ScrollAnimateDirective, TranslatePipe],
+  imports: [RouterLink, ScrollAnimateDirective, TranslatePipe, IconComponent],
   templateUrl: './category-banner.component.html',
   styleUrls: ['./category-banner.component.scss']
 })

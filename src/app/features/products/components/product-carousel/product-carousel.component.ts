@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
+import { IconComponent } from '@shared/components/icons/icons.component';
 
 /**
  * ProductCarousel - Technical carousel engine.
@@ -25,7 +26,7 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 @Component({
   selector: 'app-product-carousel',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, ProductCardComponent],
+  imports: [CommonModule, TranslatePipe, ProductCardComponent, IconComponent],
   templateUrl: './product-carousel.component.html',
   styleUrl: './product-carousel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

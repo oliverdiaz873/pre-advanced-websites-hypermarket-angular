@@ -24,16 +24,6 @@
     user-select: none;
 }
 
-.offer-badge__icon {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    left: -8px;
-    top: -6px;
-    z-index: 15;
-    /* Usar clase genérica .icon-fire para el estilo del fuego incluyendo el efecto amarillo y rojo */
-}
-
 .offer-badge__text {
     line-height: 1;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
@@ -48,13 +38,5 @@
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.5px;
-    }
-
-    /* Icono de fuego en desktop */
-    .offer-badge__icon {
-        width: 24px;
-        height: 24px;
-        left: -10px;
-        top: -6px;
     }
 }

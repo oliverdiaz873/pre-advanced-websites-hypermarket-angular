@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { IconComponent } from '@shared/components/icons/icons.component';
 
 @Component({
   selector: 'app-offer-badge',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './offer-badge.component.html',
   styleUrl: './offer-badge.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
