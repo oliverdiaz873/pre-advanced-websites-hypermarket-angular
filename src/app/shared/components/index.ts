@@ -7,3 +7,4 @@ export { EmptyStateComponent } from './empty-state/empty-state.component';
 export { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 export type { BreadcrumbItem } from './breadcrumb/breadcrumb.component';
 export { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
+export * from './skeletons/base-skeleton.component';
