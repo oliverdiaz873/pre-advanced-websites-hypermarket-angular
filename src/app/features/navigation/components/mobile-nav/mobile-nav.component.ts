@@ -5,6 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { LanguageSelectorComponent } from '../../../../shared/components/language-selector/language-selector.component';
 import { categories } from '../../../../data/categories.data';
+import { getUrlFragment } from '../../../../core/utils/url.utils';
 
 @Component({
   selector: 'app-mobile-nav',
@@ -20,6 +21,10 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
   protected categories = categories;
   protected openCategory = signal<string | null>(null);
   protected openSubcategories = signal<string[]>([]);
+
+  getFragment(href: string): string {
+    return getUrlFragment(href);
+  }
 
   toggleCategory(name: string): void {
     this.openCategory.update(prev => (prev === name ? null : name));

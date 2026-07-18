@@ -32,8 +32,8 @@
             <ul>
               @for (sub of cat.subcategories; track sub.href) {
                 <li>
-                  <a [routerLink]="sub.href" class="sublink">
-                    {{ 'categories.sub.' + sub.href.split('#')[1] | translate }}
+                  <a [routerLink]="['/category', cat.id]" [fragment]="getFragment(sub.href)" class="sublink">
+                    {{ 'categories.sub.' + getFragment(sub.href) | translate }}
                   </a>
                 </li>
               }

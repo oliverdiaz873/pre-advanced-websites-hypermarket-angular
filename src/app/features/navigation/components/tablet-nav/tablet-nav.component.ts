@@ -4,6 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { categories } from '../../../../data/categories.data';
 import { ViewportService } from '@core/services/viewport.service';
+import { getUrlFragment } from '../../../../core/utils/url.utils';
 
 @Component({
   selector: 'app-tablet-nav',
@@ -25,6 +26,10 @@ export class TabletNavComponent {
         this.closeAllSubmenus();
       }
     });
+  }
+
+  getFragment(href: string): string {
+    return getUrlFragment(href);
   }
 
   private isTablet(): boolean {

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { categories } from '../../../../data/categories.data';
+import { getUrlFragment } from '../../../../core/utils/url.utils';
 
 @Component({
   selector: 'app-desktop-nav',
@@ -30,6 +31,10 @@ export class DesktopNavComponent {
       event.preventDefault();
       this.toggleCategories();
     }
+  }
+
+  getFragment(href: string): string {
+    return getUrlFragment(href);
   }
 }
 
