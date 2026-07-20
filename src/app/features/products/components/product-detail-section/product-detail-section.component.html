@@ -17,7 +17,7 @@
       [class.modal-activo]="modalOpen"
       role="dialog"
       aria-modal="true"
-      [attr.aria-label]="'productDetail.expandedImage' | translate"
+      [attr.aria-label]="'productDetail.expandedImage' | translate: { name: productTranslation.getName(product) }"
       (click)="closeModal()">
       <button
         #closeBtn
@@ -28,7 +28,7 @@
       </button>
       <img
         [src]="getAssetUrl(product.imagen)"
-        [alt]="'productDetail.expandedImage' | translate"
+        [alt]="'productDetail.expandedImage' | translate: { name: productTranslation.getName(product) }"
         width="1200"
         height="1200"
         class="max-w-[90vw] max-h-[90vh] object-contain"

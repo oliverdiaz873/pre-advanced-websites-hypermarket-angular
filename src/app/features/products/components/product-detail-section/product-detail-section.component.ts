@@ -28,7 +28,7 @@ export class ProductDetailSectionComponent {
 
   public readonly getAssetUrl = getAssetUrl;
 
-  private productTranslation = inject(ProductTranslationService);
+  readonly productTranslation = inject(ProductTranslationService);
 
   get description(): string {
     return this.productTranslation.getDescription(this.product, this.pageData);

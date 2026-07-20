@@ -246,7 +246,7 @@
       "alt_wine": "Premium wine selection",
       "prev": "Previous slide",
       "next": "Next slide",
-      "go_to": "Go to slide {index}"
+      "go_to": "Go to slide {{index}}"
     },
     "sections": {
       "offers": "Weekly Offers",
@@ -2489,22 +2489,22 @@
       "usage_pattern": "t('search:{key}') para acceso anidado, ej: t('search:input.placeholder')"
     },
     "input": {
-      "placeholder": "Search products..."
+      "placeholder": "Search your products..."
     },
     "button": {
-      "submit": "Search",
+      "submit": "Search products",
       "open": "Open search",
       "cancel": "Cancel search"
     },
     "seo": {
-      "title_query": "Results for \"{query}\"",
+      "title_query": "Results for \"{{query}}\"",
       "title_empty": "Search Results",
-      "desc_query": "Results for \"{query}\" at Hipermercado Superior. Find the best products at the best price.",
-      "desc_query_one": "{count} result for \"{query}\" at Hipermercado Superior. Find the best products at the best price.",
-      "desc_query_other": "{count} results for \"{query}\" at Hipermercado Superior. Find the best products at the best price.",
+      "desc_query": "Results for \"{{query}}\" at Hipermercado Superior. Find the best products at the best price.",
+      "desc_query_one": "{{count}} result for \"{{query}}\" at Hipermercado Superior. Find the best products at the best price.",
+      "desc_query_other": "{{count}} results for \"{{query}}\" at Hipermercado Superior. Find the best products at the best price.",
       "desc_empty": "Search and quickly find the products you need at Hipermercado Superior. Wide catalog with the best offers.",
-      "json_ld_name": "Results for \"{query}\"",
-      "json_ld_items": "Products found for \"{query}\"",
+      "json_ld_name": "Results for \"{{query}}\"",
+      "json_ld_items": "Products found for \"{{query}}\"",
       "keywords": "product search, hypermarket, supermarket, offers, online shopping, superior catalog"
     },
     "hero": {
@@ -2527,9 +2527,8 @@
     }
   },
   "productDetail": {
-    "clickToEnlarge": "Click to enlarge image",
-    "expandedImage": "Expanded product image",
-    "closeModal": "Close image",
-    "defaultDescription": "High quality product. Check specifications in store for more information."
+    "clickToEnlarge": "Click to enlarge",
+    "expandedImage": "Expanded image of {{name}}",
+    "closeModal": "Close modal (ESC)"
   }
 }
