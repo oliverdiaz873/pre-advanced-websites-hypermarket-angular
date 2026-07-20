@@ -4,12 +4,11 @@ Angular hypermarket storefront built with Angular Standalone Components, TypeScr
 
 ## Documentation
 
-Start with [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md).
+Start with [docs/getting-started.md](docs/getting-started.md).
 
 Core documentation:
 - [Architecture](docs/ARCHITECTURE.md)
 - [Folder Structure](docs/folder-structure.md)
-- [Getting Started](docs/getting-started.md)
 - [Internationalization](docs/I18N_GUIDE.md)
 - [Migration Plan](docs/MIGRATION_PLAN.md)
 - [Migration Gaps Audit](docs/migration-gaps.md)
