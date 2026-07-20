@@ -69,6 +69,7 @@ export class SearchPageComponent {
       title,
       description,
       canonicalPath,
+      robots: 'noindex, nofollow',
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',

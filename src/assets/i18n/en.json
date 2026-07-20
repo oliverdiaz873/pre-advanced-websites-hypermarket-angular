@@ -2530,5 +2530,11 @@
     "clickToEnlarge": "Click to enlarge",
     "expandedImage": "Expanded image of {{name}}",
     "closeModal": "Close modal (ESC)"
+  },
+  "notFound": {
+    "seo": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for does not exist at Superior Hypermarket."
+    }
   }
 }

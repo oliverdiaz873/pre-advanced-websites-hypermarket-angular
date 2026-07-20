@@ -99,6 +99,7 @@ export class ProductPageComponent {
       title: product.nombre,
       description,
       canonicalPath,
+      openGraph: { image: imageUrl },
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'Product',

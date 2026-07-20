@@ -1,5 +1,5 @@
 ﻿import { Routes } from '@angular/router';
-import { SeoConfig } from '@core/services/seo.service';
+import { SeoConfig } from '@core/types/seo';
 import { ShopLayoutComponent } from './layouts/shop-layout/shop-layout.component';
 
 const seo = (config: SeoConfig) => config;
@@ -14,21 +14,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/home/pages/home-page/home-page.component').then(m => m.HomePageComponent),
         data: {
           seo: seo({
-            title: 'Hipermercado online',
-            description: 'Compra alimentos, tecnologia, farmacia, ferreteria, moda y hogar en Hypermarket.',
+            titleKey: 'home.seo.title',
+            descriptionKey: 'home.seo.description',
             canonicalPath: '/',
-            jsonLd: {
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: 'Hypermarket',
-              description: 'Hipermercado online con alimentos, tecnologia, farmacia, ferreteria, moda y hogar.',
-              url: '/',
-              potentialAction: {
-                '@type': 'SearchAction',
-                target: '/search?q={search_term_string}',
-                'query-input': 'required name=search_term_string'
-              }
-            }
+            jsonLd: null
           })
         }
       },
@@ -59,8 +48,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/offers/offers-page/offers-page.component').then(m => m.OffersPageComponent),
         data: {
           seo: seo({
-            title: 'Ofertas',
-            description: 'Encuentra productos con descuento activo en Hypermarket.',
+            titleKey: 'offers.seo.title',
+            descriptionKey: 'offers.seo.description',
             canonicalPath: '/offers',
             jsonLd: {
               '@context': 'https://schema.org',
@@ -77,8 +66,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/contact/contact-page/contact-page.component').then(m => m.ContactPageComponent),
         data: {
           seo: seo({
-            title: 'Contacto',
-            description: 'Contacta a Hypermarket para soporte de compras, entregas o disponibilidad de productos.',
+            titleKey: 'contact.seo.title',
+            descriptionKey: 'contact.seo.description',
             canonicalPath: '/contact',
             jsonLd: {
               '@context': 'https://schema.org',
@@ -95,8 +84,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/legal/terms-page.component').then(m => m.TermsPageComponent),
         data: {
           seo: seo({
-            title: 'Terminos y condiciones',
-            description: 'Terminos que regulan el uso de Hypermarket Angular, su catalogo, carrito y servicios.',
+            titleKey: 'legal.terms.seo.title',
+            descriptionKey: 'legal.terms.seo.description',
             canonicalPath: '/legal/terms',
             jsonLd: {
               '@context': 'https://schema.org',
@@ -112,8 +101,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/legal/privacy-page.component').then(m => m.PrivacyPageComponent),
         data: {
           seo: seo({
-            title: 'Privacidad',
-            description: 'Politica de privacidad de Hypermarket Angular para navegacion, carrito y contacto.',
+            titleKey: 'legal.privacy.seo.title',
+            descriptionKey: 'legal.privacy.seo.description',
             canonicalPath: '/legal/privacy',
             jsonLd: {
               '@context': 'https://schema.org',
@@ -129,10 +118,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/cart/components/cart-page/cart-page.component').then(m => m.CartPageComponent),
         data: {
           seo: seo({
-            title: 'Carrito',
-            description: 'Revisa los productos agregados a tu carrito de compras en Hypermarket.',
+            titleKey: 'common.cart.seo.title',
+            descriptionKey: 'common.cart.seo.description',
             canonicalPath: '/cart',
-            jsonLd: null
+            jsonLd: null,
+            robots: 'noindex, nofollow'
           })
         }
       },
@@ -141,9 +131,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/search/components/search-page/search-page.component').then(m => m.SearchPageComponent),
         data: {
           seo: seo({
-            title: 'Busqueda',
-            description: 'Busca productos por nombre en el catalogo de Hypermarket.',
+            titleKey: 'search.seo.title_empty',
+            descriptionKey: 'search.seo.desc_empty',
             canonicalPath: '/search',
+            robots: 'noindex, nofollow',
             jsonLd: {
               '@context': 'https://schema.org',
               '@type': 'CollectionPage',
@@ -159,8 +150,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/not-found/not-found-page.component').then(m => m.NotFoundPageComponent),
         data: {
           seo: seo({
-            title: 'Pagina no encontrada',
-            description: 'La pagina solicitada no existe en Hypermarket.',
+            titleKey: 'notFound.seo.title',
+            descriptionKey: 'notFound.seo.description',
             jsonLd: null,
             robots: 'noindex, nofollow'
           })

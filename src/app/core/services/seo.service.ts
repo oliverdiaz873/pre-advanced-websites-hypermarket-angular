@@ -2,21 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
-export interface SeoTag {
-  name?: string;
-  property?: string;
-  content: string;
-}
-
-export interface SeoConfig {
-  title: string;
-  description: string;
-  tags?: SeoTag[];
-  canonicalPath?: string;
-  jsonLd?: object | null;
-  robots?: string;
-}
+import { TranslateService } from '@ngx-translate/core';
+import { JsonLdSchema, SeoConfig, SeoTag, OpenGraphConfig, TwitterConfig } from '@core/types/seo';
 
 @Injectable({
   providedIn: 'root'
@@ -26,25 +13,63 @@ export class SeoService {
   private readonly meta = inject(Meta);
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
-  private readonly titleSuffix = 'Hypermarket';
+  private readonly translate = inject(TranslateService);
+  private readonly titleSuffix = ' | Hypermarket';
   private readonly jsonLdSelector = 'script[data-seo-json-ld="true"]';
+  private readonly ogSelector = 'meta[data-seo-og="true"]';
+  private readonly twitterSelector = 'meta[data-seo-twitter="true"]';
+
+  private currentSeoConfig?: SeoConfig;
+  private baseJsonLd: JsonLdSchema[] = [];
 
   applySeo(config: SeoConfig): void {
-    this.setTitle(config.title);
-    this.setDescription(config.description);
+    this.currentSeoConfig = config;
+
+    const title = config.titleKey
+      ? this.translate.instant(config.titleKey)
+      : config.title;
+
+    const description = config.descriptionKey
+      ? this.translate.instant(config.descriptionKey)
+      : config.description;
+
+    if (title) {
+      this.setTitle(title);
+    }
+
+    if (description) {
+      this.setDescription(description);
+    }
+
     this.setTags(config.tags ?? []);
     this.setCanonical(config.canonicalPath);
     this.setRobots(config.robots);
-    this.setJsonLd(config.jsonLd ?? null);
+
+    const pageSchemas = config.jsonLd
+      ? (Array.isArray(config.jsonLd) ? config.jsonLd : [config.jsonLd])
+      : [];
+
+    const merged = this.deduplicateByType([...this.baseJsonLd, ...pageSchemas]);
+    this.setJsonLd(merged);
+
+    this.setOpenGraph(config.openGraph);
+    this.setTwitter(config.twitter);
+  }
+
+  refreshSeo(): void {
+    if (this.currentSeoConfig) {
+      this.applySeo(this.currentSeoConfig);
+    }
   }
 
   setTitle(title: string, useTemplate = true): void {
     const trimmedTitle = title.trim();
-    const nextTitle = useTemplate && trimmedTitle !== this.titleSuffix
-      ? `${trimmedTitle} | ${this.titleSuffix}`
+    const hasSuffix = trimmedTitle.includes(this.titleSuffix);
+    const nextTitle = useTemplate && !hasSuffix
+      ? `${trimmedTitle}${this.titleSuffix}`
       : trimmedTitle;
 
-    this.title.setTitle(nextTitle || this.titleSuffix);
+    this.title.setTitle(nextTitle);
   }
 
   setDescription(description: string): void {
@@ -76,18 +101,37 @@ export class SeoService {
     canonical.setAttribute('href', href);
   }
 
-  setJsonLd(schema: object | null): void {
+  setJsonLd(schemas: JsonLdSchema | JsonLdSchema[] | null): void {
     this.clearJsonLd();
 
-    if (!schema) {
-      return;
-    }
+    const normalized = Array.isArray(schemas)
+      ? schemas
+      : schemas
+        ? [schemas]
+        : [];
 
-    const script = this.document.createElement('script');
-    script.type = 'application/ld+json';
-    script.setAttribute('data-seo-json-ld', 'true');
-    script.text = JSON.stringify(schema);
-    this.document.head.appendChild(script);
+    for (const schema of normalized) {
+      const script = this.document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-seo-json-ld', 'true');
+      script.text = JSON.stringify(schema);
+      this.document.head.appendChild(script);
+    }
+  }
+
+  setBaseJsonLd(schemas: JsonLdSchema[] | null): void {
+    this.baseJsonLd = schemas ?? [];
+  }
+
+  private deduplicateByType(schemas: JsonLdSchema[]): JsonLdSchema[] {
+    const seen = new Set<string>();
+
+    return schemas.filter(s => {
+      const type = String(s['@type'] ?? '');
+      if (!type || seen.has(type)) return false;
+      seen.add(type);
+      return true;
+    });
   }
 
   clearJsonLd(): void {
@@ -102,6 +146,73 @@ export class SeoService {
     const origin = this.document.location?.origin ?? '';
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
     return `${origin}${normalizedPath}`;
+  }
+
+  private resolveOgValue(config: OpenGraphConfig | undefined, field: 'title' | 'description'): string | undefined {
+    if (!config) return;
+
+    const keyField = `${field}Key` as 'titleKey' | 'descriptionKey';
+    return config[keyField]
+      ? this.translate.instant(config[keyField])
+      : config[field];
+  }
+
+  private setOpenGraph(config?: OpenGraphConfig): void {
+    this.document.querySelectorAll(this.ogSelector).forEach(el => el.remove());
+
+    if (!config) return;
+
+    const title = this.resolveOgValue(config, 'title');
+    const description = this.resolveOgValue(config, 'description');
+
+    const ogTags: Record<string, string | undefined> = {
+      'og:title': title,
+      'og:description': description,
+      'og:image': config.image,
+      'og:url': config.url,
+      'og:type': config.type,
+    };
+
+    for (const [property, content] of Object.entries(ogTags)) {
+      if (!content) continue;
+
+      const meta = this.document.createElement('meta');
+      meta.setAttribute('property', property);
+      meta.setAttribute('content', content);
+      meta.setAttribute('data-seo-og', 'true');
+      this.document.head.appendChild(meta);
+    }
+  }
+
+  private setTwitter(config?: TwitterConfig): void {
+    this.document.querySelectorAll(this.twitterSelector).forEach(el => el.remove());
+
+    if (!config) return;
+
+    const title = config.titleKey
+      ? this.translate.instant(config.titleKey)
+      : config.title;
+
+    const description = config.descriptionKey
+      ? this.translate.instant(config.descriptionKey)
+      : config.description;
+
+    const twitterTags: Record<string, string | undefined> = {
+      'twitter:card': config.card,
+      'twitter:title': title,
+      'twitter:description': description,
+      'twitter:image': config.image,
+    };
+
+    for (const [name, content] of Object.entries(twitterTags)) {
+      if (!content) continue;
+
+      const meta = this.document.createElement('meta');
+      meta.setAttribute('name', name);
+      meta.setAttribute('content', content);
+      meta.setAttribute('data-seo-twitter', 'true');
+      this.document.head.appendChild(meta);
+    }
   }
 
   private setRobots(robots?: string): void {

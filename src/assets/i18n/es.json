@@ -2530,5 +2530,11 @@
     "clickToEnlarge": "Haz clic para ampliar",
     "expandedImage": "Imagen ampliada de {{name}}",
     "closeModal": "Cerrar modal (ESC)"
+  },
+  "notFound": {
+    "seo": {
+      "title": "Página no encontrada",
+      "description": "La página que buscas no existe en Hipermercado Superior."
+    }
   }
 }
