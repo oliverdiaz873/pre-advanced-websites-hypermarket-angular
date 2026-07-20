@@ -1,59 +1,77 @@
-# PreAdvancedWebsitesHypermarketAngular
+# Pre-Advanced Websites - Hypermarket Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.12.
+Angular hypermarket storefront built with Angular Standalone Components, TypeScript, Angular Signals, @ngx-translate, Tailwind CSS, and local static catalog data.
 
-## Development server
+## Documentation
 
-To start a local development server, run:
+Start with [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md).
 
+Core documentation:
+- [Architecture](docs/ARCHITECTURE.md)
+- [Internationalization](docs/I18N_GUIDE.md)
+- [Migration Plan](docs/MIGRATION_PLAN.md)
+- [Migration Gaps Audit](docs/migration-gaps.md)
+- [Documentation Migration Plan](docs/DOCS_MIGRATION_PLAN.md)
+
+## Project Overview
+
+The project is a frontend storefront application migrated from Next.js to Angular.
+
+Product, category, offer, and product-detail data are currently stored in local TypeScript modules under `src/app/data/`.
+
+There is no backend API, database, authentication system, checkout integration, or remote catalog service implemented at this time.
+
+## Main Features
+
+- Locale-aware translations with `@ngx-translate/core`.
+- Home page with hero carousel, offers carousel, featured products, category banners, and about section.
+- Product detail pages with dynamic SEO metadata and JSON-LD.
+- Category pages built from local category and product data.
+- Offers page with filtering and discount badges.
+- Client-side search system with normalized text matching.
+- Client-side cart using Angular Signals and `localStorage`.
+- Contact form with client-side validation.
+- Legal pages using translation content.
+- Responsive desktop, tablet, and mobile navigation.
+
+## Tech Stack
+
+- Angular `21.2.0`
+- TypeScript
+- Angular Router
+- Angular Standalone Components
+- Angular Signals
+- `@ngx-translate/core`
+- Tailwind CSS `4.3.1`
+- RxJS
+- Vitest
+
+## Project Structure
+
+```text
+src/
+|-- app/        # Angular application source
+|-- core/       # Singleton services and utilities
+|-- data/       # Local catalog data
+|-- features/   # Feature-oriented components
+|-- assets/     # Static assets and translations
+`-- styles.css  # Global styles
+```
+
+## Getting Started
+
+```bash
+npm install
+npm start
+```
+
+Other commands:
 ```bash
 ng serve
+npm run build
+npm test
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## License
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[LICENSE](LICENSE)
