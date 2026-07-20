@@ -8,10 +8,18 @@ Start with [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md).
 
 Core documentation:
 - [Architecture](docs/ARCHITECTURE.md)
+- [Folder Structure](docs/folder-structure.md)
+- [Getting Started](docs/getting-started.md)
 - [Internationalization](docs/I18N_GUIDE.md)
 - [Migration Plan](docs/MIGRATION_PLAN.md)
 - [Migration Gaps Audit](docs/migration-gaps.md)
 - [Documentation Migration Plan](docs/DOCS_MIGRATION_PLAN.md)
+
+Features:
+- [Cart](docs/features/cart.md)
+- [Products](docs/features/products.md)
+- [Search](docs/features/search.md)
+- [Home](docs/features/home.md)
 
 ## Project Overview
 
@@ -50,12 +58,15 @@ There is no backend API, database, authentication system, checkout integration, 
 
 ```text
 src/
-|-- app/        # Angular application source
-|-- core/       # Singleton services and utilities
-|-- data/       # Local catalog data
-|-- features/   # Feature-oriented components
-|-- assets/     # Static assets and translations
-`-- styles.css  # Global styles
+├── app/
+│   ├── core/       # Singleton services, types, utils, i18n config
+│   ├── data/       # Local catalog data (products, categories, etc.)
+│   ├── features/   # Business feature modules (cart, home, offers, etc.)
+│   ├── layouts/    # Layout components (shop-layout)
+│   └── shared/     # Reusable UI components (skeleton, toast, etc.)
+├── assets/
+│   └── i18n/       # Translation JSON files (es.json, en.json)
+└── styles.css      # Global styles
 ```
 
 ## Getting Started

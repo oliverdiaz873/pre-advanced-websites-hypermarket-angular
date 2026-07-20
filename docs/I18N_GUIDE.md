@@ -20,16 +20,16 @@ assets/i18n/
 Organizados por namespaces:
 ```json
 {
-  "common": { ... },
+  "common": { ... },    // Includes cart, product, units, breadcrumb, etc.
   "header": { ... },
   "footer": { ... },
   "home": { ... },
   "categories": { ... },
   "offers": { ... },
   "search": { ... },
-  "cart": { ... },
   "contact": { ... },
-  "legal": { ... }
+  "legal": { ... },
+  "products": { ... }   // Dynamic product translations (name, description, specs)
 }
 ```
 
@@ -51,7 +51,14 @@ El pipe `ProductTranslatePipe` maneja las traducciones superpuestas desde `asset
 // assets/i18n/es.json
 {
   "products": {
-    "product-id": "Nombre Traducido"
+    "televisor_samsung_75_pulgadas": {
+      "name": "Televisor Samsung 75 pulgadas",
+      "description": "Experimenta una resolución 4K impresionante...",
+      "specs": [
+        "Resolución: 4K UHD (3840 x 2160)",
+        "Smart TV: Tizen OS con apps integradas"
+      ]
+    }
   }
 }
 ```
@@ -76,8 +83,8 @@ El servicio se inicializa en `app.config.ts` usando la función `provideI18n()`.
 
 ### En templates con el pipe `translate`
 ```html
-<h1>{{ 'home.title' | translate }}</h1>
-<button>{{ 'common.addToCart' | translate }}</button>
+<h1>{{ 'home.hero.title' | translate }}</h1>
+<button>{{ 'common.product.add_to_cart' | translate }}</button>
 ```
 
 ### En componentes con `TranslateService`
@@ -89,19 +96,38 @@ import { TranslateService } from '@ngx-translate/core';
 export class MyComponent {
   private translate = inject(TranslateService);
 
-  greet() {
-    const greeting = this.translate.instant('common.greeting');
-    console.log(greeting);
+  submit() {
+    const label = this.translate.instant('common.product.add_to_cart');
+    console.log(label);
   }
 }
 ```
 
-### Traducciones superpuestas de productos
-Para productos con una traducción opcional y fallback al nombre original, usa el pipe `ProductTranslatePipe`:
+> **Nota:** Las claves de carrito (`cart`) viven bajo el namespace `common.cart` (ej: `common.cart.summary.total_items`), no como namespace raíz.
+
+### Traducciones superpuestas de productos (ProductTranslatePipe)
+Los productos usan un sistema de traducción overlay con fallback al nombre original.
+
+**Pipe `ProductTranslatePipe`** (`features/products/pipes/product-translate.pipe.ts`):
 ```html
-<!-- Si existe la traducción 'products.product-id' se usa, si no, usa product.nombre -->
+<!-- Busca 'products.{productId}.name'; si no existe, muestra product.nombre como fallback -->
 <h2>{{ product.id | productTranslate:product.nombre }}</h2>
 ```
+
+**Estructura en JSON** (`assets/i18n/*.json`):
+```json
+{
+  "products": {
+    "televisor_samsung_75_pulgadas": {
+      "name": "Televisor Samsung 75 pulgadas",
+      "description": "Descripción traducida...",
+      "specs": ["Spec 1", "Spec 2", "Spec 3", "Spec 4", "Spec 5"]
+    }
+  }
+}
+```
+
+El pipe busca la clave exacta `products.{productId}.name`. Si no se encuentra, retorna el `fallback` (normalmente `product.nombre` del modelo de datos local).
 
 ---
 

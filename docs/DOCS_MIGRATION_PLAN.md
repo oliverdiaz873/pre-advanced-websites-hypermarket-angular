@@ -11,6 +11,12 @@ Migrar, adaptar y expandir la documentación del proyecto Hypermarket desde la v
 - [x] docs/migration-gaps.md: Auditoría de brechas de fidelidad en la migración
 - [x] docs/ARCHITECTURE.md: Arquitectura del proyecto
 - [x] docs/I18N_GUIDE.md: Guía de internacionalización
+- [x] docs/getting-started.md: Guía de inicio rápido
+- [x] docs/folder-structure.md: Estructura de carpetas
+- [x] docs/features/cart.md: Documentación del carrito
+- [x] docs/features/products.md: Documentación de productos
+- [x] docs/features/search.md: Documentación de búsqueda
+- [x] docs/features/home.md: Documentación de la página de inicio
 - [x] README.md: Documentación básica del proyecto actualizada
 
 ---
@@ -54,42 +60,39 @@ Actividades:
   - Configuración de @ngx-translate
   - Translation Layers (UI + Product overlays)
   - Uso en templates y componentes
-- [ ] Actualizar docs/MIGRATION_PLAN.md:
-  - Añadir sección Migration Status al principio
-  - Mantener el historial de fases original
+- [x] Actualizar docs/MIGRATION_PLAN.md:
+  - Añadida sección Migration Status al principio
+  - Paths corregidos (offers.data.ts, cart.service.ts, product-page.data.ts)
+  - TOC reparado (secciones 5-7 eliminadas por no implementadas)
 - [x] Actualizar docs/migration-gaps.md:
-  - Convertir a Migration Gaps Audit
+  - Convertido a Migration Gaps Audit
   - Listar issues resueltos
-- [ ] Crear docs/STYLE_GUIDE.md:
-  - Guías de estilo de código (TypeScript, SCSS, templates Angular)
-  - Convenciones de nomenclatura (componentes, servicios, pipes, directivas)
-  - Buenas prácticas específicas de Angular
+- [ ] Crear docs/STYLE_GUIDE.md (fuera de scope por ahora)
 
 ### Fase 4: Documentar las Características del Proyecto
 Objetivo: Crear documentación específica para cada feature principal del proyecto.
 
-Actividades:
-- [ ] Crear docs/features/CART.md:
-  - Funcionamiento del servicio CartService
-  - Persistencia en localStorage
-  - Componentes del carrito
-  - Uso del badge en el Header
-- [ ] Crear docs/features/SEARCH.md:
-  - Funcionamiento del sistema de búsqueda
-  - Cómo funciona la normalización de texto (search-utils.ts)
-  - Componentes de búsqueda responsive (Desktop, Tablet, Mobile)
-- [ ] Crear docs/features/PRODUCTS.md:
-  - Estructura de datos de productos y categorías
-  - Componentes de productos (ProductCard, ProductCarousel, ProductDetailSection, etc.)
-  - Traducciones superpuestas de productos
-- [ ] Crear docs/features/ANIMATIONS.md:
-  - Animaciones de Angular (@angular/animations)
-  - Directivas de animación
-  - Efectos visuales (hover, scroll reveal, etc.)
-- [ ] Crear docs/features/SEO.md:
-  - Funcionamiento del SeoService
-  - Cómo establecer título y metaetiquetas dinámicas
-  - JSON-LD para datos estructurados
+Actividades completadas:
+- [x] Crear docs/features/cart.md:
+  - Diagrama de flujo Signals (WritableSignal → computed → effect → localStorage)
+  - CartService con Signal state management
+  - Componentes del carrito y persistencia
+- [x] Crear docs/features/search.md:
+  - SearchService reactivo con Signals
+  - Normalización de texto (acentos, mayúsculas)
+  - Componentes responsive (Desktop, Tablet, Mobile)
+- [x] Crear docs/features/products.md:
+  - ProductTranslatePipe + ProductTranslationService
+  - Componentes reutilizables (ProductCard, ProductGrid, ProductCarousel, etc.)
+  - SEO dinámico y JSON-LD
+- [x] Crear docs/features/home.md (añadida fuera del plan original):
+  - HeroCarousel con swipe táctil y auto-rotación
+  - CategoryBannersSection con layout alternado
+  - AboutUs y animaciones scroll
+
+Omitidas por decisión de scope:
+- [ ] docs/features/ANIMATIONS.md — Cubierto parcialmente en home.md y ARCHITECTURE.md
+- [ ] docs/features/SEO.md — Cubierto en products.md y ARCHITECTURE.md (SeoService)
 
 ### Fase 5: Añadir Guías de Contribución y Mantenimiento
 Objetivo: Proporcionar guías para quienes quieran contribuir o mantener el proyecto.
@@ -117,15 +120,25 @@ Actividades:
 ---
 
 ## Priorización de Tareas
-1. Alta Prioridad:
+1. Alta Prioridad (completada):
    - Actualizar README.md principal ✅
    - Crear ARCHITECTURE.md ✅
    - Crear I18N_GUIDE.md ✅
-   - Actualizar MIGRATION_PLAN.md (add Migration Status)
-   - Actualizar migration-gaps.md (convert to audit) ✅
-2. Media Prioridad:
-   - Documentar features principales (CART.md, SEARCH.md, PRODUCTS.md)
-3. Baja Prioridad:
-   - Guías de contribución (CONTRIBUTING.md)
-   - Troubleshooting
-   - Guías de animaciones y SEO
+   - Actualizar MIGRATION_PLAN.md ✅
+   - Actualizar migration-gaps.md ✅
+   - Crear getting-started.md ✅
+   - Crear folder-structure.md ✅
+2. Alta Prioridad — Feature docs (completada):
+   - docs/features/cart.md ✅
+   - docs/features/products.md ✅
+   - docs/features/search.md ✅
+   - docs/features/home.md ✅
+3. Fuera de scope (por decisión):
+   - auth.md (autenticación no implementada en Angular)
+   - contact.md (página simple, bajo valor documental)
+   - legal.md (página simple, bajo valor documental)
+   - navigation.md (cubierto en ARCHITECTURE.md)
+   - offers.md (comparte conceptos con products)
+   - layout.md (cubierto en ARCHITECTURE.md)
+   - STYLE_GUIDE.md, CONTRIBUTING.md, TROUBLESHOOTING.md (guías de equipo)
+   - SKELETON_LOADINGS.md, SKELETON_VISUAL_MATCHING.md (docs de proceso de migración)

@@ -35,9 +35,7 @@ Completed:
 2. [Correspondencia Next.js ↔ Angular](#2-correspondencia-nextjs--angular)
 3. [Arquitectura Angular Recomendada](#3-arquitectura-angular-recomendada)
 4. [Fases de Migración Detalladas](#4-fases-de-migracion-detalladas)
-5. [Identificación de Piezas Críticas](#5-identificacion-de-piezas-criticas)
-6. [Riesgos y Mitigación](#6-riesgos-y-mitigacion)
-7. [Orden de Implementación Paso a Paso](#7-orden-de-implementacion-paso-a-paso)
+<!-- Secciones 5-7 no implementadas en este documento -->
 
 ---
 
@@ -356,7 +354,7 @@ src/
 │
 ├── core/
 │   ├── services/
-│   │   ├── cart.service.ts              # Carrito con BehaviorSubject + localStorage
+│   │   ├── cart.service.ts              # Carrito con BehaviorSubject + localStorage (actual: features/cart/services/cart.service.ts)
 │   │   ├── seo.service.ts               # Title + Meta helper
 │   │   └── error-handler.service.ts     # ErrorHandler global
 │   ├── i18n/
@@ -372,8 +370,8 @@ src/
 ├── data/
 │   ├── products.data.ts                 # 184 productos (copia de services/catalog/products.ts)
 │   ├── categories.data.ts               # 8 categorías (copia de services/catalog/categories.ts)
-│   ├── offers.data.ts                   # 7 ofertas (copia de services/catalog/offers.ts)
-│   ├── product-page-data.data.ts        # ~2046 líneas contenido editorial
+│   ├── (offers.data.ts → features/offers/data/offers.data.ts)
+│   ├── product-page.data.ts             # ~2046 líneas contenido editorial
 │   └── category-section-map.data.ts     # Utilidades de mapeo slug
 │
 ├── features/
@@ -559,8 +557,8 @@ El patrón "overlay & fallback" del Next.js original se replica así:
 1. Crear `core/types/product.interface.ts` y `core/types/category.interface.ts`.
 2. Crear `data/products.data.ts` — copiar array de 184 productos.
 3. Crear `data/categories.data.ts` — copiar array de 8 categorías.
-4. Crear `data/offers.data.ts` con interfaz `OfferData` y función `calculateDiscountPercentage`.
-5. Crear `data/product-page-data.data.ts` — copiar ~2046 líneas de contenido editorial.
+4. Crear `features/offers/data/offers.data.ts` con interfaz `OfferData` y función `calculateDiscountPercentage`.
+5. Crear `data/product-page.data.ts` — copiar ~2046 líneas de contenido editorial.
 6. Crear `data/category-section-map.data.ts` — funciones `sectionSlugToProductCategoria` y `subcategorySlugFromHref`.
 7. Copiar `messages/es.json` → `src/assets/i18n/es.json`.
 8. Copiar `messages/en.json` → `src/assets/i18n/en.json`.
@@ -629,7 +627,7 @@ El patrón "overlay & fallback" del Next.js original se replica así:
 **Objetivo**: Reemplazar `CartContext` con un servicio Angular reactivo.
 
 **Actividades**:
-1. Crear `core/services/cart.service.ts`:
+1. Crear `features/cart/services/cart.service.ts`:
    - `BehaviorSubject<CartItem[]>` para el estado del carrito.
    - Exponer `cart$`, `totalItems$`, `totalPrice$` como observables.
    - Métodos: `addToCart()`, `removeFromCart()`, `updateQuantity()`, `clearCart()`.
@@ -693,7 +691,7 @@ El patrón "overlay & fallback" del Next.js original se replica así:
 1. Crear `home.routes.ts` con ruta vacía y carga lazy.
 2. Crear `home-page.component.ts`:
    - Inyecta `TranslateService` para el SEO (Title + Meta).
-   - Inyecta `categories.data.ts`, `products.data.ts`, `offers.data.ts`.
+   - Inyecta `categories.data.ts`, `products.data.ts` (catalog data from `src/app/data/`), `offers.data.ts` (from `features/offers/data/`).
    - Renderiza: `HeroCarousel`, `ProductCarouselSectionWithActions` (ofertas), `ProductCarouselSectionWithActions` (destacados), `CategoryBannersSection`, `AboutUs`.
    - Incluye JSON-LD con `DomSanitizer`.
 

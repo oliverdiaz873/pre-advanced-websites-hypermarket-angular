@@ -5,9 +5,11 @@
 Hypermarket Angular uses a feature-based architecture with Angular Standalone Components.
 
 The project is organized into:
-- core: Application-wide services and utilities
+- core: Application-wide services, types, utils, and i18n config
 - data: Local catalog data
-- features: Business features and UI modules
+- features: Business feature modules (cart, home, offers, etc.)
+- shared: Reusable UI components (skeleton, toast, breadcrumb, etc.)
+- layouts: Layout components (shop-layout with header/footer)
 
 ---
 
@@ -41,10 +43,12 @@ Main routes:
 ├── /category/:id
 ├── /product/:id
 ├── /offers
+├── /search
 ├── /cart
 ├── /contact
-├── /legal/*
-└── /not-found
+├── /legal/terms
+├── /legal/privacy
+└── /** (catch-all 404)
 ```
 
 ---
@@ -54,7 +58,7 @@ Main routes:
 ### core/
 Purpose: Contains reusable, singleton code used across the entire application. Must not depend on any feature.
 
-- services/: Singleton services (CartService, SeoService, ViewportService)
+- services/: Singleton services (SeoService, ViewportService) — CartService lives in features/cart/services/
 - types/: Global TypeScript interfaces (Product, Category, etc.)
 - utils/: Pure utility functions (asset-utils, price-utils, search-utils)
 - i18n/: Internationalization configuration (@ngx-translate)
@@ -64,15 +68,16 @@ Purpose: Stores all static application data (no external API).
 
 - products.data.ts: Product catalog
 - categories.data.ts: Categories and subcategories
-- offers.data.ts: Offer products
 - product-page.data.ts: Editorial content for product detail pages
+- category-section-map.data.ts: Slug → category mapping utilities
 - catalog.helpers.ts: Catalog helper functions
+- (Offers data lives in features/offers/data/offers.data.ts)
 
 ### features/
 Purpose: Self-contained business modules, organized by feature.
 
 Existing features:
-- cart/: Shopping cart
+- cart/: Shopping cart (service in cart/services/, components in cart/components/)
 - category/: Category pages
 - contact/: Contact form
 - home/: Homepage (HeroCarousel, CategoryBanners, AboutUs)
@@ -80,7 +85,25 @@ Existing features:
 - legal/: Legal pages (terms, privacy)
 - navigation/: Responsive navigation
 - not-found/: 404 page
-- offers/: Offers page with filters
+- offers/: Offers page (data in offers/data/, components in offers/components/)
 - product/: Product detail page
-- products/: Reusable product components
+- products/: Reusable product components (pipes in products/pipes/)
 - search/: Product search system
+
+### shared/
+Purpose: Reusable UI components, directives, and pipes used across features.
+
+Components:
+- breadcrumb/: Navigational breadcrumbs
+- drawer/: Sliding side panel
+- empty-state/: Generic empty state
+- icons/: Inline SVG icon components
+- language-selector/: Language switcher (es/en)
+- scroll-to-top/: Floating scroll-to-top button
+- skeleton/: Loading skeleton variants (BaseSkeleton, HeroBannerSkeleton, etc.)
+- toast/: Toast notification system (component + service)
+
+### layouts/
+Purpose: Application-level layout wrappers.
+
+- shop-layout/: Main layout with Header, Footer, Cart indicators, and ScrollToTop
