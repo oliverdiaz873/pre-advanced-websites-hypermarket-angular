@@ -2489,11 +2489,11 @@
       "usage_pattern": "t('search:{key}') para acceso anidado, ej: t('search:input.placeholder')"
     },
     "input": {
-      "placeholder": "Buscar productos..."
+      "placeholder": "Busca tus productos..."
     },
     "button": {
-      "submit": "Buscar",
-      "open": "Abrir búsqueda",
+      "submit": "Buscar productos",
+      "open": "Abrir buscador",
       "cancel": "Cancelar búsqueda"
     },
     "seo": {
@@ -2527,9 +2527,8 @@
     }
   },
   "productDetail": {
-    "clickToEnlarge": "Haz clic para ampliar la imagen",
-    "expandedImage": "Imagen ampliada del producto",
-    "closeModal": "Cerrar imagen",
-    "defaultDescription": "Producto de alta calidad. Consulta las especificaciones en la tienda para más información."
+    "clickToEnlarge": "Haz clic para ampliar",
+    "expandedImage": "Imagen ampliada de {{name}}",
+    "closeModal": "Cerrar modal (ESC)"
   }
 }
