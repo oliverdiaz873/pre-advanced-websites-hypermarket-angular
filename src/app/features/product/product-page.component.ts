@@ -11,6 +11,7 @@ import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.
 import { ProductDetailSectionComponent } from '@features/products/components/product-detail-section/product-detail-section.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 import { ProductUI } from '@features/products/models/product-ui.interface';
+import { ProductTranslationService } from '@features/products/services/product-translation.service';
 
 @Component({
   selector: 'app-product-page',
@@ -33,6 +34,7 @@ export class ProductPageComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
+  private readonly productTranslation = inject(ProductTranslationService);
   private readonly langVersion = signal(0);
   readonly productId = signal('');
 
@@ -57,7 +59,7 @@ export class ProductPageComponent {
       if (subcategory) {
         items.push({ label: this.translate.instant('categories.sub.' + product.categoria), url: subcategory.href });
       }
-      items.push({ label: product.nombre });
+      items.push({ label: this.productTranslation.getName(product) });
     }
 
     return items;
@@ -66,7 +68,10 @@ export class ProductPageComponent {
   constructor() {
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.langVersion.update(v => v + 1));
+      .subscribe(() => {
+        this.langVersion.update(v => v + 1);
+        this.applyProductSeo();
+      });
 
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       this.productId.set(params.get('id') ?? '');
@@ -93,11 +98,12 @@ export class ProductPageComponent {
       return;
     }
 
-    const description = this.pageData()?.descripcion ?? this.translate.instant('common.product.fallback_description', { name: product.nombre });
+    const productName = this.productTranslation.getName(product);
+    const description = this.productTranslation.getDescription(product, this.pageData());
     const imageUrl = this.seo.absoluteUrl(getAssetUrl(product.imagen));
 
     this.seo.applySeo({
-      title: product.nombre,
+      title: productName,
       description,
       canonicalPath,
       openGraph: {
@@ -114,7 +120,7 @@ export class ProductPageComponent {
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'Product',
-        name: product.nombre,
+        name: productName,
         image: [imageUrl],
         description,
         sku: product.id,

@@ -5,7 +5,7 @@
  */
 export interface CartItem {
   productId: string;
-  nombre: string;
+  name: string;
   imagen: string;
   unitPrice: number;
   unitLabel: string;

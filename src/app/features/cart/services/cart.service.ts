@@ -72,7 +72,7 @@ export class CartService {
 
       const newItem: CartItem = {
         productId: product.id,
-        nombre: product.nombre,
+        name: product.name,
         imagen: product.imagen,
         unitPrice: product.precio,
         unitLabel: unitLabel(product),

@@ -14,7 +14,7 @@ import { normalizarTexto, hasSearchQuery } from '@core/utils';
  */
 export interface HeaderSearchProduct {
   id: string;
-  nombre: string;
+  name: string;
   imagen: string;
 }
 
@@ -90,7 +90,7 @@ export class SearchService {
 
     return products
       .filter((product) => {
-        const nombreEs = normalizarTexto(product.nombre);
+        const nombreEs = normalizarTexto(product.name);
         const key = `products.${product.id}.name`;
         const translated = this.translate.instant(key);
         const nombreEn =
@@ -104,7 +104,7 @@ export class SearchService {
 
         return {
           id: product.id,
-          nombre: translated !== key ? translated : product.nombre,
+          name: translated !== key ? translated : product.name,
           imagen: product.imagen
         };
       })

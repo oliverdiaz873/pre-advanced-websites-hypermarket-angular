@@ -8,7 +8,7 @@ import { ProductPageData } from '@data/product-page.data';
  *
  * Centralises product content translation (name, description, specs) by:
  * 1. Looking up the key `products.{id}.{field}` in ngx-translate i18n files.
- * 2. Falling back to the original product data (nombre, descripcion, detalles)
+ * 2. Falling back to the original product data (name, description, detalles)
  *    when no translation exists.
  *
  * Equivalent to the Next.js useProductTranslation hook.
@@ -19,9 +19,9 @@ import { ProductPageData } from '@data/product-page.data';
 export class ProductTranslationService {
   private translate = inject(TranslateService);
 
-  /** Translates the product name or falls back to product.nombre */
+  /** Translates the product name or falls back to product.name */
   getName(product?: ProductUI): string {
-    const fallback = product?.nombre ?? this.translate.instant('common.product.not_found');
+    const fallback = product?.name ?? this.translate.instant('common.product.not_found');
 
     if (!product?.id) return fallback;
 
@@ -30,7 +30,7 @@ export class ProductTranslationService {
   }
 
   /**
-   * Translates the product description or falls back to pageData.descripcion.
+   * Translates the product description or falls back to pageData.description.
    * If neither is available, generates a generic fallback using the product name.
    */
   getDescription(product?: ProductUI, pageData?: ProductPageData): string {
@@ -43,7 +43,7 @@ export class ProductTranslationService {
     const key = `products.${product.id}.description`;
     return this.exists(key)
       ? this.translate.instant(key)
-      : (pageData?.descripcion ?? `Disfruta de la mejor calidad con nuestro ${fallbackName}.`);
+      : (pageData?.description ?? `Disfruta de la mejor calidad con nuestro ${fallbackName}.`);
   }
 
   /** Translates the product specs array or falls back to pageData.detalles */

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { categories, categorySections } from '@data/index';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
+import { getCategoryName, getSubcategoryName } from '@core/utils';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 
@@ -56,7 +57,10 @@ export class CategoryPageComponent implements AfterViewInit {
   constructor() {
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.langVersion.update(v => v + 1));
+      .subscribe(() => {
+        this.langVersion.update(v => v + 1);
+        this.applyCategorySeo();
+      });
 
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       const id = params.get('id') ?? '';
@@ -124,17 +128,18 @@ export class CategoryPageComponent implements AfterViewInit {
 
     const sections = this.sections();
     const productCount = sections.reduce((total, section) => total + section.products.length, 0);
-    const subcategoryNames = category.subcategories.map(s => s.name).join(', ');
+    const translatedName = getCategoryName(category, this.translate);
+    const subcategoryNames = category.subcategories.map(s => getSubcategoryName(s, this.translate)).join(', ');
     const currentLang = this.translate.currentLang() ?? 'es';
     const locale = this.localeMap[currentLang] ?? 'es_DO';
 
     const description = this.translate.instant('categories.seo.description', {
-      name: category.name,
+      name: translatedName,
       subcategories: subcategoryNames
     });
 
     this.seo.applySeo({
-      title: category.name,
+      title: translatedName,
       description,
       canonicalPath,
       openGraph: {
@@ -148,16 +153,16 @@ export class CategoryPageComponent implements AfterViewInit {
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: category.name,
+        name: translatedName,
         url: this.seo.absoluteUrl(canonicalPath),
         mainEntity: {
           '@type': 'ItemList',
-          name: category.name,
+          name: translatedName,
           numberOfItems: productCount,
           itemListElement: category.subcategories.map((subcategory, index) => ({
             '@type': 'ListItem',
             position: index + 1,
-            name: subcategory.name,
+            name: getSubcategoryName(subcategory, this.translate),
             url: this.seo.absoluteUrl(subcategory.href)
           }))
         },
