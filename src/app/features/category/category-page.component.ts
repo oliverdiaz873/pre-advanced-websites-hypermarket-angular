@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { categories, categorySections } from '@data/index';
 import { SeoService } from '@core/services/seo.service';
+import { BRAND_NAME } from '@core/constants';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 
@@ -104,24 +105,67 @@ export class CategoryPageComponent implements AfterViewInit {
       : this.sections().find(section => section.id === sectionId)?.name ?? '';
   }
 
+  private localeMap: Record<string, string> = { es: 'es_DO', en: 'en_US' };
+
   private applyCategorySeo(): void {
     const category = this.category();
     const canonicalPath = `/category/${this.categoryId()}`;
 
-    if (!category) return;
+    if (!category) {
+      this.seo.applySeo({
+        titleKey: 'categories.not_found',
+        description: this.translate.instant('categories.not_found_description'),
+        canonicalPath,
+        jsonLd: null,
+        robots: 'noindex, nofollow'
+      });
+      return;
+    }
 
-    const productCount = this.sections().reduce((total, section) => total + section.products.length, 0);
+    const sections = this.sections();
+    const productCount = sections.reduce((total, section) => total + section.products.length, 0);
+    const subcategoryNames = category.subcategories.map(s => s.name).join(', ');
+    const currentLang = this.translate.currentLang() ?? 'es';
+    const locale = this.localeMap[currentLang] ?? 'es_DO';
+
+    const description = this.translate.instant('categories.seo.description', {
+      name: category.name,
+      subcategories: subcategoryNames
+    });
 
     this.seo.applySeo({
-      title: `${category.name} en Hypermarket`,
-      description: `Explora ${category.name} en Hypermarket con productos organizados por subcategoria.`,
+      title: category.name,
+      description,
       canonicalPath,
+      openGraph: {
+        type: 'website',
+        locale,
+        url: this.seo.absoluteUrl(canonicalPath)
+      },
+      twitter: {
+        card: 'summary_large_image'
+      },
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'CollectionPage',
-        name: `${category.name} en Hypermarket`,
-        description: `Catalogo de ${category.name} con ${productCount} productos disponibles.`,
-        url: this.seo.absoluteUrl(canonicalPath)
+        name: category.name,
+        url: this.seo.absoluteUrl(canonicalPath),
+        mainEntity: {
+          '@type': 'ItemList',
+          name: category.name,
+          numberOfItems: productCount,
+          itemListElement: category.subcategories.map((subcategory, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: subcategory.name,
+            url: this.seo.absoluteUrl(subcategory.href)
+          }))
+        },
+        provider: {
+          '@type': 'Organization',
+          name: BRAND_NAME,
+          url: this.seo.absoluteUrl('/')
+        }
       }
     });
   }

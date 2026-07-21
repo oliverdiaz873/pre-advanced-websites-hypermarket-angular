@@ -56,9 +56,12 @@
       "juguetes-para-ninas": "Toys for Girls"
     },
     "seo": {
-      "description_template": "Explore our selection of {category} at Superior Hypermarket: {subcategories}. The best products at the best price.",
-      "keywords_template": "{category}, {subcategories}, hypermarket, online shopping"
-    }
+      "description": "Explore our selection of {name}: {subcategories}.",
+      "description_template": "Explora nuestra selección de {category} en Hipermercado Superior: {subcategories}. Los mejores productos al mejor precio.",
+      "keywords_template": "{category}, {subcategories}, hipermercado, compras online"
+    },
+    "not_found": "Category Not Found",
+    "not_found_description": "The requested category was not found at Hipermercado Superior."
   },
   "common": {
     "_documentation": {
@@ -80,6 +83,8 @@
       "price_prefix": "Price: ",
       "similar_products": "Similar Products",
       "not_found": "Product not found",
+      "not_found_description": "The requested product was not found at Hipermercado Superior.",
+      "fallback_description": "Buy {name} at Hipermercado Superior.",
       "click_to_enlarge": "Click to enlarge",
       "close_modal": "Close modal (ESC)",
       "expanded_image": "Expanded image of {name}",
@@ -193,7 +198,7 @@
       "usage": "Footer de la aplicación, información legal, redes sociales",
       "contains": "Nombre de empresa, copyright, enlaces a redes sociales, políticas legales"
     },
-    "company_name": "Superior Hypermarket",
+    "company_name": "Hipermercado Superior",
     "rights_reserved": "All rights reserved.",
     "social": {
       "facebook": "Visit us on Facebook",
@@ -218,7 +223,7 @@
       ],
       "note": "Search-related keys have been moved to search.json namespace for better scalability"
     },
-    "brand": "Superior Hypermarket",
+    "brand": "Hipermercado Superior",
     "menu_open": "Open menu",
     "menu_close": "Close menu",
     "cart_label": "View cart",
@@ -239,7 +244,7 @@
       "contains": "Titulo hero, subtitulo, descripción de oferta, sección about, datos SEO"
     },
     "hero": {
-      "title": "Superior Hypermarket",
+      "title": "Hipermercado Superior",
       "subtitle": "The best prices in one place",
       "alt_fruits": "Offers on fruits and vegetables",
       "alt_tech": "Tech and iPhone promotions",
@@ -254,12 +259,12 @@
     },
     "about_us": {
       "title": "About Us",
-      "description": "At Superior Hypermarket, we work to offer you quality, variety, and fair prices. Our commitment is to provide the best shopping experience both in-store and online.",
-      "logo_alt": "Superior Hypermarket Logo"
+      "description": "At Hipermercado Superior, we work to offer you quality, variety, and fair prices. Our commitment is to provide the best shopping experience both in-store and online.",
+      "logo_alt": "Hipermercado Superior Logo"
     },
     "seo": {
       "title": "Smart Shopping and Quality Products",
-      "description": "Superior Hypermarket: your destination for smart shopping. Find the best selection of food, electronics, home goods, and more with exclusive deals and unbeatable prices.",
+      "description": "Hipermercado Superior: your destination for smart shopping. Find the best selection of food, electronics, home goods, and more with exclusive deals and unbeatable prices.",
       "keywords": "hypermarket, online shopping, supermarket, deals, fresh produce, quality, savings, appliances, food"
     },
     "category_banners": {
@@ -318,12 +323,12 @@
     "terms": {
       "title": "Terms of Use",
       "date": "May 16, 2026",
-      "intro": "These Terms of Use govern the access and use of the Superior Hypermarket digital platform. By browsing or using our services, you accept these conditions in their entirety. If you do not agree, we recommend that you do not use our website.",
+      "intro": "These Terms of Use govern the access and use of the Hipermercado Superior digital platform. By browsing or using our services, you accept these conditions in their entirety. If you do not agree, we recommend that you do not use our website.",
       "seo": {
         "title": "Terms of Use",
-        "description": "Consult the Terms of Use of Superior Hypermarket. Learn about the conditions of access, purchases, intellectual property, and responsibilities when using our platform.",
+        "description": "Consult the Terms of Use of Hipermercado Superior. Learn about the conditions of access, purchases, intellectual property, and responsibilities when using our platform.",
         "keywords": "terms of use, terms and conditions, site rules, online shopping",
-        "json_ld_desc": "Terms and conditions of use of the Superior Hypermarket platform."
+        "json_ld_desc": "Terms and conditions of use of the Hipermercado Superior platform."
       },
       "sections": {
         "1": {
@@ -332,7 +337,7 @@
         },
         "2": {
           "title": "2. Registration and authenticity of information",
-          "content": "To make purchases or other services, the user may need to register. The information provided must be true, complete, and up to date. Superior Hypermarket is not responsible for incorrect data provided by the user."
+          "content": "To make purchases or other services, the user may need to register. The information provided must be true, complete, and up to date. Hipermercado Superior is not responsible for incorrect data provided by the user."
         },
         "3": {
           "title": "3. Purchases and transactions",
@@ -340,11 +345,11 @@
         },
         "4": {
           "title": "4. Intellectual property",
-          "content": "All content available on the site, including text, images, logos, icons, graphics, and design, belongs to Superior Hypermarket or its respective owners. Partial or total reproduction without prior authorization is prohibited."
+          "content": "All content available on the site, including text, images, logos, icons, graphics, and design, belongs to Hipermercado Superior or its respective owners. Partial or total reproduction without prior authorization is prohibited."
         },
         "5": {
           "title": "5. Limitation of liability",
-          "content": "Superior Hypermarket does not guarantee the continuous availability of the site or the absence of technical errors. We assume no responsibility for damages derived from the incorrect use of the platform."
+          "content": "Hipermercado Superior does not guarantee the continuous availability of the site or the absence of technical errors. We assume no responsibility for damages derived from the incorrect use of the platform."
         },
         "6": {
           "title": "6. External links",
@@ -357,19 +362,19 @@
         "8": {
           "title": "8. Contact",
           "content": "If you have questions or concerns related to these Terms of Use, you can contact us at",
-          "email": "support@superiorhypermarket.com"
+          "email": "support@hipermercadosuperior.com"
         }
       }
     },
     "privacy": {
       "title": "Privacy Policy",
       "date": "May 16, 2026",
-      "intro": "At Superior Hypermarket, we value the privacy of each of our users. This policy explains what information we collect, how we use it, and the measures we take to protect it.",
+      "intro": "At Hipermercado Superior, we value the privacy of each of our users. This policy explains what information we collect, how we use it, and the measures we take to protect it.",
       "seo": {
         "title": "Privacy Policy",
-        "description": "Learn how Superior Hypermarket collects, uses, and protects your personal information. Your privacy is our priority.",
+        "description": "Learn how Hipermercado Superior collects, uses, and protects your personal information. Your privacy is our priority.",
         "keywords": "privacy policy, data protection, privacy, cookies, user rights",
-        "json_ld_desc": "Privacy policy and protection of personal data of Superior Hypermarket."
+        "json_ld_desc": "Privacy policy and protection of personal data of Hipermercado Superior."
       },
       "sections": {
         "1": {
@@ -395,7 +400,7 @@
         "6": {
           "title": "6. Contact",
           "content": "If you have questions or concerns about this Privacy Policy, you can contact us via email at",
-          "email": "support@superiorhypermarket.com"
+          "email": "support@hipermercadosuperior.com"
         }
       }
     }
@@ -416,8 +421,8 @@
     },
     "seo": {
       "title": "Offers and Promotions",
-      "description": "Discover the best offers and promotions at Superior Hypermarket. Save on quality products with exclusive discounts on food, drinks, cleaning supplies, and more.",
-      "json_ld_name": "Offers and Promotions - Superior Hypermarket",
+      "description": "Discover the best offers and promotions at Hipermercado Superior. Save on quality products with exclusive discounts on food, drinks, cleaning supplies, and more.",
+      "json_ld_name": "Offers and Promotions - Hipermercado Superior",
       "json_ld_description": "Catalog of active offers and promotions with exclusive discounts on quality products.",
       "keywords": "hypermarket offers, supermarket promotions, product discounts, weekly deals, shopping savings, mega deals"
     },
@@ -2534,7 +2539,7 @@
   "notFound": {
     "seo": {
       "title": "Page Not Found",
-      "description": "The page you are looking for does not exist at Superior Hypermarket."
+      "description": "The page you are looking for does not exist at Hipermercado Superior."
     }
   }
 }

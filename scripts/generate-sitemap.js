@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SITE_URL = 'https://hypermarket.com';
+const SITE_URL = 'https://www.hipermercadosuperior.com';
 
 const scriptDir = __dirname;
 const srcDir = path.join(scriptDir, '..', 'src');

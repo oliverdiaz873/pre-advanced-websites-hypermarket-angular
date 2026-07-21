@@ -1,5 +1,6 @@
 ﻿import { Routes } from '@angular/router';
 import { SeoConfig } from '@core/types/seo';
+import { BRAND_NAME } from '@core/constants';
 import { ShopLayoutComponent } from './layouts/shop-layout/shop-layout.component';
 
 const seo = (config: SeoConfig) => config;
@@ -26,8 +27,6 @@ export const routes: Routes = [
         loadComponent: () => import('./features/category/category-page.component').then(m => m.CategoryPageComponent),
         data: {
           seo: seo({
-            title: 'Categoria',
-            description: 'Explora productos por categoria en Hypermarket.',
             jsonLd: null
           })
         }
@@ -37,8 +36,6 @@ export const routes: Routes = [
         loadComponent: () => import('./features/product/product-page.component').then(m => m.ProductPageComponent),
         data: {
           seo: seo({
-            title: 'Producto',
-            description: 'Consulta detalles, precio y disponibilidad de productos en Hypermarket.',
             jsonLd: null
           })
         }
@@ -54,7 +51,7 @@ export const routes: Routes = [
             jsonLd: {
               '@context': 'https://schema.org',
               '@type': 'CollectionPage',
-              name: 'Ofertas Hypermarket',
+              name: `Ofertas - ${BRAND_NAME}`,
               description: 'Productos con descuento activo para comprar hoy.',
               url: '/offers'
             }
@@ -72,7 +69,7 @@ export const routes: Routes = [
             jsonLd: {
               '@context': 'https://schema.org',
               '@type': 'ContactPage',
-              name: 'Contacto Hypermarket',
+              name: `Contacto - ${BRAND_NAME}`,
               description: 'Soporte de compras, entregas y disponibilidad de productos.',
               url: '/contact'
             }
@@ -139,7 +136,7 @@ export const routes: Routes = [
               '@context': 'https://schema.org',
               '@type': 'CollectionPage',
               name: 'Busqueda de productos',
-              description: 'Resultados de busqueda del catalogo Hypermarket.',
+              description: `Resultados de busqueda del catalogo de ${BRAND_NAME}.`,
               url: '/search'
             }
           })

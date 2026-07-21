@@ -12,8 +12,12 @@ export interface OpenGraphConfig {
   titleKey?: string;
   descriptionKey?: string;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   url?: string;
   type?: string;
+  locale?: string;
+  siteName?: string;
 }
 
 export interface TwitterConfig {

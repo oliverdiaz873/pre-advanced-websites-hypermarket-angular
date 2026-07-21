@@ -1,18 +1,34 @@
 ﻿import { Component, DestroyRef, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonLdSchema, SeoConfig } from '@core/types/seo';
 import { SeoService } from '@core/services/seo.service';
+import { BRAND_NAME } from '@core/constants';
+
+const SUPPORTED_LANGS = ['es', 'en'];
+
+function getInitialLang(): string {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const saved = localStorage.getItem('language');
+    if (saved && SUPPORTED_LANGS.includes(saved)) {
+      return saved;
+    }
+  }
+  return 'es';
+}
 
 const fallbackSeo: SeoConfig = {
-  title: 'Hypermarket',
-  description: 'Hipermercado online con alimentos, tecnologia, farmacia, ferreteria, moda y hogar en un solo carrito.',
+  title: BRAND_NAME,
+  description: `${BRAND_NAME}: tu hipermercado online con alimentos, tecnologia, farmacia, ferreteria, moda y hogar en un solo carrito.`,
   jsonLd: null,
   openGraph: {
-    image: '/assets/images/logo/logo.png',
-    type: 'website'
+    image: '/assets/images/logo/logo-with-background.jpeg',
+    type: 'website',
+    locale: 'es_DO',
+    siteName: BRAND_NAME
   },
   twitter: {
     card: 'summary_large_image'
@@ -31,13 +47,14 @@ export class App {
   private readonly route = inject(ActivatedRoute);
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
+  private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly websiteSchema: JsonLdSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Hypermarket',
-    description: 'Hipermercado online con alimentos, tecnologia, farmacia, ferreteria, moda y hogar.',
+    name: BRAND_NAME,
+    description: `${BRAND_NAME}: tu hipermercado online con alimentos, tecnologia, farmacia, ferreteria, moda y hogar.`,
     url: this.seo.absoluteUrl('/'),
     potentialAction: {
       '@type': 'SearchAction',
@@ -49,16 +66,23 @@ export class App {
   private readonly organizationSchema: JsonLdSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Hypermarket',
+    name: BRAND_NAME,
     url: this.seo.absoluteUrl('/'),
     logo: this.seo.absoluteUrl('/assets/images/logo/logo.png'),
+    sameAs: [
+      'https://www.facebook.com/hipermercadosuperior',
+      'https://www.instagram.com/hipermercadosuperior'
+    ],
     contactPoint: {
       '@type': 'ContactPoint',
+      telephone: '+1-809-555-0199',
       contactType: 'customer service'
     }
   };
 
   constructor() {
+    this.document.documentElement.lang = getInitialLang();
+
     this.seo.setBaseJsonLd([this.websiteSchema, this.organizationSchema]);
     this.router.events
       .pipe(
@@ -80,7 +104,8 @@ export class App {
 
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
+      .subscribe((event) => {
+        this.document.documentElement.lang = event.lang;
         this.seo.refreshSeo();
       });
   }

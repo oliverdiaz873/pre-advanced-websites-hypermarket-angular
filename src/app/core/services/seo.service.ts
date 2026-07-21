@@ -4,6 +4,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonLdSchema, SeoConfig, SeoTag, OpenGraphConfig, TwitterConfig } from '@core/types/seo';
+import { BRAND_NAME } from '@core/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class SeoService {
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
   private readonly translate = inject(TranslateService);
-  private readonly titleSuffix = ' | Hypermarket';
+  private readonly titleSuffix = ` | ${BRAND_NAME}`;
   private readonly jsonLdSelector = 'script[data-seo-json-ld="true"]';
   private readonly ogSelector = 'meta[data-seo-og="true"]';
   private readonly twitterSelector = 'meta[data-seo-twitter="true"]';
@@ -49,11 +50,28 @@ export class SeoService {
       ? (Array.isArray(config.jsonLd) ? config.jsonLd : [config.jsonLd])
       : [];
 
+    for (const schema of pageSchemas) {
+      if (title && !schema['name']) schema['name'] = title;
+      if (description && !schema['description']) schema['description'] = description;
+      if (schema['url'] && typeof schema['url'] === 'string') {
+        schema['url'] = this.absoluteUrl(schema['url'] as string);
+      }
+    }
+
     const merged = this.deduplicateByType([...this.baseJsonLd, ...pageSchemas]);
     this.setJsonLd(merged);
 
-    this.setOpenGraph(config.openGraph);
-    this.setTwitter(config.twitter);
+    this.setOpenGraph({
+      ...(title ? { title } : {}),
+      ...(description ? { description } : {}),
+      ...config.openGraph,
+    });
+
+    this.setTwitter({
+      ...(title ? { title } : {}),
+      ...(description ? { description } : {}),
+      ...config.twitter,
+    });
   }
 
   refreshSeo(): void {
@@ -165,12 +183,18 @@ export class SeoService {
     const title = this.resolveOgValue(config, 'title');
     const description = this.resolveOgValue(config, 'description');
 
-    const ogTags: Record<string, string | undefined> = {
+    const image = config.image ? this.absoluteUrl(config.image) : undefined;
+
+    const ogTags: Record<string, string | undefined | number> = {
       'og:title': title,
       'og:description': description,
-      'og:image': config.image,
+      'og:image': image,
+      'og:image:width': config.imageWidth,
+      'og:image:height': config.imageHeight,
       'og:url': config.url,
       'og:type': config.type,
+      'og:locale': config.locale,
+      'og:site_name': config.siteName,
     };
 
     for (const [property, content] of Object.entries(ogTags)) {
@@ -178,7 +202,7 @@ export class SeoService {
 
       const meta = this.document.createElement('meta');
       meta.setAttribute('property', property);
-      meta.setAttribute('content', content);
+      meta.setAttribute('content', String(content));
       meta.setAttribute('data-seo-og', 'true');
       this.document.head.appendChild(meta);
     }

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { categories, productById, productPageData, relatedProducts } from '@data/index';
 import { getAssetUrl } from '@core/utils';
 import { SeoService } from '@core/services/seo.service';
+import { BRAND_NAME } from '@core/constants';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { ProductDetailSectionComponent } from '@features/products/components/product-detail-section/product-detail-section.component';
@@ -83,8 +84,8 @@ export class ProductPageComponent {
 
     if (!product) {
       this.seo.applySeo({
-        title: 'Producto no encontrado',
-        description: 'No encontramos el producto solicitado en Hypermarket.',
+        titleKey: 'common.product.not_found',
+        description: this.translate.instant('common.product.not_found_description'),
         canonicalPath,
         jsonLd: null,
         robots: 'noindex, nofollow'
@@ -92,14 +93,24 @@ export class ProductPageComponent {
       return;
     }
 
-    const description = this.pageData()?.descripcion ?? `${product.nombre} disponible en Hypermarket por ${product.precioTexto}.`;
+    const description = this.pageData()?.descripcion ?? this.translate.instant('common.product.fallback_description', { name: product.nombre });
     const imageUrl = this.seo.absoluteUrl(getAssetUrl(product.imagen));
 
     this.seo.applySeo({
       title: product.nombre,
       description,
       canonicalPath,
-      openGraph: { image: imageUrl },
+      openGraph: {
+        image: imageUrl,
+        imageWidth: 1200,
+        imageHeight: 630,
+        type: 'website',
+        url: this.seo.absoluteUrl(canonicalPath)
+      },
+      twitter: {
+        card: 'summary_large_image',
+        image: imageUrl
+      },
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'Product',
@@ -108,10 +119,15 @@ export class ProductPageComponent {
         description,
         sku: product.id,
         category: product.categoria,
+        brand: {
+          '@type': 'Brand',
+          name: BRAND_NAME
+        },
         offers: {
           '@type': 'Offer',
           priceCurrency: 'DOP',
           price: product.precio,
+          itemCondition: 'https://schema.org/NewCondition',
           availability: 'https://schema.org/InStock',
           url: this.seo.absoluteUrl(canonicalPath)
         }

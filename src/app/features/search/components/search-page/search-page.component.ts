@@ -9,7 +9,7 @@ import { ProductUI } from '../../../products/models/product-ui.interface';
 import { matchesSearchQuery } from '../../../../core/utils/search-utils';
 import { SeoService } from '../../../../core/services/seo.service';
 import { ProductTranslationService } from '@features/products/services/product-translation.service';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ProductGridComponent } from '../../../products/components/product-grid/product-grid.component';
 import { EmptySearchResultsComponent } from '../empty-search-results/empty-search-results.component';
 
@@ -24,6 +24,7 @@ export class SearchPageComponent {
   private route = inject(ActivatedRoute);
   private productTranslation = inject(ProductTranslationService);
   private seo = inject(SeoService);
+  private translate = inject(TranslateService);
 
   public readonly query = toSignal(
     this.route.queryParamMap.pipe(map(params => params.get('q') ?? '')),
@@ -60,10 +61,12 @@ export class SearchPageComponent {
   private applySearchSeo(query: string, resultCount: number): void {
     const cleanQuery = query.trim();
     const canonicalPath = cleanQuery ? `/search?q=${encodeURIComponent(cleanQuery)}` : '/search';
-    const title = cleanQuery ? `Busqueda: ${cleanQuery}` : 'Busqueda';
+    const title = cleanQuery
+      ? this.translate.instant('search.seo.title_query', { query: cleanQuery })
+      : this.translate.instant('search.seo.title_empty');
     const description = cleanQuery
-      ? `${resultCount} resultados para ${cleanQuery} en el catalogo de Hypermarket.`
-      : 'Busca productos por nombre en el catalogo de Hypermarket.';
+      ? this.translate.instant('search.seo.desc_query', { query: cleanQuery })
+      : this.translate.instant('search.seo.desc_empty');
 
     this.seo.applySeo({
       title,
