@@ -20,13 +20,15 @@ import { ProductTranslationService } from '@features/products/services/product-t
   template: `
     @if (product()) {
       <app-breadcrumb variant="category" [items]="breadcrumbItems()"></app-breadcrumb>
-      <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
+      <div class="mx-auto max-w-[1280px] px-5">
+        <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
+      </div>
       <app-product-carousel-section title="Productos relacionados" [products]="related()" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-similares'" [idPrefix]="'similares'"></app-product-carousel-section>
     } @else {
       <app-empty-state title="Producto no encontrado" description="No encontramos el producto solicitado." actionLabel="Volver al inicio" actionHref="/"></app-empty-state>
     }
   `,
-  styles: [`:host { display: grid; gap: 1.5rem; }`],
+  styles: [`:host { display: block; }`],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductPageComponent {
