@@ -16,6 +16,7 @@ import { getUrlFragment } from '../../../../core/utils/url.utils';
 })
 export class MobileNavComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) isOpen = false;
+  @Input() showLanguage = true;
   @Output() close = new EventEmitter<void>();
 
   protected categories = categories;

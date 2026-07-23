@@ -3,7 +3,6 @@ import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DesktopNavComponent } from '../../../navigation/components/desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from '../../../navigation/components/mobile-nav/mobile-nav.component';
-import { TabletNavComponent } from '../../../navigation/components/tablet-nav/tablet-nav.component';
 import { HeaderSearchComponent } from '../../../search/components/header-search/header-search.component';
 import { LanguageSelectorComponent } from '../../../../shared/components/language-selector/language-selector.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -16,7 +15,7 @@ import { ViewportService } from '@core/services/viewport.service';
   imports: [
     RouterLink, TranslatePipe,
     DesktopNavComponent, HeaderSearchComponent,
-    MobileNavComponent, TabletNavComponent,
+    MobileNavComponent,
     LanguageSelectorComponent
   ],
   templateUrl: './header.component.html',
@@ -45,9 +44,14 @@ export class HeaderComponent {
     () => this.viewportMode() !== 'mobile' || !this.isSearchActive()
   );
 
-  /** Controls navigation visibility. Hidden when search is active or on mobile viewport. */
+  /** Controls navigation visibility. Hidden when search is active or on viewports other than desktop. */
   protected showNavigation = computed(
-    () => !this.isSearchActive() && this.viewportMode() !== 'mobile'
+    () => !this.isSearchActive() && this.viewportMode() === 'desktop'
+  );
+
+  /** Controls whether the language selector inside the mobile drawer should be shown. */
+  protected showDrawerLanguage = computed(
+    () => this.viewportMode() !== 'desktop'
   );
 
   private router = inject(Router);

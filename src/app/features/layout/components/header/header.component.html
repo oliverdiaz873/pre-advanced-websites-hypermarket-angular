@@ -1,7 +1,7 @@
 <header class="app-header" [class.menu-open]="isMobileMenuOpen()" (click)="isMobileMenuOpen.set(false)">
   <div class="header-inner">
-    <!-- Mobile hamburger menu (visible only on mobile) -->
-    @if (viewportMode() === 'mobile') {
+    <!-- Mobile hamburger menu (visible on mobile and tablet) -->
+    @if (viewportMode() !== 'desktop') {
       <button class="menu-btn" (click)="isMobileMenuOpen.set(!isMobileMenuOpen()); $event.stopPropagation()"
         [attr.aria-label]="(isMobileMenuOpen() ? 'header.menu_close' : 'header.menu_open') | translate">
         <span class="hamburger-line" [class.open]="isMobileMenuOpen()"></span>
@@ -22,13 +22,10 @@
       </a>
     }
 
-    <!-- Responsive navigation (desktop and tablet only) -->
+    <!-- Responsive navigation (desktop only) -->
     @if (showNavigation()) {
       @if (viewportMode() === 'desktop') {
         <app-desktop-nav></app-desktop-nav>
-      }
-      @if (viewportMode() === 'tablet') {
-        <app-tablet-nav></app-tablet-nav>
       }
     }
 
@@ -38,8 +35,8 @@
       (searchToggle)="onSearchToggle($event)"
     ></app-header-search>
 
-    <!-- Language selector (hidden on mobile) -->
-    @if (viewportMode() !== 'mobile') {
+    <!-- Language selector (only on desktop) -->
+    @if (viewportMode() === 'desktop') {
       <app-language-selector></app-language-selector>
     }
   </div>
@@ -48,6 +45,7 @@
 <div class="mobile-nav-wrapper">
   <app-mobile-nav
     [isOpen]="isMobileMenuOpen()"
+    [showLanguage]="showDrawerLanguage()"
     (close)="isMobileMenuOpen.set(false)">
   </app-mobile-nav>
 </div>

@@ -92,12 +92,14 @@
       </a>
     </li>
 
-    <li class="mobile-nav-item mobile-nav-lang">
-      <div class="mobile-lang-wrapper">
-        <app-icon name="world" className="w-5 h-5 shrink-0 opacity-70"></app-icon>
-        <span class="mobile-lang-label">{{ 'header.language' | translate }}</span>
-      </div>
-      <app-language-selector variant="inline"></app-language-selector>
-    </li>
+    @if (showLanguage) {
+      <li class="mobile-nav-item mobile-nav-lang">
+        <div class="mobile-lang-wrapper">
+          <app-icon name="world" className="w-5 h-5 shrink-0 opacity-70"></app-icon>
+          <span class="mobile-lang-label">{{ 'header.language' | translate }}</span>
+        </div>
+        <app-language-selector variant="inline"></app-language-selector>
+      </li>
+    }
   </ul>
 </nav>
