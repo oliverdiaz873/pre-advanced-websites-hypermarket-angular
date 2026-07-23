@@ -140,10 +140,6 @@
    OFFER BADGE
    ========================================================================== */
 .offer-badge-slot {
-    position: absolute;
-    top: 10px;
-    left: 12px;
-    z-index: 10;
     pointer-events: none;
 }
 
@@ -206,11 +202,6 @@
 
     .precio-antiguo {
         font-size: 14px;
-    }
-
-    .offer-badge-slot {
-        top: 12px;
-        left: 14px;
     }
 
     .btn-agregar {

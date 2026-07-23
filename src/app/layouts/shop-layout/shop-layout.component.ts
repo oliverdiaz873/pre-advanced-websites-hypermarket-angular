@@ -33,6 +33,7 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
     }
 
     .main-content {
+      flex: 1;
       width: 100%;
       max-width: 100%;
       min-width: 0;
