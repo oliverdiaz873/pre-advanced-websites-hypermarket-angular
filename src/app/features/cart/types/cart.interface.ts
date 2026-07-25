@@ -15,6 +15,7 @@ export interface CartItem {
   unidad?: string;
   isOffer?: boolean;
   discountPercentage?: number;
+  unitQuantity?: number;
 }
 
 export interface CartState {

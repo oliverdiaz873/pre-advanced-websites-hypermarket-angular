@@ -39,6 +39,10 @@ export class ProductCardComponent {
     const label = unitLabel(product);
     const key = `common.units.${label}`;
     const translated = this.translate.instant(key);
-    return translated !== key ? translated : label;
+    const unit = translated !== key ? translated : label;
+    if (product.quantity && product.quantity > 1) {
+      return `${product.quantity} ${unit}`;
+    }
+    return unit;
   }
 }

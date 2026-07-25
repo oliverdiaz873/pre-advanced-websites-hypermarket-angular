@@ -14,7 +14,8 @@ export const products: Product[] = [
         precio: 80, // número para carrito
         precioTexto: "Precio: $80 / 2 Litros", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/bebidas/refresco/coca-cola.avif",
-        unidad: "2 Litros"
+        unidad: "litro",
+        quantity: 2
     },
     {
         id: "coca_cola_zero",
@@ -24,7 +25,8 @@ export const products: Product[] = [
         precio: 80, // número para carrito
         precioTexto: "Precio: $80 / 2 Litros", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/bebidas/refresco/coca-cola-zero.avif",
-        unidad: "2 Litros"
+        unidad: "litro",
+        quantity: 2
     },
     {
         id: "country_club_frambuesa",
@@ -34,7 +36,8 @@ export const products: Product[] = [
         precio: 70, // número para carrito
         precioTexto: "Precio: $70 / 2 Litros", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/bebidas/refresco/country-club-frambuesa.avif",
-        unidad: "2 Litros"
+        unidad: "litro",
+        quantity: 2
     },
     {
         id: "country_club_uva",
@@ -44,7 +47,8 @@ export const products: Product[] = [
         precio: 70, // número para carrito
         precioTexto: "Precio: $70 / 2 Litros", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/bebidas/refresco/country-club-uva.avif",
-        unidad: "2 Litros"
+        unidad: "litro",
+        quantity: 2
     },
     {
         id: "gatorade_uva",
@@ -297,7 +301,7 @@ export const products: Product[] = [
         precio: 170, // número para carrito
         precioTexto: "Precio: $170 1KG", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/frutas-y-verduras/cebolla-roja.avif",
-        unidad: "KG"
+        unidad: "kg"
     },
     {
         id: "fresas",
@@ -336,7 +340,7 @@ export const products: Product[] = [
         precio: 50, // número para carrito
         precioTexto: "Precio: $50 1KG", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/frutas-y-verduras/manzana-amarilla.avif",
-        unidad: "KG"
+        unidad: "kg"
     },
     {
         id: "manzanas_rojas",
@@ -346,7 +350,7 @@ export const products: Product[] = [
         precio: 65, // número para carrito
         precioTexto: "Precio: $65 1KG", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/frutas-y-verduras/manzana-roja.avif",
-        unidad: "KG"
+        unidad: "kg"
     },
     {
         id: "manzanas_verdes",
@@ -393,7 +397,7 @@ export const products: Product[] = [
         precio: 80, // número para carrito
         precioTexto: "Precio: $80 1KG", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/frutas-y-verduras/zanahoria.avif",
-        unidad: "1KG"
+        unidad: "kg"
     },
 
     //Lácteos y huevos
@@ -453,7 +457,8 @@ export const products: Product[] = [
         precio: 210, // número para carrito
         precioTexto: "Precio: $210 / 2 Litros", // texto para mostrar en resultados
         imagen: "/assets/images/productos/alimentos/lacteos-y-huevos/yogurt/yogurt-natural.avif",
-        unidad: "2 Litros"
+        unidad: "litro",
+        quantity: 2
     },
 
     //--Electrodomésticos--//

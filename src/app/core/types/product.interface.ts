@@ -7,4 +7,5 @@ export interface Product {
     precioTexto: string;
     imagen: string;
     unidad?: string;
+    quantity?: number;
 }

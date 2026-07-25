@@ -67,7 +67,8 @@ describe('CartService', () => {
       oldPrice: undefined,
       unidad: 'litro',
       isOffer: false,
-      discountPercentage: 0
+      discountPercentage: 0,
+      unitQuantity: undefined
     });
     
     expect(service.totalItems()).toBe(2);

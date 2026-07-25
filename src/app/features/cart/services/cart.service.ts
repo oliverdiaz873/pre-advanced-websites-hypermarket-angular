@@ -81,7 +81,8 @@ export class CartService {
         oldPrice,
         unidad: finalUnidad,
         isOffer: discountPercentage > 0,
-        discountPercentage
+        discountPercentage,
+        unitQuantity: product.quantity
       };
       return [...items, newItem];
     });
@@ -129,7 +130,8 @@ export class CartService {
                 unitLabel: item.unitLabel ?? unitLabel({ unidad: item.unidad, precioTexto: item.precioTexto } as Product),
                 discountPercentage: discountPct,
                 isOffer: discountPct > 0,
-                unidad: item.unidad ?? undefined
+                unidad: item.unidad ?? undefined,
+                unitQuantity: item.unitQuantity ?? undefined
               };
             });
             this.cartItems.set(normalized);
