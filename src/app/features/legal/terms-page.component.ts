@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LegalLayoutComponent } from '../layout/components/legal-layout/legal-layout.component';
 import { TranslatePipe } from '@ngx-translate/core';
+import { CONTACT_EMAIL } from '@core/constants';
 
 @Component({
   selector: 'app-terms-page',
@@ -26,12 +27,14 @@ import { TranslatePipe } from '@ngx-translate/core';
       <h2>{{ 'legal.terms.sections.8.title' | translate }}</h2>
       <p>
         {{ 'legal.terms.sections.8.content' | translate }}
-        <a href="mailto:{{ 'legal.terms.sections.8.email' | translate }}">
-          <strong>{{ 'legal.terms.sections.8.email' | translate }}</strong>
+        <a href="mailto:{{ CONTACT_EMAIL }}">
+          <strong>{{ CONTACT_EMAIL }}</strong>
         </a>
       </p>
     </app-legal-layout>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TermsPageComponent {}
+export class TermsPageComponent {
+  public readonly CONTACT_EMAIL = CONTACT_EMAIL;
+}
