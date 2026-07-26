@@ -62,7 +62,7 @@
     </section>
   </div>
 
-  <app-drawer [isOpen]="isDrawerOpen()" (closeDrawer)="isDrawerOpen.set(false)">
+  <app-drawer [isOpen]="isDrawerOpen()" [title]="'offers.filters.title' | translate" (closeDrawer)="isDrawerOpen.set(false)">
     <app-offer-filters [isDrawer]="true" (categorySelected)="isDrawerOpen.set(false)"></app-offer-filters>
   </app-drawer>
 }
