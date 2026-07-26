@@ -14,3 +14,4 @@ export * from './skeleton/product-card-skeleton.component';
 export * from './skeleton/products-grid-skeleton.component';
 export * from './skeleton/hero-banner-skeleton.component';
 export * from './skeleton/categories-skeleton.component';
+export * from './skeleton/product-detail-skeleton.component';

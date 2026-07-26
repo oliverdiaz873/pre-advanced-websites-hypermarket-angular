@@ -6,29 +6,69 @@ import { categories, categorySections } from '@data/index';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
 import { getCategoryName, getSubcategoryName } from '@core/utils';
+import { ProductService } from '@features/products/services/product.service';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
+import { BaseSkeletonComponent } from '@shared/components/skeleton/base-skeleton.component';
+import { ProductsGridSkeletonComponent } from '@shared/components/skeleton/products-grid-skeleton.component';
 
 @Component({
   selector: 'app-category-page',
   standalone: true,
-  imports: [BreadcrumbComponent, ProductCarouselSectionComponent],
+  imports: [BreadcrumbComponent, ProductCarouselSectionComponent, BaseSkeletonComponent, ProductsGridSkeletonComponent],
   template: `
-    <app-breadcrumb variant="category" [items]="breadcrumbItems()"></app-breadcrumb>
+    @if (loading()) {
+      <div class="w-full bg-white px-4 md:px-8 py-4 md:py-6">
+        <div class="max-w-7xl mx-auto">
+          <app-base-skeleton className="h-5 w-56 rounded"></app-base-skeleton>
+        </div>
+      </div>
 
-    <div class="category-page-content">
-      @for (section of sections(); track section.id; let i = $index) {
-        @if (section.products.length) {
-          <app-product-carousel-section
-            [title]="sectionTitle(section.id)"
-            [products]="section.products"
-            [sectionClass]="i === 0 ? 'category-page-first-carousel' : ''"
-            [id]="section.id"
-            [idPrefix]="categoryId() + '-' + section.id"
-          ></app-product-carousel-section>
+      <div class="w-full bg-white px-4 md:px-8 py-4 md:py-6 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto">
+          <app-base-skeleton className="h-10 md:h-12 w-64 rounded mb-2"></app-base-skeleton>
+          <app-base-skeleton className="h-5 w-full max-w-2xl rounded"></app-base-skeleton>
+        </div>
+      </div>
+
+      <div class="w-full bg-gray-50 py-6 md:py-8">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="hidden lg:block space-y-4">
+              @for (item of [1,2,3]; track item) {
+                <div class="bg-white p-4 rounded-lg">
+                  <app-base-skeleton className="h-5 w-32 rounded mb-3"></app-base-skeleton>
+                  <div class="space-y-2">
+                    @for (sub of [1,2,3,4]; track sub) {
+                      <app-base-skeleton className="h-4 w-24 rounded"></app-base-skeleton>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+            <div class="lg:col-span-3">
+              <app-products-grid-skeleton [count]="12"></app-products-grid-skeleton>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <app-breadcrumb variant="category" [items]="breadcrumbItems()"></app-breadcrumb>
+
+      <div class="category-page-content">
+        @for (section of sections(); track section.id; let i = $index) {
+          @if (section.products.length) {
+            <app-product-carousel-section
+              [title]="sectionTitle(section.id)"
+              [products]="section.products"
+              [sectionClass]="i === 0 ? 'category-page-first-carousel' : ''"
+              [id]="section.id"
+              [idPrefix]="categoryId() + '-' + section.id"
+            ></app-product-carousel-section>
+          }
         }
-      }
-    </div>
+      </div>
+    }
   `,
   styles: [`
     :host { display: block; }
@@ -42,8 +82,11 @@ export class CategoryPageComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
+  private readonly productService = inject(ProductService);
   private readonly langVersion = signal(0);
   readonly categoryId = signal('');
+
+  protected readonly loading = this.productService.productsLoading;
 
   readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     this.langVersion();
@@ -55,6 +98,8 @@ export class CategoryPageComponent implements AfterViewInit {
   });
 
   constructor() {
+    this.productService.loadAll();
+
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {

@@ -1,41 +1,68 @@
-<div class="offers-page-wrapper">
-  <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">
-    <div class="offers-header-container flex items-center justify-between gap-4">
-      <h1 class="offers-header__title flex items-center gap-1">
-        <app-icon name="fire" className="offers-header__icon"></app-icon>
-        {{ 'offers.header.title' | translate }}
-      </h1>
-      <button
-        type="button"
-        class="offers-mobile-filters-btn"
-        (click)="isDrawerOpen.set(true)"
-      >
-        <app-icon name="sliders" className="w-4 h-4"></app-icon>
-        {{ 'offers.header.filter_btn' | translate }}
-        @if (filtersService.selectedCategory() !== 'all') {
-          <span class="offers-mobile-filters-active-chip">{{ 'categories.' + filtersService.selectedCategory() | translate }}</span>
-        }
-      </button>
-    </div>
-
-    <div class="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] flex-1">
-      <aside class="hidden lg:block">
-        <app-offer-filters></app-offer-filters>
-      </aside>
-
-      <div class="flex flex-col">
-        @if (filtersService.sortedProducts().length > 0) {
-          <app-product-grid [products]="filtersService.sortedProducts()" className="offers-grid"></app-product-grid>
-        } @else {
-          <div class="flex-1 flex items-start justify-center">
-            <app-empty-offers></app-empty-offers>
+@if (loading()) {
+  <div class="offers-page-wrapper">
+    <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">
+      <div class="w-full bg-linear-to-r from-red-50 to-yellow-50 px-4 md:px-8 py-8 md:py-12 -mx-2 md:-mx-6">
+        <div class="max-w-7xl mx-auto text-center">
+          <div class="flex justify-center mb-4">
+            <div class="w-12 h-12 bg-gray-300 rounded-full animate-pulse"></div>
           </div>
-        }
+          <app-base-skeleton className="h-10 md:h-12 w-64 rounded mx-auto mb-4"></app-base-skeleton>
+          <app-base-skeleton className="h-5 w-96 rounded mx-auto"></app-base-skeleton>
+        </div>
       </div>
-    </div>
-  </section>
-</div>
 
-<app-drawer [isOpen]="isDrawerOpen()" (closeDrawer)="isDrawerOpen.set(false)">
-  <app-offer-filters [isDrawer]="true" (categorySelected)="isDrawerOpen.set(false)"></app-offer-filters>
-</app-drawer>
+      <div class="w-full bg-white py-8 md:py-12">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex flex-wrap gap-2 md:gap-3 mb-8">
+            @for (item of [1,2,3,4,5]; track item) {
+              <div class="px-4 py-2 bg-gray-200 rounded-full h-10 w-24 animate-pulse"></div>
+            }
+          </div>
+          <app-offers-grid-skeleton [count]="12"></app-offers-grid-skeleton>
+        </div>
+      </div>
+    </section>
+  </div>
+} @else {
+  <div class="offers-page-wrapper">
+    <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">
+      <div class="offers-header-container flex items-center justify-between gap-4">
+        <h1 class="offers-header__title flex items-center gap-1">
+          <app-icon name="fire" className="offers-header__icon"></app-icon>
+          {{ 'offers.header.title' | translate }}
+        </h1>
+        <button
+          type="button"
+          class="offers-mobile-filters-btn"
+          (click)="isDrawerOpen.set(true)"
+        >
+          <app-icon name="sliders" className="w-4 h-4"></app-icon>
+          {{ 'offers.header.filter_btn' | translate }}
+          @if (filtersService.selectedCategory() !== 'all') {
+            <span class="offers-mobile-filters-active-chip">{{ 'categories.' + filtersService.selectedCategory() | translate }}</span>
+          }
+        </button>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] flex-1">
+        <aside class="hidden lg:block">
+          <app-offer-filters></app-offer-filters>
+        </aside>
+
+        <div class="flex flex-col">
+          @if (filtersService.sortedProducts().length > 0) {
+            <app-product-grid [products]="filtersService.sortedProducts()" className="offers-grid"></app-product-grid>
+          } @else {
+            <div class="flex-1 flex items-start justify-center">
+              <app-empty-offers></app-empty-offers>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <app-drawer [isOpen]="isDrawerOpen()" (closeDrawer)="isDrawerOpen.set(false)">
+    <app-offer-filters [isDrawer]="true" (categorySelected)="isDrawerOpen.set(false)"></app-offer-filters>
+  </app-drawer>
+}

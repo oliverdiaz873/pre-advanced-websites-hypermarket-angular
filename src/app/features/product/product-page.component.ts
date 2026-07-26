@@ -6,19 +6,23 @@ import { categories, productById, productPageData, relatedProducts } from '@data
 import { getAssetUrl } from '@core/utils';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
+import { ProductService } from '@features/products/services/product.service';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { ProductDetailSectionComponent } from '@features/products/components/product-detail-section/product-detail-section.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
+import { ProductDetailSkeletonComponent } from '@shared/components/skeleton/product-detail-skeleton.component';
 import { ProductUI } from '@features/products/models/product-ui.interface';
 import { ProductTranslationService } from '@features/products/services/product-translation.service';
 
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [BreadcrumbComponent, EmptyStateComponent, ProductDetailSectionComponent, ProductCarouselSectionComponent],
+  imports: [BreadcrumbComponent, EmptyStateComponent, ProductDetailSectionComponent, ProductCarouselSectionComponent, ProductDetailSkeletonComponent],
   template: `
-    @if (product()) {
+    @if (productService.productDetailLoading()) {
+      <app-product-detail-skeleton></app-product-detail-skeleton>
+    } @else if (product()) {
       <app-breadcrumb variant="category" [items]="breadcrumbItems()"></app-breadcrumb>
       <div class="mx-auto max-w-[1280px] px-5">
         <app-product-detail-section [product]="product()!" [pageData]="pageData()"></app-product-detail-section>
@@ -37,6 +41,7 @@ export class ProductPageComponent {
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
   private readonly productTranslation = inject(ProductTranslationService);
+  protected readonly productService = inject(ProductService);
   private readonly langVersion = signal(0);
   readonly productId = signal('');
 
@@ -68,6 +73,8 @@ export class ProductPageComponent {
   });
 
   constructor() {
+    this.productService.loadAll();
+
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {

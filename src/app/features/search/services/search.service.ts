@@ -67,6 +67,8 @@ export class SearchService {
 
   public readonly isSearchActive = signal(false);
 
+  public readonly isSearching = signal(false);
+
   /**
    * Internal signal bumped on every language change so the computed
    * below re-evaluates when translations are swapped.

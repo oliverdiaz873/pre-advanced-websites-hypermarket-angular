@@ -1,9 +1,16 @@
-<app-hero-carousel></app-hero-carousel>
+@if (loading()) {
+  <app-hero-banner-skeleton></app-hero-banner-skeleton>
+  <app-categories-skeleton></app-categories-skeleton>
+  <app-offers-grid-skeleton [count]="7"></app-offers-grid-skeleton>
+  <app-products-grid-skeleton [count]="7"></app-products-grid-skeleton>
+} @else {
+  <app-hero-carousel></app-hero-carousel>
 
-<app-product-carousel-section [title]="'home.sections.offers' | translate" [products]="offers" [id]="'ofertas'" [idPrefix]="'offers'"></app-product-carousel-section>
+  <app-product-carousel-section [title]="'home.sections.offers' | translate" [products]="offers" [id]="'ofertas'" [idPrefix]="'offers'"></app-product-carousel-section>
 
-<app-product-carousel-section [title]="'home.sections.featured' | translate" [products]="featured" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-destacados'" [idPrefix]="'featured'"></app-product-carousel-section>
+  <app-product-carousel-section [title]="'home.sections.featured' | translate" [products]="featured" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-destacados'" [idPrefix]="'featured'"></app-product-carousel-section>
 
-<app-category-banners-section></app-category-banners-section>
+  <app-category-banners-section></app-category-banners-section>
 
-<app-about-us></app-about-us>
+  <app-about-us></app-about-us>
+}

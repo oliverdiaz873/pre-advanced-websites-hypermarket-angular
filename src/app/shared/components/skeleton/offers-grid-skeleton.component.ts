@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OfferCardSkeletonComponent } from './offer-card-skeleton.component';
 
 @Component({
@@ -28,5 +28,9 @@ import { OfferCardSkeletonComponent } from './offer-card-skeleton.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OffersGridSkeletonComponent {
-  readonly skeletonItems = Array.from({ length: 8 });
+  @Input() count = 8;
+
+  get skeletonItems(): number[] {
+    return Array.from({ length: this.count });
+  }
 }
