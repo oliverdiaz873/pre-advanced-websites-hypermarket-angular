@@ -1,10 +1,10 @@
-import { DOCUMENT } from '@angular/common';
-import { inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonLdSchema, SeoConfig, SeoTag, OpenGraphConfig, TwitterConfig } from '@core/types/seo';
-import { BRAND_NAME } from '@core/constants';
+import { BRAND_NAME, SITE_URL } from '@core/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,7 @@ export class SeoService {
   private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
   private readonly translate = inject(TranslateService);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly titleSuffix = ` | ${BRAND_NAME}`;
   private readonly jsonLdSelector = 'script[data-seo-json-ld="true"]';
   private readonly ogSelector = 'meta[data-seo-og="true"]';
@@ -161,7 +162,9 @@ export class SeoService {
       return path;
     }
 
-    const origin = this.document.location?.origin ?? '';
+    const origin = isPlatformBrowser(this.platformId)
+      ? this.document.location.origin
+      : SITE_URL;
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
     return `${origin}${normalizedPath}`;
   }

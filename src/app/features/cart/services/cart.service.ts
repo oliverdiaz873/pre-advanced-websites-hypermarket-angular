@@ -1,8 +1,9 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Product } from '@core/types/product.interface';
 import { CartItem } from '../types/cart.interface';
 import { unitLabel } from '@core/utils/price-utils';
 import { calculateDiscountPercentage } from '@features/offers';
+import { StorageService } from '@core/services/storage.service';
 
 /**
  * Global cart state management service.
@@ -20,6 +21,7 @@ import { calculateDiscountPercentage } from '@features/offers';
 })
 export class CartService {
   private readonly STORAGE_KEY = 'carrito';
+  private storage = inject(StorageService);
   private cartItems = signal<CartItem[]>([]);
 
   /** Public read-only signal for cart items */
@@ -38,11 +40,8 @@ export class CartService {
   constructor() {
     this.rehydrate();
 
-    // Automatically persist state to localStorage on every change
     effect(() => {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.cartItems()));
-      }
+      this.storage.set<CartItem[]>(this.STORAGE_KEY, this.cartItems());
     });
   }
 
@@ -117,29 +116,24 @@ export class CartService {
    * to ensure backward compatibility with persisted data.
    */
   private rehydrate(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      try {
-        const stored = localStorage.getItem(this.STORAGE_KEY);
-        if (stored) {
-          const parsed = JSON.parse(stored) as CartItem[];
-          if (Array.isArray(parsed)) {
-            const normalized = parsed.map(item => {
-              const discountPct = item.oldPrice ? calculateDiscountPercentage(item.unitPrice, item.oldPrice) : 0;
-              return {
-                ...item,
-                unitLabel: item.unitLabel ?? unitLabel({ unidad: item.unidad, precioTexto: item.precioTexto } as Product),
-                discountPercentage: discountPct,
-                isOffer: discountPct > 0,
-                unidad: item.unidad ?? undefined,
-                unitQuantity: item.unitQuantity ?? undefined
-              };
-            });
-            this.cartItems.set(normalized);
-          }
-        }
-      } catch (error) {
-        console.error('Error rehydrating cart from localStorage:', error);
+    try {
+      const stored = this.storage.get<CartItem[]>(this.STORAGE_KEY);
+      if (stored && Array.isArray(stored)) {
+        const normalized = stored.map(item => {
+          const discountPct = item.oldPrice ? calculateDiscountPercentage(item.unitPrice, item.oldPrice) : 0;
+          return {
+            ...item,
+            unitLabel: item.unitLabel ?? unitLabel({ unidad: item.unidad, precioTexto: item.precioTexto } as Product),
+            discountPercentage: discountPct,
+            isOffer: discountPct > 0,
+            unidad: item.unidad ?? undefined,
+            unitQuantity: item.unitQuantity ?? undefined
+          };
+        });
+        this.cartItems.set(normalized);
       }
+    } catch (error) {
+      console.error('Error rehydrating cart from localStorage:', error);
     }
   }
 

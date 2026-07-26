@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../icons/icons.component';
 import { SUPPORTED_LANGS } from '@core/i18n/i18n.config';
+import { StorageService } from '@core/services/storage.service';
 
 const languages = [
   { code: 'es', name: 'Español', nativeName: 'Español' },
@@ -21,6 +22,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   @Input() variant: 'dropdown' | 'inline' = 'dropdown';
 
   private translate = inject(TranslateService);
+  private storage = inject(StorageService);
   private destroy$ = new Subject<void>();
 
   protected languages = languages;
@@ -84,9 +86,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
   protected changeLanguage(lng: string): void {
     const lang = (SUPPORTED_LANGS as readonly string[]).includes(lng) ? lng : 'es';
     this.translate.use(lang);
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem('language', lang);
-    }
+    this.storage.set('language', lang);
     this.isDropdownOpen.set(false);
   }
 }

@@ -23,21 +23,15 @@ export class ProductService {
     if (this.initialised) return;
     this.initialised = true;
 
-    this._productsLoading.set(true);
-    this._productDetailLoading.set(true);
-    this._categoriesLoading.set(true);
-
-    setTimeout(() => {
-      const mapped: ProductUI[] = products.map(p => ({
-        ...p,
-        oldPrice: undefined,
-        discountPercentage: undefined,
-      }));
-      this._products.set(mapped);
-      this._productsLoading.set(false);
-      this._productDetailLoading.set(false);
-      this._categoriesLoading.set(false);
-    }, 300);
+    const mapped: ProductUI[] = products.map(p => ({
+      ...p,
+      oldPrice: undefined,
+      discountPercentage: undefined,
+    }));
+    this._products.set(mapped);
+    this._productsLoading.set(false);
+    this._productDetailLoading.set(false);
+    this._categoriesLoading.set(false);
   }
 
   getCategories() {

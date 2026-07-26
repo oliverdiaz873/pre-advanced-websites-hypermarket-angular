@@ -18,11 +18,7 @@ export class OfferService {
     if (this.initialised) return;
     this.initialised = true;
 
-    this._offersLoading.set(true);
-
-    setTimeout(() => {
-      this._offers.set(offerProducts());
-      this._offersLoading.set(false);
-    }, 300);
+    this._offers.set(offerProducts());
+    this._offersLoading.set(false);
   }
 }

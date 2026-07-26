@@ -4,7 +4,7 @@ import { resolveProductOffer } from './offer.utils';
 describe('resolveProductOffer', () => {
   const normalProduct: Product = {
     id: 'prod-1',
-    nombre: 'Leche Deslactosada',
+    name: 'Leche Deslactosada',
     url: '/leche-deslactosada',
     categoria: 'lacteos',
     precio: 1500,
@@ -15,7 +15,7 @@ describe('resolveProductOffer', () => {
 
   const offerProduct: Product = {
     id: 'manzanas_verdes',
-    nombre: 'Manzanas Verdes',
+    name: 'Manzanas Verdes',
     url: '/manzanas-verdes',
     categoria: 'frutas',
     precio: 45,
@@ -38,7 +38,7 @@ describe('resolveProductOffer', () => {
   it('should return null for a non-existent product id', () => {
     const unknownProduct: Product = {
       id: 'non-existent-id',
-      nombre: 'Unknown',
+      name: 'Unknown',
       url: '/unknown',
       categoria: 'test',
       precio: 100,

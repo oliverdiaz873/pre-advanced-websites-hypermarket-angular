@@ -6,19 +6,9 @@ import { filter } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { JsonLdSchema, SeoConfig } from '@core/types/seo';
 import { SeoService } from '@core/services/seo.service';
+import { StorageService } from '@core/services/storage.service';
 import { BRAND_NAME } from '@core/constants';
-
-const SUPPORTED_LANGS = ['es', 'en'];
-
-function getInitialLang(): string {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    const saved = localStorage.getItem('language');
-    if (saved && SUPPORTED_LANGS.includes(saved)) {
-      return saved;
-    }
-  }
-  return 'es';
-}
+import { SUPPORTED_LANGS } from '@core/i18n/i18n.config';
 
 const fallbackSeo: SeoConfig = {
   title: BRAND_NAME,
@@ -49,6 +39,7 @@ export class App {
   private readonly translate = inject(TranslateService);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly storage = inject(StorageService);
 
   private readonly websiteSchema: JsonLdSchema = {
     '@context': 'https://schema.org',
@@ -81,7 +72,8 @@ export class App {
   };
 
   constructor() {
-    this.document.documentElement.lang = getInitialLang();
+    this.document.documentElement.lang = this.storage.get<string>('language')
+      ?? 'es';
 
     this.seo.setBaseJsonLd([this.websiteSchema, this.organizationSchema]);
     this.router.events

@@ -8,7 +8,7 @@ describe('CartService', () => {
   
   const mockProduct: Product = {
     id: 'prod-1',
-    nombre: 'Leche Deslactosada',
+    name: 'Leche Deslactosada',
     url: '/leche-deslactosada',
     categoria: 'lacteos',
     precio: 1500,
@@ -19,7 +19,7 @@ describe('CartService', () => {
 
   const mockProduct2: Product = {
     id: 'prod-2',
-    nombre: 'Arroz Integral',
+    name: 'Arroz Integral',
     url: '/arroz-integral',
     categoria: 'despensa',
     precio: 2200,
@@ -58,7 +58,7 @@ describe('CartService', () => {
     expect(items.length).toBe(1);
     expect(items[0]).toEqual({
       productId: 'prod-1',
-      nombre: 'Leche Deslactosada',
+      name: 'Leche Deslactosada',
       imagen: 'leche.jpg',
       unitPrice: 1500,
       unitLabel: 'litro',
@@ -166,7 +166,7 @@ describe('CartService', () => {
   it('should rehydrate and normalize legacy data from localStorage', () => {
     const legacyData = JSON.stringify([{
       productId: 'prod-1',
-      nombre: 'Leche Deslactosada',
+      name: 'Leche Deslactosada',
       imagen: 'leche.jpg',
       unitPrice: 1500,
       unitLabel: null,
@@ -174,7 +174,7 @@ describe('CartService', () => {
       precioTexto: 'Precio: $1.500 / litro'
     }, {
       productId: 'prod-2',
-      nombre: 'Arroz Integral',
+    name: 'Arroz Integral',
       imagen: 'arroz.jpg',
       unitPrice: 2200,
       unitLabel: null,
@@ -183,7 +183,7 @@ describe('CartService', () => {
       oldPrice: 'RD$ 3,000'
     }, {
       productId: 'prod-3',
-      nombre: 'Manzanas',
+      name: 'Manzanas',
       imagen: 'manzanas.jpg',
       unitPrice: 45,
       unitLabel: 'lb',
