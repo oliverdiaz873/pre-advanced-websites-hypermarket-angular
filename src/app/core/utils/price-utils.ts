@@ -36,12 +36,18 @@ export const unitLabel = (product: Product): string => {
     if (raw) {
         const parts = raw.split('/')
         if (parts.length > 1) {
-            const last = parts[parts.length - 1].trim().replace(/\.$/, '')
-            if (last) return last
+            let last = parts[parts.length - 1].trim().replace(/\.$/, '')
+            if (last) {
+                last = last.replace(/^\d+\s*/i, '').trim().toLowerCase()
+                if (last) return last
+            }
         }
 
-        const afterPrecio = raw.replace(/^Precio:\s*/i, '').replace(/^\$[\d.,]+\s*/i, '').trim()
-        if (afterPrecio) return afterPrecio
+        let afterPrecio = raw.replace(/^Precio:\s*/i, '').replace(/^\$[\d.,]+\s*/i, '').trim()
+        if (afterPrecio) {
+            afterPrecio = afterPrecio.replace(/^\d+\s*/i, '').trim().toLowerCase()
+            if (afterPrecio) return afterPrecio
+        }
     }
 
     return 'unidad'

@@ -234,7 +234,8 @@ export const products: Product[] = [
         categoria: "enlatados",
         precio: 180, // número para carrito
         precioTexto: "Precio: $180 / 1 Lata", // texto para mostrar en resultados
-        imagen: "/assets/images/productos/alimentos/enlatados/gandules-verdes-goya.avif"
+        imagen: "/assets/images/productos/alimentos/enlatados/gandules-verdes-goya.avif",
+        unidad: "lata"
     },
     {
         id: "habichuelas_negras_goya",
@@ -243,7 +244,8 @@ export const products: Product[] = [
         categoria: "enlatados",
         precio: 50, // número para carrito
         precioTexto: "Precio: $50 / 1 Lata", // texto para mostrar en resultados
-        imagen: "/assets/images/productos/alimentos/enlatados/habichuelas-negras-goya.avif"
+        imagen: "/assets/images/productos/alimentos/enlatados/habichuelas-negras-goya.avif",
+        unidad: "lata"
     },
     {
         id: "maiz_la_famosa",
@@ -252,7 +254,8 @@ export const products: Product[] = [
         categoria: "enlatados",
         precio: 45, // número para carrito
         precioTexto: "Precio: $45 / 1 Lata", // texto para mostrar en resultados
-        imagen: "/assets/images/productos/alimentos/enlatados/maiz-la-famosa.avif"
+        imagen: "/assets/images/productos/alimentos/enlatados/maiz-la-famosa.avif",
+        unidad: "lata"
     },
     {
         id: "salchichas_jaja",
@@ -261,7 +264,8 @@ export const products: Product[] = [
         categoria: "enlatados",
         precio: 45, // número para carrito
         precioTexto: "Precio: $45 / 1 Lata", // texto para mostrar en resultados
-        imagen: "/assets/images/productos/alimentos/enlatados/salchichas-jaja.avif"
+        imagen: "/assets/images/productos/alimentos/enlatados/salchichas-jaja.avif",
+        unidad: "lata"
     },
     {
         id: "sardinas_gord",
@@ -270,7 +274,8 @@ export const products: Product[] = [
         categoria: "enlatados",
         precio: 85, // número para carrito
         precioTexto: "Precio: $85 / 1 Lata", // texto para mostrar en resultados
-        imagen: "/assets/images/productos/alimentos/enlatados/sardinas-gord.avif"
+        imagen: "/assets/images/productos/alimentos/enlatados/sardinas-gord.avif",
+        unidad: "lata"
     },
     {
         id: "tomates_pelados_la_famosa",
@@ -279,7 +284,8 @@ export const products: Product[] = [
         categoria: "enlatados",
         precio: 60, // número para carrito
         precioTexto: "Precio: $60 / 1 Lata", // texto para mostrar en resultados
-        imagen: "/assets/images/productos/alimentos/enlatados/tomates-pelados.avif"
+        imagen: "/assets/images/productos/alimentos/enlatados/tomates-pelados.avif",
+        unidad: "lata"
     },
 
     //Frutas y Verduras
