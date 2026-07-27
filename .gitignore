@@ -41,6 +41,7 @@ __screenshots__/
 
 # Logs
 ng-serve.log
+ng-serve-*.log
 
 # System files
 .DS_Store
