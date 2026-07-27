@@ -1,4 +1,5 @@
-﻿import { AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
+﻿import { AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
@@ -83,6 +84,7 @@ export class CategoryPageComponent implements AfterViewInit {
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
   private readonly productService = inject(ProductService);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly langVersion = signal(0);
   readonly categoryId = signal('');
 
@@ -121,6 +123,7 @@ export class CategoryPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.route.fragment
       .pipe(
         takeUntilDestroyed(this.destroyRef)

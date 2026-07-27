@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, signal, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, signal, OnChanges, OnDestroy, SimpleChanges, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
@@ -19,6 +19,7 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
   @Input() showLanguage = true;
   @Output() close = new EventEmitter<void>();
 
+  private platformId = inject(PLATFORM_ID);
   protected categories = categories;
   protected openCategory = signal<string | null>(null);
   protected openSubcategories = signal<string[]>([]);
@@ -39,12 +40,14 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isOpen']) {
+    if (changes['isOpen'] && isPlatformBrowser(this.platformId)) {
       document.body.style.overflow = this.isOpen ? 'hidden' : '';
     }
   }
 
   ngOnDestroy(): void {
-    document.body.style.overflow = '';
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = '';
+    }
   }
 }

@@ -1,4 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, Output, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, OnDestroy, OnChanges, SimpleChanges, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { IconComponent } from '../icons/icons.component';
 
 @Component({
@@ -25,16 +26,19 @@ export class DrawerComponent implements OnDestroy, OnChanges {
   @Input() position: 'left' | 'right' = 'right';
   @Output() closeDrawer = new EventEmitter<void>();
 
+  private platformId = inject(PLATFORM_ID);
   private previousOverflow = '';
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isOpen']) {
+    if (changes['isOpen'] && isPlatformBrowser(this.platformId)) {
       this.handleScrollLock(changes['isOpen'].currentValue);
     }
   }
 
   ngOnDestroy(): void {
-    document.body.style.overflow = this.previousOverflow;
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.style.overflow = this.previousOverflow;
+    }
   }
 
   @HostListener('window:keydown.escape')

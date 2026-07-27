@@ -5,7 +5,10 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  PLATFORM_ID,
+  Inject,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[appScrollScale]',
@@ -28,6 +31,7 @@ import {
 export class ScrollScaleDirective implements OnInit, OnDestroy {
   private frameId = 0;
   private timer: any;
+  private isBrowser: boolean;
 
   // Spring State Variables
   private initialized = false;
@@ -45,10 +49,14 @@ export class ScrollScaleDirective implements OnInit, OnDestroy {
   constructor(
     private el: ElementRef<HTMLElement>,
     private ngZone: NgZone,
-    private renderer: Renderer2
-  ) {}
+    private renderer: Renderer2,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
     this.ngZone.runOutsideAngular(() => {
       this.onScroll = this.onScroll.bind(this);
       this.updateScale = this.updateScale.bind(this);
@@ -62,6 +70,7 @@ export class ScrollScaleDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (!this.isBrowser) return;
     window.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('resize', this.onScroll);
     window.clearTimeout(this.timer);

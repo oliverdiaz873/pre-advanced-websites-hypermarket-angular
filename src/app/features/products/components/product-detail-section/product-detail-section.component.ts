@@ -1,5 +1,5 @@
-import { Component, Input, inject, ChangeDetectionStrategy, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, inject, ChangeDetectionStrategy, ViewChild, ElementRef, HostListener, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductPageData } from '../../../../data/product-page.data';
@@ -29,6 +29,7 @@ export class ProductDetailSectionComponent {
   public readonly getAssetUrl = getAssetUrl;
 
   readonly productTranslation = inject(ProductTranslationService);
+  private platformId = inject(PLATFORM_ID);
 
   get description(): string {
     return this.productTranslation.getDescription(this.product, this.pageData);
@@ -45,7 +46,9 @@ export class ProductDetailSectionComponent {
   private previousActiveElement: HTMLElement | null = null;
 
   public openModal(): void {
-    this.previousActiveElement = document.activeElement as HTMLElement;
+    if (isPlatformBrowser(this.platformId)) {
+      this.previousActiveElement = document.activeElement as HTMLElement;
+    }
     this.modalOpen = true;
     this.closeBtn?.nativeElement?.focus();
   }

@@ -8,9 +8,10 @@ import {
   AfterViewInit,
   OnDestroy,
   inject,
-  DestroyRef
+  DestroyRef,
+  PLATFORM_ID
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductCardComponent } from '../product-card/product-card.component';
@@ -37,6 +38,7 @@ export class ProductCarouselComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
 
+  private platformId = inject(PLATFORM_ID);
   readonly showPrev = signal(false);
   readonly showNext = signal(false);
 
@@ -44,6 +46,7 @@ export class ProductCarouselComponent implements AfterViewInit, OnDestroy {
   private resizeListener: (() => void) | null = null;
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.updateButtons();
     const el = this.scrollContainer?.nativeElement;
     if (el) {

@@ -1,6 +1,6 @@
-import { Component, Input, inject, signal, computed, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, Input, inject, signal, computed, OnInit, OnDestroy, HostListener, PLATFORM_ID } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../icons/icons.component';
 import { SUPPORTED_LANGS } from '@core/i18n/i18n.config';
@@ -23,6 +23,7 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
 
   private translate = inject(TranslateService);
   private storage = inject(StorageService);
+  private platformId = inject(PLATFORM_ID);
   private destroy$ = new Subject<void>();
 
   protected languages = languages;
@@ -39,12 +40,16 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(event => this.currentLang.set(event.lang));
 
-    this.checkDesktop();
-    window.addEventListener('resize', this.checkDesktop);
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkDesktop();
+      window.addEventListener('resize', this.checkDesktop);
+    }
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('resize', this.checkDesktop);
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.checkDesktop);
+    }
     if (this.closeTimeout) clearTimeout(this.closeTimeout);
     this.destroy$.next();
     this.destroy$.complete();
