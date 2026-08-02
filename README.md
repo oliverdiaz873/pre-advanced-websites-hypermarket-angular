@@ -2,6 +2,49 @@
 
 Angular hypermarket storefront built with Angular Standalone Components, TypeScript, Angular Signals, @ngx-translate, Tailwind CSS, and local static catalog data.
 
+## System Architecture
+
+This repository is a **Customer Storefront** of the **Hipermercado Superior** ecosystem. It consumes the centralized REST API provided by the backend.
+
+```
+                    Hipermercado Superior Ecosystem
+
+        backend-advanced-websites-hypermarket-express-mongodb
+                         Express REST API
+                                      |
+        -----------------------------------------------------------------
+        |                           |                            |
+        |                           |                            |
+pre-advanced-websites-    pre-advanced-websites-      dashboard-websites-
+hypermarket-next          hypermarket-angular         hypermarket
+
+   Next.js Storefront         Angular Storefront      Angular Admin Dashboard
+     (Customer App)            (Customer App)              (Admin App)
+                                      |
+                                      ▼
+                                 MongoDB
+```
+
+| Repository | Type | Technology | Purpose |
+|------------|------|------------|---------|
+| backend-advanced-websites-hypermarket-express-mongodb | Backend API | Express + MongoDB + JWT | Central system API |
+| pre-advanced-websites-hypermarket-next | Customer Frontend | Next.js + React | Public storefront |
+| pre-advanced-websites-hypermarket-angular | Customer Frontend | Angular | Alternative public storefront |
+| dashboard-websites-hypermarket | Admin Frontend | Angular + Material + NgRx Signals | Admin dashboard |
+
+**Backend Dependency** — This application requires the backend repository
+`backend-advanced-websites-hypermarket-express-mongodb`, which provides the centralized REST API for the ecosystem.
+
+```
+Storefronts (Next · Angular) · Admin Dashboard
+        │
+        ▼
+backend-advanced-websites-hypermarket-express-mongodb (Express REST API)
+        │
+        ▼
+MongoDB
+```
+
 ## Documentation
 
 Start with [docs/getting-started.md](docs/getting-started.md).
@@ -26,7 +69,8 @@ The project is a frontend storefront application migrated from Next.js to Angula
 
 Product, category, offer, and product-detail data are currently stored in local TypeScript modules under `src/app/data/`.
 
-There is no backend API, database, authentication system, checkout integration, or remote catalog service implemented at this time.
+This application consumes the centralized REST API provided by
+`backend-advanced-websites-hypermarket-express-mongodb`.
 
 ## Main Features
 
