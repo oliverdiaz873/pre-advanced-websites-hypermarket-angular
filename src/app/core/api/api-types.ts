@@ -1,0 +1,76 @@
+/**
+ * Tipos del contrato backend (F5). Reflejan API-CONTRACT §5-§8 tal como emite
+ * el backend Express+MongoDB. No son la interface UI (ver mappers F5.2).
+ */
+
+export interface ApiCollection<T> {
+  success: boolean;
+  data: T[];
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+  };
+}
+
+export interface ApiEnvelope<T> {
+  success: boolean;
+  data: T;
+}
+
+export interface ApiProduct {
+  id: string;
+  sku: string;
+  name: string;
+  description?: string;
+  price: number;
+  image: string | null;
+  categoryId: string;
+  category: { name: string; slug: string };
+  brandId?: string;
+  brand?: { name: string; slug: string };
+  unit?: string;
+  unitQuantity?: number;
+  status: 'active' | 'inactive';
+  isAvailable: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiSubcategory {
+  name: string;
+  slug: string;
+}
+
+export interface ApiCategory {
+  id: string;
+  name: string;
+  slug: string;
+  subcategories: ApiSubcategory[];
+}
+
+export interface ApiOffer {
+  id: string;
+  name: string;
+  price: number;
+  originalPrice: number;
+  discountPrice: number;
+  discountPercentage: number;
+  image: string | null;
+  categoryId: string;
+  unit?: string;
+  unitQuantity?: number;
+}
+
+export interface ApiPaginationParams {
+  page?: number;
+  limit?: number;
+  q?: string;
+  category?: string;
+  brand?: string;
+  sortBy?: 'name' | 'price' | 'createdAt' | 'updatedAt';
+  sortOrder?: 'asc' | 'desc';
+}
+
+export type ApiLang = 'es' | 'en';
