@@ -18,7 +18,7 @@
       </button>
 
       <ul>
-        @for (cat of categories; track cat.id) {
+        @for (cat of categories(); track cat.id) {
           <li>
             <a
               [routerLink]="cat.href"

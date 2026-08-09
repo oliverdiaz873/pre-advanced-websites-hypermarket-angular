@@ -17,7 +17,7 @@
       </button>
 
         <ul class="dropdown">
-          @for (cat of categories; track cat.id) {
+          @for (cat of categories(); track cat.id) {
             <li class="sub-root">
               <a [routerLink]="cat.href" class="dropdown-link">
                 <span>{{ 'categories.' + cat.id | translate }}</span>

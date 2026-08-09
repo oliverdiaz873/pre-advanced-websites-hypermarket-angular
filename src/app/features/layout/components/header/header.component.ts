@@ -8,6 +8,7 @@ import { LanguageSelectorComponent } from '../../../../shared/components/languag
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { ViewportService } from '@core/services/viewport.service';
+import { ProductService } from '@features/products/services/product.service';
 
 @Component({
   selector: 'app-header',
@@ -56,8 +57,10 @@ export class HeaderComponent {
 
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private readonly productService = inject(ProductService);
 
   constructor() {
+    this.productService.loadCategories();
     this.updateHomePage();
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd),

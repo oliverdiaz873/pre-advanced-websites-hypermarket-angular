@@ -1,5 +1,12 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiService } from '@core/api/api.service';
+import type { ApiProduct } from '@core/api/api-types';
+import { mapApiCategoriesToCategories } from '@core/api/category.mapper';
+import type { Category } from '@core/types/category.interface';
+import type { CategorySection } from '@data/catalog.helpers';
+import { subcategorySlugFromHref } from '@data/category-section-map.data';
 import { ProductUI } from '../models/product-ui.interface';
 import { Product } from '@core/types/product.interface';
 import { mapApiProductToProductUI, mapApiProductsToProductUI, toProductUI } from './product.mapper';
@@ -126,8 +133,102 @@ export class ProductService {
     });
   }
 
-  /** Categorías: permanecen en el data layer mock hasta F5.3. */
-  getCategories(): unknown {
-    return [];
+  /** Categorías (GET /api/categories) mapeadas al modelo UI; y secciones de
+   *  categoría cargadas desde la API con paginación (F5.3.1).
+   */
+  private readonly _categories = signal<Category[]>([]);
+  private readonly _categoriesLoading = signal(false);
+  private readonly _categoriesLoaded = signal(false);
+  private readonly _categorySections = signal<Record<string, CategorySection[]>>({});
+  private readonly _categorySectionsLoading = signal(false);
+
+  readonly categories = this._categories.asReadonly();
+  readonly categoriesLoading = this._categoriesLoading.asReadonly();
+  readonly categoriesLoaded = this._categoriesLoaded.asReadonly();
+  readonly categorySections = this._categorySections.asReadonly();
+  readonly categorySectionsLoading = this._categorySectionsLoading.asReadonly();
+
+  /** Carga las categorías una sola vez (cache). `slug` = identidad de navegación. */
+  loadCategories(): void {
+    if (this._categoriesLoaded()) return;
+    this._categoriesLoading.set(true);
+
+    this.api.getCategories().subscribe({
+      next: (envelope) => {
+        this._categories.set(mapApiCategoriesToCategories(envelope.data));
+        this._categoriesLoaded.set(true);
+        this._categoriesLoading.set(false);
+      },
+      error: () => {
+        this._categoriesLoading.set(false);
+      },
+    });
+  }
+
+  /** Carga una sección por subcategoría respetando la paginación del backend:
+   *  nunca asume que una sola respuesta contiene todos los productos (decisión
+   *  F5.0; se pagen todas las páginas con el límite permitido).
+   */
+  private fetchAllProductsInCategory(slug: string): Observable<ProductUI[]> {
+    const LIMIT = 100;
+
+    return this.api.getProducts({ category: slug, page: 1, limit: LIMIT }).pipe(
+      switchMap((first) => {
+        const total = first.pagination?.total ?? first.data.length;
+        const pages = Math.max(1, Math.ceil(total / LIMIT));
+
+        if (pages <= 1) {
+          return of(first.data);
+        }
+
+        const remaining: Observable<typeof first>[] = [];
+        for (let page = 2; page <= pages; page++) {
+          remaining.push(this.api.getProducts({ category: slug, page, limit: LIMIT }));
+        }
+
+        return forkJoin(remaining).pipe(
+          map((rest) => first.data.concat(...rest.map((collection) => collection.data)))
+        );
+      }),
+      map((raw) => mapApiProductsToProductUI(raw).map(toProductUI))
+    );
+  }
+
+  /** Construye las secciones (una por subcategoría) de una categoría desde la API. */
+  loadCategorySections(category: Category): void {
+    const categoryId = category.id;
+    if (this._categorySections()[categoryId]) return;
+    this._categorySectionsLoading.set(true);
+
+    const sections: CategorySection[] = [];
+    const subs = category.subcategories.map((sub) => ({
+      slug: subcategorySlugFromHref(sub.href),
+      name: sub.name,
+    }));
+
+    if (subs.length === 0) {
+      this._categorySections.update((current) => ({ ...current, [categoryId]: sections }));
+      this._categorySectionsLoading.set(false);
+      return;
+    }
+
+    let pending = subs.length;
+    subs.forEach((sub, index) => {
+      this.fetchAllProductsInCategory(sub.slug).subscribe({
+        next: (products) => {
+          sections[index] = { id: sub.slug, name: sub.name, products };
+          if (--pending === 0) {
+            this._categorySections.update((current) => ({ ...current, [categoryId]: sections }));
+            this._categorySectionsLoading.set(false);
+          }
+        },
+        error: () => {
+          if (--pending === 0) {
+            this._categorySections.update((current) => ({ ...current, [categoryId]: sections }));
+            this._categorySectionsLoading.set(false);
+          }
+        },
+      });
+    });
   }
 }

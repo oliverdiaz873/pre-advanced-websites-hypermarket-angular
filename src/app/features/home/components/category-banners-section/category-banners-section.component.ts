@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ScrollAnimateDirective } from '@shared/directives/scroll-animate.directive';
 import { CategoryBannerComponent, CategoryBannerData } from '../category-banner/category-banner.component';
 import { CATEGORY_DATA } from '@data/categories.data';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ViewportService } from '@core/services/viewport.service';
+import { ProductService } from '@features/products/services/product.service';
 import { containerVariants, VIEWPORT_CONFIG } from '../category-banner/category-banner.animations';
 
 /**
@@ -47,7 +48,7 @@ import { containerVariants, VIEWPORT_CONFIG } from '../category-banner/category-
         translateY distance, and animation duration.
       -->
       <div class="flex flex-col gap-6 md:gap-8">
-        @for (cat of categories; track cat.id; let i = $index) {
+        @for (cat of categories(); track cat.id; let i = $index) {
           <app-category-banner
             [data]="cat"
             [reversed]="i % 2 !== 0"
@@ -69,8 +70,16 @@ import { containerVariants, VIEWPORT_CONFIG } from '../category-banner/category-
   `]
 })
 export class CategoryBannersSectionComponent {
-  /** Metadata list defining color mappings, assets, routing, and translation keys for the 8 featured categories. */
-  protected readonly categories = CATEGORY_DATA;
+  private readonly productService = inject(ProductService);
+  /**
+   * Banners de autoría local (colores/imágenes/keys `home.category_banners.*`).
+   * Los slugs se validan contra las categorías reales (F5.3.1): si una categoría
+   * no existe en la API, su banner no se enlaza a un 404.
+   */
+  protected readonly categories = computed<CategoryBannerData[]>(() => {
+    const validSlugs = new Set(this.productService.categories().map(cat => cat.id));
+    return CATEGORY_DATA.filter(cat => validSlugs.has(cat.id));
+  });
   /** Tracks the current viewport to compute responsive animation values at render time. */
   protected readonly viewportService = inject(ViewportService);
   /** Viewport scroll-trigger config shared with text elements inside each banner (margin: -40px). */

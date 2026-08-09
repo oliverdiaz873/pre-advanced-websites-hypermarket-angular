@@ -1,8 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
-import { categories } from '../../../../data/categories.data';
+import { ProductService } from '@features/products/services/product.service';
 import { getUrlFragment } from '../../../../core/utils/url.utils';
 
 @Component({
@@ -19,8 +19,9 @@ import { getUrlFragment } from '../../../../core/utils/url.utils';
  * Supports both hover and click interactions for better accessibility.
  */
 export class DesktopNavComponent {
+  private readonly productService = inject(ProductService);
   readonly isCategoriesOpen = signal(false);
-  protected categories = categories;
+  protected readonly categories = this.productService.categories;
 
   toggleCategories(): void {
     this.isCategoriesOpen.update(v => !v);

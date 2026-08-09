@@ -1,5 +1,6 @@
-import { Injectable, computed, signal } from '@angular/core';
-import { categories as CATEGORIES, subcategorySlugFromHref } from '@data/index';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { subcategorySlugFromHref } from '@data/category-section-map.data';
+import { ProductService } from '@features/products/services/product.service';
 import { offerProducts } from '@features/offers';
 import { ProductUI } from '@features/products/models/product-ui.interface';
 
@@ -17,11 +18,12 @@ export interface OfferFilterCategory {
  * - Sorting by discount (highest to lowest)
  */
 export class OfferFiltersService {
+  private readonly productService = inject(ProductService);
   readonly selectedCategory = signal('all');
   readonly offers = offerProducts();
 
   readonly categories = computed<OfferFilterCategory[]>(() => {
-    return CATEGORIES.map(cat => ({
+    return this.productService.categories().map(cat => ({
       id: cat.id,
       name: cat.name,
     }));
@@ -31,7 +33,7 @@ export class OfferFiltersService {
     const cat = this.selectedCategory();
     if (cat === 'all') return this.offers;
 
-    const category = CATEGORIES.find(c => c.id === cat);
+    const category = this.productService.categories().find(c => c.id === cat);
     if (!category) return [];
 
     const allowedSubcategories = category.subcategories.map(sub => subcategorySlugFromHref(sub.href));

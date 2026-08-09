@@ -1,9 +1,10 @@
-﻿import { AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal, PLATFORM_ID } from '@angular/core';
+﻿import { AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
-import { categories, categorySections } from '@data/index';
+import { Category } from '@core/types/category.interface';
+import type { CategorySection } from '@data/catalog.helpers';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
 import { getCategoryName, getSubcategoryName } from '@core/utils';
@@ -88,7 +89,7 @@ export class CategoryPageComponent implements AfterViewInit {
   private readonly langVersion = signal(0);
   readonly categoryId = signal('');
 
-  protected readonly loading = this.productService.productsLoading;
+  protected readonly loading = this.productService.categorySectionsLoading;
 
   readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     this.langVersion();
@@ -100,7 +101,36 @@ export class CategoryPageComponent implements AfterViewInit {
   });
 
   constructor() {
-    this.productService.loadProducts({});
+    this.productService.loadCategories();
+
+    effect(() => {
+      const id = this.categoryId();
+      if (!id) return;
+      const category = this.category();
+      if (category) {
+        this.productService.loadCategorySections(category);
+      }
+    });
+
+    effect(() => {
+      const id = this.categoryId();
+      const missing =
+        this.productService.categoriesLoaded() &&
+        !this.productService.categoriesLoading() &&
+        Boolean(id) &&
+        !this.category();
+      if (missing) {
+        this.router.navigate(['/not-found']);
+      }
+    });
+
+    effect(() => {
+      const category = this.category();
+      const sections = this.sections();
+      if (category && !this.productService.categoriesLoading()) {
+        this.applyCategorySeo();
+      }
+    });
 
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -112,12 +142,6 @@ export class CategoryPageComponent implements AfterViewInit {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       const id = params.get('id') ?? '';
       this.categoryId.set(id);
-
-      if (!categories.find(item => item.id === id)) {
-        this.router.navigate(['/not-found']);
-        return;
-      }
-
       this.applyCategorySeo();
     });
   }
@@ -146,8 +170,13 @@ export class CategoryPageComponent implements AfterViewInit {
       });
   }
 
-  category() { return categories.find(item => item.id === this.categoryId()); }
-  sections() { return categorySections(this.categoryId()); }
+  category(): Category | undefined {
+    return this.productService.categories().find(item => item.id === this.categoryId());
+  }
+
+  sections(): CategorySection[] {
+    return this.productService.categorySections()[this.categoryId()] ?? [];
+  }
 
   sectionTitle(sectionId: string): string {
     const key = `categories.sub.${sectionId}`;

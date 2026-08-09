@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, inject, Renderer2, effect, HostListen
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
-import { categories } from '../../../../data/categories.data';
+import { ProductService } from '@features/products/services/product.service';
 import { ViewportService } from '@core/services/viewport.service';
 import { getUrlFragment } from '../../../../core/utils/url.utils';
 
@@ -18,7 +18,8 @@ export class TabletNavComponent {
 
   private renderer = inject(Renderer2);
   private viewportService = inject(ViewportService);
-  protected categories = categories;
+  private readonly productService = inject(ProductService);
+  protected readonly categories = this.productService.categories;
 
   constructor() {
     effect(() => {

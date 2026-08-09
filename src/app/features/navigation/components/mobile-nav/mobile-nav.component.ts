@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { LanguageSelectorComponent } from '../../../../shared/components/language-selector/language-selector.component';
-import { categories } from '../../../../data/categories.data';
+import { ProductService } from '@features/products/services/product.service';
 import { getUrlFragment } from '../../../../core/utils/url.utils';
 
 @Component({
@@ -20,7 +20,8 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
   @Output() close = new EventEmitter<void>();
 
   private platformId = inject(PLATFORM_ID);
-  protected categories = categories;
+  private readonly productService = inject(ProductService);
+  protected readonly categories = this.productService.categories;
   protected openCategory = signal<string | null>(null);
   protected openSubcategories = signal<string[]>([]);
 

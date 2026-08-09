@@ -39,7 +39,7 @@
         [class.is-expanded]="openCategory() === 'categorias'"
       >
         <ul class="mobile-submenu-list">
-          @for (cat of categories; track cat.id) {
+          @for (cat of categories(); track cat.id) {
             <li>
               <button
                 class="mobile-submenu-toggle"

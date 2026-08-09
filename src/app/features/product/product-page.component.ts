@@ -2,7 +2,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
-import { getAssetUrl } from '@core/utils';
+import { getAssetUrl, getCategoryName, getSubcategoryName } from '@core/utils';
+import { subcategorySlugFromHref } from '@data/category-section-map.data';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
 import { ProductService } from '@features/products/services/product.service';
@@ -55,7 +56,24 @@ export class ProductPageComponent {
     ];
 
     if (product) {
-      items.push({ label: this.translate.instant(`categories.${product.categoria}`), url: `/category/${product.categoria}` });
+      const categories = this.productService.categories();
+      const parent = categories.find(category =>
+        category.subcategories.some(sub => subcategorySlugFromHref(sub.href) === product.categoria)
+      );
+      const subcategory = parent?.subcategories.find(sub => subcategorySlugFromHref(sub.href) === product.categoria);
+
+      if (parent) {
+        items.push({ label: getCategoryName(parent, this.translate), url: parent.href });
+        if (subcategory) {
+          items.push({ label: getSubcategoryName(subcategory, this.translate), url: subcategory.href });
+        }
+      } else {
+        items.push({
+          label: this.translate.instant(`categories.${product.categoria}`),
+          url: `/category/${product.categoria}`,
+        });
+      }
+
       items.push({ label: this.productTranslation.getName(product) });
     }
 
