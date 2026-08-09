@@ -45,11 +45,24 @@ export class SearchPageComponent {
     })
   );
 
+  /** Cantidad de resultados (para SEO); derivación de solo lectura. */
+  private readonly resultCount = computed(() =>
+    this.searchService.searchQueryResults().length
+  );
+
   constructor() {
+    // Effect de fetch: depende únicamente de query(). No lee searchQueryResults()
+    // ni ninguna señal que executeQuerySearch escriba, por lo que un cambio en
+    // los resultados ya no vuelve a disparar el fetch (fix P0-A: bucle de refetch).
     effect(() => {
       const q = this.query();
       this.searchService.executeQuerySearch(q);
-      this.applySearchSeo(q, this.searchService.searchQueryResults().length);
+    });
+
+    // Effect de SEO: solo lectura de resultados; no escribe señales observadas
+    // por el effect de fetch.
+    effect(() => {
+      this.applySearchSeo(this.query(), this.resultCount());
     });
   }
 
