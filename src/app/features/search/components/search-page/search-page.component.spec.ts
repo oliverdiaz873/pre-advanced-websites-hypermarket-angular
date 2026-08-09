@@ -7,6 +7,7 @@ import { SeoService } from '@core/services/seo.service';
 import { SearchService } from '@features/search/services/search.service';
 import type { ProductUI } from '@features/products/models/product-ui.interface';
 import { SearchPageComponent } from './search-page.component';
+import { OfferService } from '@features/offers';
 
 describe('SearchPageComponent', () => {
   let fixture: ComponentFixture<SearchPageComponent>;
@@ -86,6 +87,15 @@ describe('SearchPageComponent', () => {
         { provide: TranslateService, useValue: translateServiceStub },
         { provide: SeoService, useValue: seoService },
         { provide: SearchService, useValue: searchService },
+        {
+          provide: OfferService,
+          useValue: {
+            offers: signal([] as ProductUI[]),
+            offersLoading: signal(false),
+            error: signal<string | null>(null),
+            loadAll: vi.fn(),
+          },
+        },
       ],
     });
   });

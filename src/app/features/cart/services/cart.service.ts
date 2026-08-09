@@ -2,8 +2,17 @@ import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Product } from '@core/types/product.interface';
 import { CartItem } from '../types/cart.interface';
 import { unitLabel } from '@core/utils/price-utils';
-import { calculateDiscountPercentage } from '@features/offers';
+import { ProductUI } from '@features/products/models/product-ui.interface';
 import { StorageService } from '@core/services/storage.service';
+
+const parsePriceNumber = (text: string): number =>
+  Number.parseFloat(text.replace(/[^\d.]/g, ''));
+
+const discountFromPrices = (currentPrice: number, oldPrice: string): number => {
+  const previous = parsePriceNumber(oldPrice);
+  if (!Number.isFinite(previous) || previous <= currentPrice) return 0;
+  return Math.round(((previous - currentPrice) / previous) * 100);
+};
 
 /**
  * Global cart state management service.
@@ -67,7 +76,10 @@ export class CartService {
       }
 
       const finalUnidad = this.extractUnidad(product);
-      const discountPercentage = oldPrice ? calculateDiscountPercentage(product.precio, oldPrice) : 0;
+      const backendDiscount = (product as ProductUI).discountPercentage ?? 0;
+      const discountPercentage = backendDiscount > 0
+        ? backendDiscount
+        : (oldPrice ? discountFromPrices(product.precio, oldPrice) : 0);
 
       const newItem: CartItem = {
         productId: product.id,
@@ -120,7 +132,7 @@ export class CartService {
       const stored = this.storage.get<CartItem[]>(this.STORAGE_KEY);
       if (stored && Array.isArray(stored)) {
         const normalized = stored.map(item => {
-          const discountPct = item.oldPrice ? calculateDiscountPercentage(item.unitPrice, item.oldPrice) : 0;
+          const discountPct = item.oldPrice ? discountFromPrices(item.unitPrice, item.oldPrice) : 0;
           return {
             ...item,
             unitLabel: item.unitLabel ?? unitLabel({ unidad: item.unidad, precioTexto: item.precioTexto } as Product),

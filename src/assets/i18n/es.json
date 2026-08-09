@@ -442,6 +442,10 @@
       "title": "No hay ofertas disponibles",
       "message": "Selecciona otra categoría o intenta más tarde"
     },
+    "load": {
+      "title": "No pudimos cargar las ofertas",
+      "message": "Hubo un problema al conectarnos con el servidor. Intenta de nuevo más tarde."
+    },
     "badge": {
       "aria_label": "Producto en oferta {discount}",
       "fallback": "OFERTA"

@@ -7,6 +7,7 @@ import { subcategorySlugFromHref } from '@data/category-section-map.data';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
 import { ProductService } from '@features/products/services/product.service';
+import { OfferService } from '@features/offers';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { ProductDetailSectionComponent } from '@features/products/components/product-detail-section/product-detail-section.component';
@@ -41,6 +42,7 @@ export class ProductPageComponent {
   private readonly translate = inject(TranslateService);
   private readonly productTranslation = inject(ProductTranslationService);
   protected readonly productService = inject(ProductService);
+  private readonly offerService = inject(OfferService);
   private readonly langVersion = signal(0);
   readonly productId = signal('');
 
@@ -81,6 +83,7 @@ export class ProductPageComponent {
   });
 
   constructor() {
+    this.offerService.loadAll();
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {

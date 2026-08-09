@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { offerProducts } from '@features/offers';
+import { OfferService } from '@features/offers';
 import { ProductService } from '@features/products/services/product.service';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 import { HeroCarouselComponent } from '../../components/hero-carousel/hero-carousel.component';
@@ -35,12 +35,14 @@ const FEATURED_IDS = [
 })
 export class HomePageComponent {
   private productService = inject(ProductService);
+  private offerService = inject(OfferService);
 
   protected readonly loading = this.productService.productsLoading;
-  protected readonly offers = offerProducts();
+  protected readonly offers = this.offerService.offers;
   protected readonly featured = this.productService.featured;
 
   constructor() {
     this.productService.loadFeatured(FEATURED_IDS);
+    this.offerService.loadAll();
   }
 }

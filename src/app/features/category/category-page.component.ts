@@ -9,6 +9,7 @@ import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
 import { getCategoryName, getSubcategoryName } from '@core/utils';
 import { ProductService } from '@features/products/services/product.service';
+import { OfferService } from '@features/offers';
 import { BreadcrumbComponent, BreadcrumbItem } from '@shared/components/breadcrumb/breadcrumb.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 import { BaseSkeletonComponent } from '@shared/components/skeleton/base-skeleton.component';
@@ -85,6 +86,7 @@ export class CategoryPageComponent implements AfterViewInit {
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
   private readonly productService = inject(ProductService);
+  private readonly offerService = inject(OfferService);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly langVersion = signal(0);
   readonly categoryId = signal('');
@@ -102,6 +104,7 @@ export class CategoryPageComponent implements AfterViewInit {
 
   constructor() {
     this.productService.loadCategories();
+    this.offerService.loadAll();
 
     effect(() => {
       const id = this.categoryId();

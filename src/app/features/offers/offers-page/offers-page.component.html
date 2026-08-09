@@ -23,6 +23,25 @@
       </div>
     </section>
   </div>
+} @else if (offerService.error()) {
+  <div class="offers-page-wrapper">
+    <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">
+      <div class="offers-header-container flex items-center justify-between gap-4">
+        <h1 class="offers-header__title flex items-center gap-1">
+          <app-icon name="fire" className="offers-header__icon"></app-icon>
+          {{ 'offers.header.title' | translate }}
+        </h1>
+      </div>
+      <div class="flex-1 flex items-start justify-center">
+        <app-empty-state
+          [title]="'offers.load.title' | translate"
+          [description]="'offers.load.message' | translate"
+        >
+          <app-icon name="info" icon class="icon-fill"></app-icon>
+        </app-empty-state>
+      </div>
+    </section>
+  </div>
 } @else {
   <div class="offers-page-wrapper">
     <section class="pt-1 pb-8 min-h-[60vh] flex flex-col mx-auto w-full max-w-7xl px-2 md:px-6">

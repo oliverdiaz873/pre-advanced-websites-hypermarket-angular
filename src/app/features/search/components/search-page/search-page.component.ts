@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
-import { offersData, calculateDiscountPercentage } from '@features/offers';
+import { OfferService } from '@features/offers';
 import { ProductUI } from '../../../products/models/product-ui.interface';
 import { SeoService } from '../../../../core/services/seo.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -24,6 +24,7 @@ export class SearchPageComponent {
   private route = inject(ActivatedRoute);
   private seo = inject(SeoService);
   private translate = inject(TranslateService);
+  private offerService = inject(OfferService);
   protected searchService = inject(SearchService);
 
   public readonly query = toSignal(
@@ -31,19 +32,19 @@ export class SearchPageComponent {
     { initialValue: '' }
   );
 
-  /** Resultados de la API enriquecidos con los badges de oferta locales. */
-  public readonly results = computed(() =>
-    this.searchService.searchQueryResults().map(p => {
-      const offer = offersData.find(o => o.id === p.id);
+  /** Resultados de la API enriquecidos con el badge de oferta real (F5.4). */
+  public readonly results = computed(() => {
+    const offers = this.offerService.offers();
+    return this.searchService.searchQueryResults().map(p => {
+      const offer = offers.find(o => o.id === p.id);
       if (!offer) return p;
-      const discount = calculateDiscountPercentage(p.precio, offer.oldPrice);
       return {
         ...p,
         oldPrice: offer.oldPrice,
-        discountPercentage: discount > 0 ? discount : undefined
+        discountPercentage: offer.discountPercentage
       };
-    })
-  );
+    });
+  });
 
   /** Cantidad de resultados (para SEO); derivación de solo lectura. */
   private readonly resultCount = computed(() =>
@@ -51,6 +52,7 @@ export class SearchPageComponent {
   );
 
   constructor() {
+    this.offerService.loadAll();
     // Effect de fetch: depende únicamente de query(). No lee searchQueryResults()
     // ni ninguna señal que executeQuerySearch escriba, por lo que un cambio en
     // los resultados ya no vuelve a disparar el fetch (fix P0-A: bucle de refetch).

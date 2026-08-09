@@ -5,6 +5,7 @@ import { ProductService } from './product.service';
 import { getApiBaseUrl } from '@core/api/api.config';
 import { ApiProduct } from '@core/api/api-types';
 import { Category } from '@core/types/category.interface';
+import { OfferService } from '@features/offers';
 
 const apiCategory = {
   id: 'alimentos',
@@ -43,7 +44,10 @@ describe('ProductService (categories F5.3.1)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ProductService],
+      providers: [
+        ProductService,
+        { provide: OfferService, useValue: { offers: () => [] } },
+      ],
     });
     service = TestBed.inject(ProductService);
     httpMock = TestBed.inject(HttpTestingController);

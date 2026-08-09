@@ -7,6 +7,7 @@ import { EmptyOffersComponent } from '../components/empty-offers/empty-offers.co
 import { IconComponent } from '@shared/components/icons/icons.component';
 import { OfferFiltersService } from '../services/offer-filters.service';
 import { OfferService } from '../services/offer.service';
+import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
 import { BaseSkeletonComponent } from '@shared/components/skeleton/base-skeleton.component';
 import { OffersGridSkeletonComponent } from '@shared/components/skeleton/offers-grid-skeleton.component';
 
@@ -15,7 +16,7 @@ import { OffersGridSkeletonComponent } from '@shared/components/skeleton/offers-
   standalone: true,
   imports: [
     TranslatePipe, DrawerComponent, ProductGridComponent, OfferFiltersComponent,
-    EmptyOffersComponent, IconComponent, BaseSkeletonComponent, OffersGridSkeletonComponent,
+    EmptyOffersComponent, IconComponent, EmptyStateComponent, BaseSkeletonComponent, OffersGridSkeletonComponent,
   ],
   templateUrl: './offers-page.component.html',
   styleUrls: ['./offers-page.component.scss'],

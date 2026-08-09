@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { subcategorySlugFromHref } from '@data/category-section-map.data';
 import { ProductService } from '@features/products/services/product.service';
-import { offerProducts } from '@features/offers';
+import { OfferService } from './offer.service';
 import { ProductUI } from '@features/products/models/product-ui.interface';
 
 export interface OfferFilterCategory {
@@ -13,14 +13,14 @@ export interface OfferFilterCategory {
 /**
  * Service to manage offer filtering and sorting logic.
  * Encapsulates:
- * - Mapping offersData to products with discount information
+ * - Offer list source (F5.4: real backend via OfferService, no mock)
  * - Category filtering (handling subcategory conversion)
  * - Sorting by discount (highest to lowest)
  */
 export class OfferFiltersService {
   private readonly productService = inject(ProductService);
+  private readonly offerService = inject(OfferService);
   readonly selectedCategory = signal('all');
-  readonly offers = offerProducts();
 
   readonly categories = computed<OfferFilterCategory[]>(() => {
     return this.productService.categories().map(cat => ({
@@ -30,14 +30,15 @@ export class OfferFiltersService {
   });
 
   readonly filteredProducts = computed<ProductUI[]>(() => {
+    const offers = this.offerService.offers();
     const cat = this.selectedCategory();
-    if (cat === 'all') return this.offers;
+    if (cat === 'all') return offers;
 
     const category = this.productService.categories().find(c => c.id === cat);
     if (!category) return [];
 
     const allowedSubcategories = category.subcategories.map(sub => subcategorySlugFromHref(sub.href));
-    return this.offers.filter(p => allowedSubcategories.includes(p.categoria));
+    return offers.filter(p => allowedSubcategories.includes(p.categoria));
   });
 
   readonly sortedProducts = computed<ProductUI[]>(() =>

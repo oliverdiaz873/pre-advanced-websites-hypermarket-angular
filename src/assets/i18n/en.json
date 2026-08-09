@@ -442,6 +442,10 @@
       "title": "No offers available",
       "message": "Select another category or try again later"
     },
+    "load": {
+      "title": "We couldn't load the offers",
+      "message": "There was a problem connecting to the server. Please try again later."
+    },
     "badge": {
       "aria_label": "Product on sale {discount}",
       "fallback": "SALE"
