@@ -1,1 +1,19 @@
-import { Pipe, PipeTransform, inject, ChangeDetectorRef } from '@angular/core';import { TranslateService } from '@ngx-translate/core';import { takeUntilDestroyed } from '@angular/core/rxjs-interop';@Pipe({  name: 'productTranslate',  standalone: true,  pure: false})export class ProductTranslatePipe implements PipeTransform {  private translate = inject(TranslateService);  private cdr = inject(ChangeDetectorRef);  constructor() {    this.translate.onLangChange      .pipe(takeUntilDestroyed())      .subscribe(() => this.cdr.markForCheck());  }  transform(productId: string, fallback: string): string {    if (!productId) return fallback;    const key = `products.${productId}.name`;    const translated = this.translate.instant(key);    return translated !== key ? translated : fallback;  }}
+import { Pipe, PipeTransform } from '@angular/core';
+
+/**
+ * ProductTranslatePipe - Devuelve el nombre del producto.
+ *
+ * F5.2: el `name` ya llega localizado por el backend (`?lang=es|en` vía
+ * interceptor). El fallback recibido es el nombre localizado; se conserva el
+ * contrato del pipe (recibe id + fallback) para no romper consumidores.
+ */
+@Pipe({
+  name: 'productTranslate',
+  standalone: true,
+  pure: true
+})
+export class ProductTranslatePipe implements PipeTransform {
+  transform(productId: string, fallback: string): string {
+    return fallback;
+  }
+}

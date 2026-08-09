@@ -1,11 +1,11 @@
-<section [class]="sectionClassNames" [attr.id]="id">
+<section [class]="sectionClassNames" [attr.id]="id()">
   <div class="product-carousel-section__inner">
-    @if (title) {
+    @if (title()) {
       <h2 class="product-carousel-section__title">
-        {{ title }}
+        {{ title() }}
       </h2>
     }
 
-    <app-product-carousel [products]="products" [idPrefix]="idPrefix"></app-product-carousel>
+    <app-product-carousel [products]="products()" [idPrefix]="idPrefix()"></app-product-carousel>
   </div>
 </section>

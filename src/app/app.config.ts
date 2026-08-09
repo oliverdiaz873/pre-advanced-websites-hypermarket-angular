@@ -6,6 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app.routes';
 import { provideI18n } from '@core/i18n/i18n.config';
 import { apiLangInterceptor } from '@core/api/api-lang.interceptor';
+import { provideApiLangSync } from '@core/api/api-lang-sync';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
     provideHttpClient(withInterceptors([apiLangInterceptor])),
     provideClientHydration(),
+    provideApiLangSync(),
     ...provideI18n()
   ]
 };

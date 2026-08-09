@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { products } from '@data/index';
 import { offerProducts } from '@features/offers';
 import { ProductService } from '@features/products/services/product.service';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
@@ -39,9 +38,9 @@ export class HomePageComponent {
 
   protected readonly loading = this.productService.productsLoading;
   protected readonly offers = offerProducts();
-  protected readonly featured = products.filter(p => FEATURED_IDS.includes(p.id));
+  protected readonly featured = this.productService.featured;
 
   constructor() {
-    this.productService.loadAll();
+    this.productService.loadFeatured(FEATURED_IDS);
   }
 }

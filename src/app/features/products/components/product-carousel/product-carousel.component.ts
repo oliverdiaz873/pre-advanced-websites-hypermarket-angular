@@ -1,6 +1,6 @@
 import {
   Component,
-  Input,
+  input,
   ViewChild,
   ElementRef,
   ChangeDetectionStrategy,
@@ -33,8 +33,8 @@ import { IconComponent } from '@shared/components/icons/icons.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent implements AfterViewInit, OnDestroy {
-  @Input() products: ProductUI[] = [];
-  @Input() idPrefix = '';
+  readonly products = input<ProductUI[]>([]);
+  readonly idPrefix = input<string>('');
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLElement>;
 

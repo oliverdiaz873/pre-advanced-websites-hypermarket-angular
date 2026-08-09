@@ -21,29 +21,25 @@ export class ProductTranslationService {
 
   /** Translates the product name or falls back to product.name */
   getName(product?: ProductUI): string {
-    const fallback = product?.name ?? this.translate.instant('common.product.not_found');
-
-    if (!product?.id) return fallback;
-
-    const key = `products.${product.id}.name`;
-    return this.exists(key) ? this.translate.instant(key) : fallback;
+    // F5.2: el backend ya localiza `name` con ?lang=; el nombre es la fuente.
+    return product?.name ?? this.translate.instant('common.product.not_found');
   }
 
   /**
-   * Translates the product description or falls back to pageData.description.
-   * If neither is available, generates a generic fallback using the product name.
+   * Translates the product description. F5.2: `description` ya viene localizada
+   * del backend. Si no existe, utiliza pageData.description o un fallback genérico.
    */
   getDescription(product?: ProductUI, pageData?: ProductPageData): string {
     const fallbackName = this.getName(product);
 
-    if (!product?.id) {
-      return `Disfruta de la mejor calidad con nuestro ${fallbackName}.`;
+    if (product?.description) {
+      return product.description;
     }
 
-    const key = `products.${product.id}.description`;
-    return this.exists(key)
-      ? this.translate.instant(key)
-      : (pageData?.description ?? `Disfruta de la mejor calidad con nuestro ${fallbackName}.`);
+    return (
+      pageData?.description ??
+      `Disfruta de la mejor calidad con nuestro ${fallbackName}.`
+    );
   }
 
   /** Translates the product specs array or falls back to pageData.detalles */

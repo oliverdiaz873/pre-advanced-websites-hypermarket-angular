@@ -100,7 +100,7 @@ export class CategoryPageComponent implements AfterViewInit {
   });
 
   constructor() {
-    this.productService.loadAll();
+    this.productService.loadProducts({});
 
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))

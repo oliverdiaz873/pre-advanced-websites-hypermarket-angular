@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductUI } from '../../models/product-ui.interface';
 import { ProductCarouselComponent } from '../product-carousel/product-carousel.component';
@@ -20,13 +20,13 @@ import { ProductCarouselComponent } from '../product-carousel/product-carousel.c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselSectionComponent {
-  @Input() title = '';
-  @Input() products: ProductUI[] = [];
-  @Input() id = '';
-  @Input() sectionClass = '';
-  @Input() idPrefix = '';
+  readonly title = input<string>('');
+  readonly products = input<ProductUI[]>([]);
+  readonly id = input<string>('');
+  readonly sectionClass = input<string>('');
+  readonly idPrefix = input<string>('');
 
   get sectionClassNames(): string {
-    return 'product-carousel-section' + (this.sectionClass ? ' ' + this.sectionClass : '');
+    return 'product-carousel-section' + (this.sectionClass() ? ' ' + this.sectionClass() : '');
   }
 }

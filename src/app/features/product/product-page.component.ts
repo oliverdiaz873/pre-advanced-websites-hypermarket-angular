@@ -2,7 +2,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
-import { categories, productById, productPageData, relatedProducts } from '@data/index';
 import { getAssetUrl } from '@core/utils';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
@@ -12,7 +11,6 @@ import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.
 import { ProductDetailSectionComponent } from '@features/products/components/product-detail-section/product-detail-section.component';
 import { ProductCarouselSectionComponent } from '@features/products/components/product-carousel-section/product-carousel-section.component';
 import { ProductDetailSkeletonComponent } from '@shared/components/skeleton/product-detail-skeleton.component';
-import { ProductUI } from '@features/products/models/product-ui.interface';
 import { ProductTranslationService } from '@features/products/services/product-translation.service';
 
 @Component({
@@ -45,6 +43,10 @@ export class ProductPageComponent {
   private readonly langVersion = signal(0);
   readonly productId = signal('');
 
+  readonly product = this.productService.detail;
+  readonly related = this.productService.related;
+  readonly pageData = computed(() => undefined);
+
   readonly breadcrumbItems = computed<BreadcrumbItem[]>(() => {
     this.langVersion();
     const product = this.product();
@@ -53,19 +55,7 @@ export class ProductPageComponent {
     ];
 
     if (product) {
-      const parentCategory = categories.find(cat =>
-        cat.subcategories.some(sub => sub.href.includes(`#${product.categoria}`))
-      );
-      const subcategory = parentCategory?.subcategories.find(sub =>
-        sub.href.includes(`#${product.categoria}`)
-      );
-
-      if (parentCategory) {
-        items.push({ label: this.translate.instant('categories.' + parentCategory.id), url: parentCategory.href });
-      }
-      if (subcategory) {
-        items.push({ label: this.translate.instant('categories.sub.' + product.categoria), url: subcategory.href });
-      }
+      items.push({ label: this.translate.instant(`categories.${product.categoria}`), url: `/category/${product.categoria}` });
       items.push({ label: this.productTranslation.getName(product) });
     }
 
@@ -73,8 +63,6 @@ export class ProductPageComponent {
   });
 
   constructor() {
-    this.productService.loadAll();
-
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
@@ -83,14 +71,12 @@ export class ProductPageComponent {
       });
 
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
-      this.productId.set(params.get('id') ?? '');
+      const id = params.get('id') ?? '';
+      this.productId.set(id);
+      this.productService.loadProductDetail(id);
       this.applyProductSeo();
     });
   }
-
-  product(): ProductUI | undefined { return productById(this.productId()); }
-  pageData() { return productPageData[this.productId()]; }
-  related(): ProductUI[] { return this.product() ? relatedProducts(this.product()!) : []; }
 
   private applyProductSeo(): void {
     const product = this.product();

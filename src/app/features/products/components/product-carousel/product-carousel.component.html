@@ -4,7 +4,7 @@
       type="button"
       (click)="scrollLeft()"
       class="productos-control-prev"
-      [id]="idPrefix + '-prev'"
+      [id]="idPrefix() + '-prev'"
       [attr.aria-label]="'home.hero.prev' | translate">
       <app-icon name="product-carousel-chevron-left" className="w-5 h-5"></app-icon>
     </button>
@@ -14,7 +14,7 @@
     #scrollContainer
     class="productos-container flex w-full gap-4 md:gap-5 overflow-x-auto pb-8 snap-x snap-mandatory scroll-smooth
            scrollbar-hide [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-    @for (product of products; track trackById($index, product)) {
+    @for (product of products(); track trackById($index, product)) {
       <app-product-card
         class="snap-start shrink-0"
         [product]="product"
@@ -29,7 +29,7 @@
       type="button"
       (click)="scrollRight()"
       class="productos-control-next"
-      [id]="idPrefix + '-next'"
+      [id]="idPrefix() + '-next'"
       [attr.aria-label]="'home.hero.next' | translate">
       <app-icon name="product-carousel-chevron-right" className="w-5 h-5"></app-icon>
     </button>
