@@ -2529,6 +2529,10 @@
       "start_search": {
         "title": "Tu búsqueda comienza en el encabezado",
         "desc": "Escribe el nombre de un producto y presiona Enter para ver los resultados aquí."
+      },
+      "error": {
+        "title": "Algo salió mal",
+        "desc": "No se pudieron cargar los resultados. Inténtalo de nuevo."
       }
     }
   },

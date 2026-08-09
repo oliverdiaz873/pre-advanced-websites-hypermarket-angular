@@ -1,16 +1,18 @@
-import { Injectable, inject, Signal, signal, computed, DestroyRef } from '@angular/core';
-import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Injectable, inject, Signal, signal, DestroyRef, Injector } from '@angular/core';
+import { toObservable, toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { Subject, combineLatest, EMPTY, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { products } from '@data/products.data';
-import { normalizarTexto, hasSearchQuery } from '@core/utils';
+import { hasSearchQuery } from '@core/utils';
+import { ProductService } from '@features/products/services/product.service';
+import type { ProductUI } from '@features/products/models/product-ui.interface';
 
 /**
  * Representa un producto en los resultados del typeahead del header.
  *
  * Contiene solo la información necesaria para renderizar el dropdown:
- * identificador, nombre visible (traducido) y ruta de la imagen.
+ * identificador, nombre visible (localizado por `?lang=`) y ruta de la imagen.
  */
 export interface HeaderSearchProduct {
   id: string;
@@ -21,27 +23,22 @@ export interface HeaderSearchProduct {
 /**
  * Servicio central de búsqueda del header y de la página de resultados.
  *
+ * F5.3.2: la fuente de datos es la API real (GET /search a través de
+ * `ProductService.searchProducts`), no el catálogo mock.
+ *
  * Responsabilidades:
- * - Gestionar el estado del typeahead del header (searchTerm, isSearchActive, searchResults)
+ * - Gestionar el estado del typeahead del header (searchTerm, isSearchActive,
+ *   searchResults, isSearching, searchError) con debounce de 300ms.
  * - Ejecutar la navegación a /search y a /product/:id
  * - Sincronizar la señal query con el parámetro ?q= de la URL
+ * - Resolver los resultados de la página de búsqueda (searchQueryResults + loading/error)
  *
  * Características:
- * - Búsqueda bilingüe: busca simultáneamente en español e inglés
- * - Filtrado en tiempo real: los resultados se actualizan al escribir
- * - Normalización: ignora acentos, diéresis y mayúsculas
- * - Máximo 8 resultados en el typeahead
- * - Estado compartido mediante Signals
- * - Re-evaluación automática al cambiar de idioma
- *
- * Flujo de funcionamiento:
- *   1. El usuario escribe en el input → setSearchTerm() actualiza searchTerm
- *   2. El computed searchResults reacciona al cambio y filtra productos
- *   3. El usuario hace clic en un resultado → selectResult() limpia estado y navega
- *   4. El usuario pulsa Enter o el botón de enviar → submitSearch() decide:
- *      - Si el search está cerrado → lo abre (el componente se encarga del foco)
- *      - Si está abierto sin contenido → lo cierra
- *      - Si está abierto con contenido → navega a /search?q=...
+ * - `q` vacío: nunca se llama al API (guard local; el backend responde 400).
+ * - `?lang=` estampado por el interceptor api-lang; al cambiar de idioma se
+ *   re-ejecuta la búsqueda del término activo.
+ * - Máximo 8 resultados en el typeahead.
+ * - Estados loading/error/empty expuestos para consumidores.
  */
 @Injectable({
   providedIn: 'root'
@@ -51,11 +48,10 @@ export class SearchService {
   private activatedRoute = inject(ActivatedRoute);
   private translate = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
+  private injector = inject(Injector);
+  private productService = inject(ProductService);
 
-  /**
-   * Read-only signal derived from the current URL's ?q= param.
-   * Automatically updates whenever the route changes.
-   */
+  /** Read-only signal derived from the current URL's ?q= param. */
   public readonly query: Signal<string> = toSignal(
     this.activatedRoute.queryParamMap.pipe(
       map(params => params.get('q') ?? '')
@@ -67,61 +63,84 @@ export class SearchService {
 
   public readonly isSearchActive = signal(false);
 
-  public readonly isSearching = signal(false);
+  private readonly searchTrigger = new Subject<void>();
 
-  /**
-   * Internal signal bumped on every language change so the computed
-   * below re-evaluates when translations are swapped.
-   */
-  private readonly langVersion = signal(0);
+  private readonly searchResultsState = signal<HeaderSearchProduct[]>([]);
+  private readonly isSearchingState = signal(false);
+  private readonly searchErrorState = signal<string | null>(null);
 
-  /**
-   * Resultados filtrados en tiempo real para el dropdown del header.
-   *
-   * Es un computed que reacciona a searchTerm y al idioma activo.
-   * - Normaliza el término y los nombres (minúsculas, sin acentos)
-   * - Compara contra el nombre en español y su traducción al inglés
-   * - Devuelve máximo 8 resultados
-   */
-  public readonly searchResults: Signal<HeaderSearchProduct[]> = computed(() => {
-    this.langVersion();
-    const term = this.searchTerm().trim();
-    if (!term) return [];
+  private readonly searchQueryResultsState = signal<ProductUI[]>([]);
+  private readonly searchQueryLoadingState = signal(false);
+  private readonly searchQueryErrorState = signal<string | null>(null);
 
-    const normalizedTerm = normalizarTexto(term);
+  private querySearchSeq = 0;
 
-    return products
-      .filter((product) => {
-        const nombreEs = normalizarTexto(product.name);
-        const key = `products.${product.id}.name`;
-        const translated = this.translate.instant(key);
-        const nombreEn =
-          translated !== key ? normalizarTexto(translated) : nombreEs;
+  /** Resultados del typeahead del header (máx 8), desde la API. */
+  public readonly searchResults = this.searchResultsState.asReadonly();
 
-        return nombreEs.includes(normalizedTerm) || nombreEn.includes(normalizedTerm);
-      })
-      .map((product) => {
-        const key = `products.${product.id}.name`;
-        const translated = this.translate.instant(key);
+  /** Loading real del typeahead (F5.3.2; antes era una rama muerta). */
+  public readonly isSearching = this.isSearchingState.asReadonly();
 
-        return {
-          id: product.id,
-          name: translated !== key ? translated : product.name,
-          imagen: product.imagen
-        };
-      })
-      .slice(0, 8);
-  });
+  /** Error del typeahead (null = sin error). */
+  public readonly searchError = this.searchErrorState.asReadonly();
 
-  /**
-   * Suscripción a onLangChange para forzar el recálculo de searchResults
-   * cuando el usuario cambia de idioma, ya que computed no detecta
-   * automáticamente las llamadas a translate.instant().
-   */
+  /** Resultados completos de la página de búsqueda, desde la API. */
+  public readonly searchQueryResults = this.searchQueryResultsState.asReadonly();
+
+  /** Loading de la página de búsqueda. */
+  public readonly searchQueryLoading = this.searchQueryLoadingState.asReadonly();
+
+  /** Error de la página de búsqueda (null = sin error). */
+  public readonly searchQueryError = this.searchQueryErrorState.asReadonly();
+
   constructor() {
+    // Typeahead: debounce 300ms + switchMap; se re-dispara al cambiar de idioma.
+    const typeahead$ = combineLatest([
+      toObservable(this.searchTerm, { injector: this.injector }),
+      this.searchTrigger.pipe(startWith(undefined)),
+    ]).pipe(
+      map(([term]) => term),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term) => {
+        if (!hasSearchQuery(term)) {
+          this.searchResultsState.set([]);
+          this.isSearchingState.set(false);
+          this.searchErrorState.set(null);
+          return EMPTY;
+        }
+        this.isSearchingState.set(true);
+        this.searchErrorState.set(null);
+        return this.productService.searchProducts(term).pipe(
+          map((products) =>
+            products.slice(0, 8).map((product) => ({
+              id: product.id,
+              name: product.name,
+              imagen: product.imagen,
+            }))
+          ),
+          catchError(() => {
+            this.searchErrorState.set('search.typeahead_error');
+            return of<HeaderSearchProduct[]>([]);
+          })
+        );
+      })
+    );
+
+    typeahead$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((results) => {
+      this.searchResultsState.set(results);
+      this.isSearchingState.set(false);
+    });
+
+    // Al cambiar de idioma, re-ejecutar la búsqueda del término activo para que
+    // `?lang=` (interceptor) localice los nombres mostrados.
     this.translate.onLangChange
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.langVersion.update((v) => v + 1));
+      .subscribe(() => {
+        if (hasSearchQuery(this.searchTerm())) {
+          this.searchTrigger.next();
+        }
+      });
   }
 
   public search(q: string): void {
@@ -180,5 +199,40 @@ export class SearchService {
     this.searchTerm.set('');
     this.isSearchActive.set(false);
     this.router.navigate(['/product', id]);
+  }
+
+  /** Ejecuta la búsqueda de la página de resultados (?q=) contra la API. */
+  public executeQuerySearch(q: string): void {
+    const trimmed = q.trim();
+    if (!trimmed) {
+      this.clearQuerySearch();
+      return;
+    }
+
+    const seq = ++this.querySearchSeq;
+    this.searchQueryLoadingState.set(true);
+    this.searchQueryErrorState.set(null);
+
+    this.productService.searchProducts(trimmed).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (products) => {
+        if (seq !== this.querySearchSeq) return;
+        this.searchQueryResultsState.set(products);
+        this.searchQueryLoadingState.set(false);
+      },
+      error: () => {
+        if (seq !== this.querySearchSeq) return;
+        this.searchQueryErrorState.set('search.query_error');
+        this.searchQueryResultsState.set([]);
+        this.searchQueryLoadingState.set(false);
+      },
+    });
+  }
+
+  /** Limpia los resultados de la página de búsqueda. */
+  public clearQuerySearch(): void {
+    this.querySearchSeq++;
+    this.searchQueryLoadingState.set(false);
+    this.searchQueryErrorState.set(null);
+    this.searchQueryResultsState.set([]);
   }
 }

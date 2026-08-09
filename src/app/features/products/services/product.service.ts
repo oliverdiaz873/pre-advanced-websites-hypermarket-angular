@@ -231,4 +231,19 @@ export class ProductService {
       });
     });
   }
+
+  /**
+   * Búsqueda real en el backend (GET /search). F5.3.2.
+   * `q` nunca se envía vacío (guard local; el backend responde 400). El idioma
+   * (`?lang=`) lo estampa el interceptor api-lang. No hay paginación en /search.
+   */
+  searchProducts(q: string, category?: string): Observable<ProductUI[]> {
+    const trimmed = q.trim();
+    if (!trimmed) {
+      return of([]);
+    }
+    return this.api.search({ q: trimmed, category }).pipe(
+      map((envelope) => mapApiProductsToProductUI(envelope.data).map(toProductUI))
+    );
+  }
 }

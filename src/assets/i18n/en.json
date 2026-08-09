@@ -2529,6 +2529,10 @@
       "start_search": {
         "title": "Your search starts in the header",
         "desc": "Type the name of a product and press Enter to see the results here."
+      },
+      "error": {
+        "title": "Something went wrong",
+        "desc": "We couldn't load the results. Please try again."
       }
     }
   },

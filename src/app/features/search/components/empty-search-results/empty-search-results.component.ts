@@ -21,13 +21,18 @@ export class EmptySearchResultsComponent {
   /** La consulta de búsqueda que no arrojó resultados */
   @Input() query = '';
 
+  /** Si la búsqueda falló (error de la API) en lugar de no tener resultados */
+  @Input() error = false;
+
   get titleKey(): string {
+    if (this.error) return 'search.empty_state.error.title';
     return this.query
       ? 'search.empty_state.no_results.title'
       : 'search.empty_state.start_search.title';
   }
 
   get descriptionKey(): string {
+    if (this.error) return 'search.empty_state.error.desc';
     return this.query
       ? 'search.empty_state.no_results.desc'
       : 'search.empty_state.start_search.desc';

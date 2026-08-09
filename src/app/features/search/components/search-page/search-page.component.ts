@@ -3,12 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
-import { products } from '../../../../data/index';
 import { offersData, calculateDiscountPercentage } from '@features/offers';
 import { ProductUI } from '../../../products/models/product-ui.interface';
-import { matchesSearchQuery } from '../../../../core/utils/search-utils';
 import { SeoService } from '../../../../core/services/seo.service';
-import { ProductTranslationService } from '@features/products/services/product-translation.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ProductGridComponent } from '../../../products/components/product-grid/product-grid.component';
 import { EmptySearchResultsComponent } from '../empty-search-results/empty-search-results.component';
@@ -25,7 +22,6 @@ import { ProductsGridSkeletonComponent } from '@shared/components/skeleton/produ
 })
 export class SearchPageComponent {
   private route = inject(ActivatedRoute);
-  private productTranslation = inject(ProductTranslationService);
   private seo = inject(SeoService);
   private translate = inject(TranslateService);
   protected searchService = inject(SearchService);
@@ -35,30 +31,25 @@ export class SearchPageComponent {
     { initialValue: '' }
   );
 
-  private readonly allProducts: ProductUI[] = products.map(p => {
-    const offer = offersData.find(o => o.id === p.id);
-    if (!offer) return p;
-    const discount = calculateDiscountPercentage(p.precio, offer.oldPrice);
-    return {
-      ...p,
-      oldPrice: offer.oldPrice,
-      discountPercentage: discount > 0 ? discount : undefined
-    };
-  });
-
-  public readonly results = computed(() => {
-    const q = this.query();
-    if (!q.trim()) return [];
-    return this.allProducts.filter(p => {
-      const translatedName = this.productTranslation.getName(p);
-      return [p.name, translatedName]
-        .some(value => matchesSearchQuery(value, q));
-    });
-  });
+  /** Resultados de la API enriquecidos con los badges de oferta locales. */
+  public readonly results = computed(() =>
+    this.searchService.searchQueryResults().map(p => {
+      const offer = offersData.find(o => o.id === p.id);
+      if (!offer) return p;
+      const discount = calculateDiscountPercentage(p.precio, offer.oldPrice);
+      return {
+        ...p,
+        oldPrice: offer.oldPrice,
+        discountPercentage: discount > 0 ? discount : undefined
+      };
+    })
+  );
 
   constructor() {
     effect(() => {
-      this.applySearchSeo(this.query(), this.results().length);
+      const q = this.query();
+      this.searchService.executeQuerySearch(q);
+      this.applySearchSeo(q, this.searchService.searchQueryResults().length);
     });
   }
 
