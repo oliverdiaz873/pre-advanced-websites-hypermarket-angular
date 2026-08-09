@@ -19,10 +19,11 @@ The home feature renders the storefront landing experience. It combines a hero c
 ## Page Flow
 
 1. `HomePageComponent` loads on route `/`.
-2. Catalog data is read from `data/` modules (products, offers, categories).
-3. SEO metadata is set via `SeoService` using the `home` translation namespace.
-4. JSON-LD structured data (`WebSite` + `SearchAction`) is rendered.
-5. The UI renders HeroCarousel, offers, featured products, CategoryBannersSection, and AboutUs.
+2. The offers carousel is fed from `OfferService.offers` (real backend `GET /offers`, F5.4); badges come from `/api/offers`.
+3. Featured products are still selected by hardcoded ids (`FEATURED_IDS`) from the local catalog (debt F5-post).
+4. SEO metadata is set via `SeoService` using the `home` translation namespace.
+5. JSON-LD structured data (`WebSite` + `SearchAction`) is rendered.
+6. The UI renders HeroCarousel, offers, featured products, CategoryBannersSection, and AboutUs.
 
 ## HeroCarousel
 
@@ -63,9 +64,9 @@ Dark section (`bg-black text-white`) with rounded corners. Displays localized br
 
 ## Data Sources
 
-- Product catalog: `src/app/data/products.data.ts`.
-- Offer data: `src/app/features/offers/data/offers.data.ts`.
-- Categories: `src/app/data/categories.data.ts`.
+- Offers carousel (F5.4): real backend `GET /offers` via `OfferService` (`@features/offers`). The single source of truth for offer badges is `/api/offers`.
+- Featured carousel (debt F5-post): `FEATURED_IDS` + `ProductService.loadFeatured` against the local catalog.
+- Categories: `src/app/core/api` (real backend).
 - Translations: `src/assets/i18n/es.json` and `src/assets/i18n/en.json`.
 - Assets: `src/assets/images/`.
 
@@ -77,12 +78,13 @@ Dark section (`bg-black text-white`) with rounded corners. Displays localized br
 - `src/app/features/home/components/category-banner/`
 - `src/app/features/home/components/about-us/`
 - `src/app/features/home/directives/scroll-scale.directive.ts`
-- `src/app/data/products.data.ts`
-- `src/app/features/offers/data/offers.data.ts`
+- `src/app/features/offers/services/offer.service.ts`
+- `src/app/features/products/services/product.service.ts`
 - `src/app/core/services/seo.service.ts`
+- `src/app/core/api/api.service.ts`
 
 ## Current Limitations
 
-- Featured product ids are hardcoded in the home page.
+- Featured carousel (debt F5-post): `FEATURED_IDS` + local catalog are used for the Featured carousel only. This is **out of F5.4 scope**. It is NOT a source of truth for offers — all badges are already integrated against `/api/offers`. Pending future full migration of Home Featured to real backend products. Explicitly aligned with the equivalent documented debt in `pre-advanced-websites-hypermarket-next`.
 - Hero banners are hardcoded inside `HeroCarousel`.
-- Home content is not fetched from a CMS or backend.
+- Home content is not fully fetched from a CMS or backend.
