@@ -8,12 +8,13 @@
  */
 import type { CartItem } from '../types/cart.interface';
 import type { ApiCart, ApiCartItem, CartMergeItem } from '../types/cart-api.interface';
+import { resolveProductImageUrl } from '@core/api/product-image.resolver';
 
 /** Convierte un item del backend al modelo visual. */
 export const toUiCartItem = (item: ApiCartItem): CartItem => ({
   productId: item.productId,
   name: item.name,
-  imagen: item.image,
+  imagen: resolveProductImageUrl(item.image) ?? '',
   unitPrice: item.unitPrice,
   unitLabel: item.unit?.trim() || 'unidad',
   quantity: item.quantity,

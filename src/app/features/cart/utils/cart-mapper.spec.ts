@@ -25,7 +25,7 @@ describe('toUiCartItem', () => {
     expect(ui).toEqual({
       productId: 'p1',
       name: 'Leche Deslactosada',
-      imagen: 'leche.jpg',
+      imagen: 'http://localhost:3000/uploads/leche.jpg',
       unitPrice: 1125,
       unitLabel: 'litro',
       quantity: 2,
@@ -34,6 +34,16 @@ describe('toUiCartItem', () => {
       discountPercentage: 25,
       unitQuantity: 1,
     });
+  });
+
+  it('resolves la key relativa del backend a la URL pública de storage', () => {
+    const ui = toUiCartItem(apiItem({ image: 'products/bebidas/coca-cola.avif' }));
+    expect(ui.imagen).toBe('http://localhost:3000/uploads/products/bebidas/coca-cola.avif');
+  });
+
+  it('mantiene las URLs absolutas tal cual', () => {
+    const ui = toUiCartItem(apiItem({ image: 'https://cdn.example.com/a.webp?v=1' }));
+    expect(ui.imagen).toBe('https://cdn.example.com/a.webp?v=1');
   });
 
   it('defaults unitLabel to "unidad" when unit is blank', () => {
