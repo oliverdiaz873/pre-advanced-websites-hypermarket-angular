@@ -25,7 +25,7 @@ describe('toUiCartItem', () => {
     expect(ui).toEqual({
       productId: 'p1',
       name: 'Leche Deslactosada',
-      imagen: 'http://localhost:3000/uploads/leche.jpg',
+      imagen: '/uploads/leche.jpg',
       unitPrice: 1125,
       unitLabel: 'litro',
       quantity: 2,
@@ -36,9 +36,9 @@ describe('toUiCartItem', () => {
     });
   });
 
-  it('resolves la key relativa del backend a la URL pública de storage', () => {
+  it('resuelve la key relativa del backend a ruta same-origen /uploads/', () => {
     const ui = toUiCartItem(apiItem({ image: 'products/bebidas/coca-cola.avif' }));
-    expect(ui.imagen).toBe('http://localhost:3000/uploads/products/bebidas/coca-cola.avif');
+    expect(ui.imagen).toBe('/uploads/products/bebidas/coca-cola.avif');
   });
 
   it('mantiene las URLs absolutas tal cual', () => {

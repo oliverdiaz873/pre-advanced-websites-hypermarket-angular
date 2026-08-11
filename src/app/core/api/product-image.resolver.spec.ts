@@ -12,9 +12,18 @@ describe('resolveProductImageUrl', () => {
     expect(resolveProductImageUrl('data:image/png;base64,abc')).toBe('data:image/png;base64,abc');
   });
 
-  it('resuelve una key relativa legacy contra la base pública', () => {
-    expect(resolveProductImageUrl('products/bebidas/coca-cola.avif', 'http://localhost:3000')).toBe(
-      'http://localhost:3000/uploads/products/bebidas/coca-cola.avif'
+  it('resuelve una key relativa legacy a ruta same-origen /uploads/ en dev', () => {
+    expect(resolveProductImageUrl('products/bebidas/coca-cola.avif')).toBe(
+      '/uploads/products/bebidas/coca-cola.avif'
+    );
+    expect(resolveProductImageUrl('products/bebidas/coca-cola.avif', '')).toBe(
+      '/uploads/products/bebidas/coca-cola.avif'
+    );
+  });
+
+  it('resuelve contra la base pública CDN/R2 en prod', () => {
+    expect(resolveProductImageUrl('products/bebidas/coca-cola.avif', 'https://cdn.hipermercadosuperior.com')).toBe(
+      'https://cdn.hipermercadosuperior.com/uploads/products/bebidas/coca-cola.avif'
     );
   });
 
@@ -22,6 +31,7 @@ describe('resolveProductImageUrl', () => {
     expect(resolveProductImageUrl('/products/bebidas/coca-cola.avif', 'https://cdn.hipermercadosuperior.com')).toBe(
       'https://cdn.hipermercadosuperior.com/uploads/products/bebidas/coca-cola.avif'
     );
+    expect(resolveProductImageUrl('/products/bebidas/coca-cola.avif')).toBe('/uploads/products/bebidas/coca-cola.avif');
   });
 
   it('devuelve null si no hay imagen', () => {
