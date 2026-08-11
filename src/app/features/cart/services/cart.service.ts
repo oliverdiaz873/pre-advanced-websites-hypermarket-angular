@@ -1,57 +1,106 @@
 import { Injectable, signal, computed, effect, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, firstValueFrom, fromEvent, throwError } from 'rxjs';
 import { Product } from '@core/types/product.interface';
-import { CartItem } from '../types/cart.interface';
 import { unitLabel } from '@core/utils/price-utils';
+import { CartItem, CartMode } from '../types/cart.interface';
+import { ApiCart } from '../types/cart-api.interface';
+import { discountFromPrices, toMergePayload, uiCartFromServer } from '../utils/cart-mapper';
+import { createSerialQueue } from '../utils/mutation-queue';
 import { ProductUI } from '@features/products/models/product-ui.interface';
 import { StorageService } from '@core/services/storage.service';
-
-const parsePriceNumber = (text: string): number =>
-  Number.parseFloat(text.replace(/[^\d.]/g, ''));
-
-const discountFromPrices = (currentPrice: number, oldPrice: string): number => {
-  const previous = parsePriceNumber(oldPrice);
-  if (!Number.isFinite(previous) || previous <= currentPrice) return 0;
-  return Math.round(((previous - currentPrice) / previous) * 100);
-};
+import { PlatformService } from '@core/services/platform.service';
+import { AuthService } from '@features/auth/services/auth.service';
+import type { AuthStatus } from '@features/auth/types/auth.interface';
+import { CartApiService } from './cart-api.service';
 
 /**
- * Global cart state management service.
+ * Estado global del carrito (A2 — migración carrito local → server).
  *
- * Handles the shopping cart state using Angular Signals, with automatic
- * persistence to localStorage under the key 'carrito'. Provides actions
- * to add, remove, update quantity, and clear items.
+ * API pública PRESERVADA: `items`, `totalItems`, `totalPrice`, `addItem`,
+ * `removeItem`, `updateQuantity`, `clearCart` y el tipo `CartItem`.
  *
- * Discount calculation delegates to the offers feature for pricing rules.
- *
- * Functional equivalent of Next.js CartContext + useCart hook.
+ * Comportamiento A2 (paridad funcional con N2 CartContext):
+ *  - Anónimo: igual que antes (localStorage['carrito'] + cálculos locales).
+ *  - Autenticado: el servidor (`/api/cart`) es la fuente de verdad de
+ *    cantidades, precios, ofertas y snapshot. El cliente solo transforma el
+ *    `CartResponse` (cart-mapper) al modelo visual; jamás recalcula el precio.
+ *  - Login/Registro → merge automático guest→server vía UNA llamada a
+ *    `POST /api/cart/merge` (server-wins).
+ *  - `pendingMerge`: si el merge falla (backend caído/offline) se conserva el
+ *    carrito local y se reintenta al recuperar la conexión (`online`).
+ *  - Mutaciones de cantidades serializadas por una cola FIFO (A→B→C), con
+ *    update optimista y rollback al último CartResponse confirmado.
+ *  - Logout: limpia el espejo local (localStorage) conservando el carrito
+ *    server-side.
+ *  - La cookie httpOnly la gestiona el interceptor `authInterceptor`; el
+ *    cliente nunca toca el JWT.
  */
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private readonly STORAGE_KEY = 'carrito';
-  private storage = inject(StorageService);
-  private cartItems = signal<CartItem[]>([]);
+
+  private readonly storage = inject(StorageService);
+  private readonly platform = inject(PlatformService);
+  private readonly api = inject(CartApiService);
+  private readonly auth = inject(AuthService);
+
+  private readonly _cartItems = signal<CartItem[]>([]);
+  private readonly _mode = signal<CartMode>('loading');
+  private readonly _pendingMerge = signal<boolean>(false);
+  private readonly _serverSynced = signal<boolean>(false);
+
+  /** Último CartResponse confirmado por el backend (autoritativo para rollback). */
+  private _serverCart: ApiCart | null = null;
+  /** Espejo local/anónimo (origen del merge; se limpia tras merge exitoso o logout). */
+  private _localCart: CartItem[] = [];
+  /** El carrito local de esta sesión ya fue mergeado. */
+  private _mergedThisSession = false;
+  private _mergeInFlight = false;
+  private _prevAuthStatus: AuthStatus = 'loading';
+
+  private readonly _queue = createSerialQueue();
 
   /** Public read-only signal for cart items */
-  public items = this.cartItems.asReadonly();
+  public readonly items = this._cartItems.asReadonly();
 
   /** Total number of items across all cart entries */
-  public totalItems = computed(() =>
-    this.cartItems().reduce((sum, item) => sum + item.quantity, 0)
+  public readonly totalItems = computed(() =>
+    this._cartItems().reduce((sum, item) => sum + item.quantity, 0)
   );
 
   /** Total price computed from unitPrice * quantity */
-  public totalPrice = computed(() =>
-    this.cartItems().reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0)
+  public readonly totalPrice = computed(() =>
+    this._cartItems().reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0)
   );
 
   constructor() {
     this.rehydrate();
 
+    // Persistir el espejo local SOLO en modo local (anónimo/pendingMerge).
     effect(() => {
-      this.storage.set<CartItem[]>(this.STORAGE_KEY, this.cartItems());
+      if (this._mode() === 'loading') return;
+      const isServerSource =
+        this._mode() === 'authenticated' && !this._pendingMerge() && this._serverSynced();
+      if (isServerSource) return;
+      this.storage.set<CartItem[]>(this.STORAGE_KEY, this._cartItems());
     });
+
+    // Reaccionar a la sesión: loading → anonymous | authenticated; logout.
+    effect(() => this.onSessionChange(this.auth.status()));
+
+    // Reintentar un merge pendiente al recuperar la conexión (solo navegador).
+    if (this.platform.isBrowser()) {
+      fromEvent(window, 'online')
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => {
+          if (this._mode() === 'authenticated' && this._pendingMerge()) {
+            void this.tryMerge();
+          }
+        });
+    }
   }
 
   /**
@@ -59,49 +108,35 @@ export class CartService {
    * When oldPrice is provided, calculates discount percentage and marks the
    * item as an offer. The discount data becomes part of the CartItem and
    * does not depend on any external lookup at rehydration time.
+   * Autenticado: update optimista + mutación serializada contra `/api/cart`.
    */
   public addItem(product: Product, quantity = 1, oldPrice?: string): void {
     if (quantity <= 0) return;
 
-    this.cartItems.update(items => {
-      const existingIndex = items.findIndex(item => item.productId === product.id);
+    const alreadyInCart = this._cartItems().some((item) => item.productId === product.id);
+    if (alreadyInCart) {
+      this.optimisticUpdate(product.id, quantity);
+    } else {
+      this.optimisticAdd(product, quantity, oldPrice);
+    }
 
-      if (existingIndex > -1) {
-        const updatedItems = [...items];
-        updatedItems[existingIndex] = {
-          ...updatedItems[existingIndex],
-          quantity: updatedItems[existingIndex].quantity + quantity
-        };
-        return updatedItems;
-      }
+    if (this._mode() === 'anonymous' || this._pendingMerge()) return;
 
-      const finalUnidad = this.extractUnidad(product);
-      const backendDiscount = (product as ProductUI).discountPercentage ?? 0;
-      const discountPercentage = backendDiscount > 0
-        ? backendDiscount
-        : (oldPrice ? discountFromPrices(product.precio, oldPrice) : 0);
-
-      const newItem: CartItem = {
-        productId: product.id,
-        name: product.name,
-        imagen: product.imagen,
-        unitPrice: product.precio,
-        unitLabel: unitLabel(product),
-        quantity,
-        precioTexto: product.precioTexto,
-        oldPrice,
-        unidad: finalUnidad,
-        isOffer: discountPercentage > 0,
-        discountPercentage,
-        unitQuantity: product.quantity
-      };
-      return [...items, newItem];
+    this.enqueueServerOp(() => {
+      const serverItem = this._serverCart?.items.find((i) => i.productId === product.id);
+      return serverItem
+        ? this.api.updateItem(product.id, serverItem.quantity + quantity)
+        : this.api.addItem(product.id, quantity);
     });
   }
 
   /** Removes an item completely from the cart by product ID */
   public removeItem(productId: string): void {
-    this.cartItems.update(items => items.filter(item => item.productId !== productId));
+    this.optimisticRemove(productId);
+
+    if (this._mode() !== 'anonymous' && !this._pendingMerge()) {
+      this.enqueueServerOp(() => this.api.removeItem(productId));
+    }
   }
 
   /**
@@ -109,18 +144,194 @@ export class CartService {
    * If the resulting quantity is 0 or less, the item is removed.
    */
   public updateQuantity(productId: string, delta: number): void {
-    this.cartItems.update(items =>
-      items.map(item =>
-        item.productId === productId
-          ? { ...item, quantity: item.quantity + delta }
-          : item
-      ).filter(item => item.quantity > 0)
-    );
+    this.optimisticUpdate(productId, delta);
+
+    if (this._mode() === 'anonymous' || this._pendingMerge()) return;
+
+    this.enqueueServerOp(() => {
+      const serverItem = this._serverCart?.items.find((i) => i.productId === productId);
+      const cartItem = this._cartItems().find((i) => i.productId === productId);
+      if (serverItem) {
+        const next = serverItem.quantity + delta;
+        return next <= 0 ? this.api.removeItem(productId) : this.api.updateItem(productId, next);
+      }
+      if (cartItem) {
+        // Item aún no confirmado en server: POST /items incrementa server-side.
+        return this.api.addItem(productId, Math.max(1, cartItem.quantity));
+      }
+      return throwError(() => new Error('Cart item not found'));
+    });
   }
 
-  /** Empties the entire cart */
+  /** Empties the entire cart (server-side cuando hay sesión). */
   public clearCart(): void {
-    this.cartItems.set([]);
+    this.optimisticClear();
+
+    if (this._mode() !== 'anonymous' && !this._pendingMerge()) {
+      this.enqueueServerOp(() => this.api.clearCart());
+    }
+  }
+
+  /**
+   * Cambio de estado de sesión. En Angular se observan las signals de
+   * `AuthService` (A1) mediante un `effect` que despacha la transición.
+   */
+  private onSessionChange(status: AuthStatus): void {
+    const prev = this._prevAuthStatus;
+    this._prevAuthStatus = status;
+    if (status === 'loading' || status === prev) return;
+
+    if (status === 'authenticated') {
+      this._mode.set('authenticated');
+      this._serverSynced.set(false);
+      void this.resolveSession();
+    } else if (prev === 'authenticated') {
+      // Logout: el espejo local se limpia; el carrito server permanece server-side.
+      this.logoutLocal();
+    } else {
+      this._mode.set('anonymous');
+    }
+  }
+
+  private logoutLocal(): void {
+    this._mode.set('anonymous');
+    this._cartItems.set([]);
+    this._localCart = [];
+    this._serverCart = null;
+    this._pendingMerge.set(false);
+    this._serverSynced.set(false);
+    this._mergedThisSession = false;
+    this.storage.remove(this.STORAGE_KEY);
+  }
+
+  /**
+   * Al entrar autenticado: si hay carrito local → merge server-wins (UNA
+   * llamada a POST /api/cart/merge); si no, sincronizar el carrito server.
+   */
+  private async resolveSession(): Promise<void> {
+    if (this._mode() !== 'authenticated' || this._serverSynced()) return;
+    if (this._pendingMerge() || this._mergeInFlight) return;
+
+    this._mergeInFlight = true;
+    try {
+      if (this._localCart.length > 0) {
+        await this.tryMerge();
+      } else {
+        await this.syncServerCart();
+      }
+    } finally {
+      this._mergeInFlight = false;
+    }
+  }
+
+  private async syncServerCart(): Promise<void> {
+    try {
+      const cart = await firstValueFrom(this.api.getCart());
+      this._serverCart = cart;
+      this._serverSynced.set(true);
+      this._cartItems.set(uiCartFromServer(cart));
+    } catch {
+      // Autenticado pero backend no disponible → fallback anónimo/local.
+      this._mode.set('anonymous');
+    }
+  }
+
+  private async tryMerge(): Promise<void> {
+    const payload = toMergePayload(this._localCart);
+    try {
+      const cart = await firstValueFrom(this.api.mergeCart(payload));
+      this._serverCart = cart;
+      this.storage.remove(this.STORAGE_KEY);
+      this._localCart = [];
+      this._pendingMerge.set(false);
+      this._serverSynced.set(true);
+      this._mergedThisSession = true;
+      this._mode.set('authenticated');
+      this._cartItems.set(uiCartFromServer(cart));
+    } catch {
+      // Backend caído/offline → fallback offline; se conserva el carrito local.
+      this._pendingMerge.set(true);
+      this._cartItems.set([...this._localCart]);
+    }
+  }
+
+  /**
+   * Ejecuta una mutación autenticada mediante la cola serializada: optimista
+   * + reconciliación con el CartResponse o rollback al último confirmado.
+   */
+  private enqueueServerOp(op: () => Observable<ApiCart>): void {
+    void this._queue.push(async () => {
+      try {
+        const cart = await firstValueFrom(op());
+        this._serverCart = cart;
+        this._serverSynced.set(true);
+        this._cartItems.set(uiCartFromServer(cart));
+      } catch {
+        if (this._serverCart) {
+          this._cartItems.set(uiCartFromServer(this._serverCart));
+          this._serverSynced.set(true);
+        }
+      }
+    });
+  }
+
+  private optimisticAdd(product: Product, quantity: number, oldPrice?: string): void {
+    this._cartItems.update((items) => [...items, this.buildCartItem(product, quantity, oldPrice)]);
+    this.pushMirror();
+  }
+
+  private optimisticUpdate(productId: string, delta: number): void {
+    this._cartItems.update((items) =>
+      items
+        .map((item) =>
+          item.productId === productId ? { ...item, quantity: item.quantity + delta } : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+    this.pushMirror();
+  }
+
+  private optimisticRemove(productId: string): void {
+    this._cartItems.update((items) => items.filter((item) => item.productId !== productId));
+    this.pushMirror();
+  }
+
+  private optimisticClear(): void {
+    this._cartItems.set([]);
+    this.pushMirror();
+  }
+
+  /** Refleja la vista actual en el espejo local cuando corresponde. */
+  private pushMirror(): void {
+    if (this._mode() === 'anonymous' || this._pendingMerge()) {
+      this._localCart = [...this._cartItems()];
+    }
+  }
+
+  /** Construye el item visual para el update optimista (usa los datos locales). */
+  private buildCartItem(product: Product, quantity: number, oldPrice?: string): CartItem {
+    const finalUnidad = this.extractUnidad(product);
+    const backendDiscount = (product as ProductUI).discountPercentage ?? 0;
+    const discountPercentage = backendDiscount > 0
+      ? backendDiscount
+      : oldPrice
+        ? discountFromPrices(product.precio, oldPrice)
+        : 0;
+
+    return {
+      productId: product.id,
+      name: product.name,
+      imagen: product.imagen,
+      unitPrice: product.precio,
+      unitLabel: unitLabel(product),
+      quantity,
+      precioTexto: product.precioTexto,
+      oldPrice,
+      unidad: finalUnidad,
+      isOffer: discountPercentage > 0,
+      discountPercentage,
+      unitQuantity: product.quantity
+    };
   }
 
   /**
@@ -131,8 +342,8 @@ export class CartService {
     try {
       const stored = this.storage.get<CartItem[]>(this.STORAGE_KEY);
       if (stored && Array.isArray(stored)) {
-        const normalized = stored.map(item => {
-          const discountPct = item.oldPrice ? discountFromPrices(item.unitPrice, item.oldPrice) : 0;
+        const normalized = stored.map((item) => {
+          const discountPct = discountFromPrices(item.unitPrice, item.oldPrice);
           return {
             ...item,
             unitLabel: item.unitLabel ?? unitLabel({ unidad: item.unidad, precioTexto: item.precioTexto } as Product),
@@ -142,7 +353,8 @@ export class CartService {
             unitQuantity: item.unitQuantity ?? undefined
           };
         });
-        this.cartItems.set(normalized);
+        this._localCart = [...normalized];
+        this._cartItems.set(normalized);
       }
     } catch (error) {
       console.error('Error rehydrating cart from localStorage:', error);
@@ -163,6 +375,4 @@ export class CartService {
     }
     return undefined;
   }
-
-
 }

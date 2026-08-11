@@ -21,3 +21,6 @@ export interface CartItem {
 export interface CartState {
   items: CartItem[];
 }
+
+/** Estado de resolución del carrito respecto a la sesión (Análogo de N2). */
+export type CartMode = 'loading' | 'anonymous' | 'authenticated';

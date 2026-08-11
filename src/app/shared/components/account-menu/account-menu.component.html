@@ -1,0 +1,42 @@
+<div class="account-menu">
+  @if (status() === 'loading') {
+    <span class="account-menu__skeleton" aria-hidden="true"></span>
+  } @else if (user(); as user) {
+    <div class="account-menu__wrap">
+      <button
+        type="button"
+        class="account-menu__trigger"
+        (click)="toggle()"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-haspopup]="'true'"
+        [attr.aria-label]="'header.account.open_account' | translate"
+      >
+        <app-icon name="user" className="account-menu__icon"></app-icon>
+        <span class="account-menu__name">{{ user.name.split(' ')[0] }}</span>
+        <app-icon name="chevron-down" className="account-menu__chevron"></app-icon>
+      </button>
+
+      @if (isOpen()) {
+        <ul class="account-menu__dropdown" role="menu">
+          <li role="none">
+            <a routerLink="/account" role="menuitem" (click)="isOpen.set(false)">
+              {{ 'header.account.account' | translate }}
+            </a>
+          </li>
+          <li role="none">
+            <button type="button" role="menuitem" (click)="logout()">
+              {{ 'header.account.logout' | translate }}
+            </button>
+          </li>
+        </ul>
+      }
+    </div>
+  } @else {
+    <div class="account-menu__anon">
+      <a routerLink="/login" class="account-menu__link">{{ 'header.account.login' | translate }}</a>
+      <a routerLink="/register" class="account-menu__link account-menu__link--cta">
+        {{ 'header.account.register' | translate }}
+      </a>
+    </div>
+  }
+</div>

@@ -2,6 +2,7 @@
 import { SeoConfig } from '@core/types/seo';
 import { BRAND_NAME } from '@core/constants';
 import { ShopLayoutComponent } from './layouts/shop-layout/shop-layout.component';
+import { requireAuthGuard, redirectIfAuthenticatedGuard } from './features/auth/guards/auth.guards';
 
 const seo = (config: SeoConfig) => config;
 
@@ -123,7 +124,7 @@ export const routes: Routes = [
           })
         }
       },
-      {
+{
         path: 'search',
         loadComponent: () => import('./features/search/components/search-page/search-page.component').then(m => m.SearchPageComponent),
         data: {
@@ -139,6 +140,48 @@ export const routes: Routes = [
               description: `Resultados de busqueda del catalogo de ${BRAND_NAME}.`,
               url: '/search'
             }
+          })
+        }
+      },
+      {
+        path: 'login',
+        canActivate: [redirectIfAuthenticatedGuard],
+        loadComponent: () => import('./features/auth/pages/login-page/login-page.component').then(m => m.LoginPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'auth.login.seo.title',
+            descriptionKey: 'auth.login.seo.description',
+            canonicalPath: '/login',
+            robots: 'noindex, nofollow',
+            jsonLd: null
+          })
+        }
+      },
+      {
+        path: 'register',
+        canActivate: [redirectIfAuthenticatedGuard],
+        loadComponent: () => import('./features/auth/pages/register-page/register-page.component').then(m => m.RegisterPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'auth.register.seo.title',
+            descriptionKey: 'auth.register.seo.description',
+            canonicalPath: '/register',
+            robots: 'noindex, nofollow',
+            jsonLd: null
+          })
+        }
+      },
+      {
+        path: 'account',
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./features/auth/pages/account-page/account-page.component').then(m => m.AccountPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'auth.account.seo.title',
+            descriptionKey: 'auth.account.seo.description',
+            canonicalPath: '/account',
+            robots: 'noindex, nofollow',
+            jsonLd: null
           })
         }
       },

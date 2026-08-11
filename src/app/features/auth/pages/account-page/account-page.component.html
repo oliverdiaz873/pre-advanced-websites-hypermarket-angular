@@ -1,0 +1,44 @@
+<section class="auth-page">
+  <div class="auth-card max-w-md w-full mx-auto">
+    @if (user(); as user) {
+      <div class="flex items-center gap-4 mb-6">
+        <div class="account-avatar" aria-hidden="true">{{ user.name.charAt(0).toUpperCase() }}</div>
+        <div>
+          <h1 class="text-2xl font-bold">
+            {{ 'auth.account.welcome' | translate: { name: user.name.split(' ')[0] } }}
+          </h1>
+          <p class="text-sm text-gray-500">{{ user.email }}</p>
+        </div>
+      </div>
+
+      <dl class="account-fields mb-6">
+        <div class="account-field">
+          <dt>{{ 'auth.account.fields.name' | translate }}</dt>
+          <dd>{{ user.name }}</dd>
+        </div>
+        <div class="account-field">
+          <dt>{{ 'auth.account.fields.email' | translate }}</dt>
+          <dd>{{ user.email }}</dd>
+        </div>
+        <div class="account-field">
+          <dt>{{ 'auth.account.fields.role' | translate }}</dt>
+          <dd>{{ 'auth.account.roles.' + user.role | translate }}</dd>
+        </div>
+        <div class="account-field">
+          <dt>{{ 'auth.account.fields.joined' | translate }}</dt>
+          <dd>{{ user.createdAt | date: 'mediumDate' }}</dd>
+        </div>
+      </dl>
+
+      <button type="button" [disabled]="isLoggingOut()" class="auth-submit w-full" (click)="logout()">
+        {{ 'auth.account.logout' | translate }}
+      </button>
+
+      <p class="text-center text-sm mt-4">
+        <a routerLink="/" class="auth-link">{{ 'auth.account.back_home' | translate }}</a>
+      </p>
+    } @else {
+      <p class="text-center text-gray-500 py-8">{{ 'auth.account.loading' | translate }}</p>
+    }
+  </div>
+</section>

@@ -213,6 +213,86 @@
       "terms": "Terms of Use"
     }
   },
+  "auth": {
+    "_documentation": {
+      "namespace": "auth",
+      "description": "Authentication: login, registration, user account and errors",
+      "usage": "Pages /login, /register and /account",
+      "contains": "Forms, account state, error messages"
+    },
+    "login": {
+      "seo": {
+        "title": "Sign in",
+        "description": "Sign in to Superior Hypermarket to manage your account."
+      },
+      "title": "Sign in",
+      "subtitle": "Access your account to continue",
+      "email_label": "Email",
+      "email_placeholder": "you@example.com",
+      "email_required": "Email is required",
+      "email_invalid": "Enter a valid email address",
+      "password_label": "Password",
+      "password_placeholder": "Your password",
+      "password_required": "Password is required",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "no_account": "Don't have an account?",
+      "go_register": "Sign up",
+      "back_home": "Back to home"
+    },
+    "register": {
+      "seo": {
+        "title": "Create account",
+        "description": "Create your Superior Hypermarket account and shop faster."
+      },
+      "title": "Create account",
+      "subtitle": "Join Superior Hypermarket",
+      "name_label": "Name",
+      "name_placeholder": "Your name",
+      "name_required": "Name is required",
+      "name_minlength": "Name must be at least 2 characters",
+      "email_label": "Email",
+      "email_placeholder": "you@example.com",
+      "email_required": "Email is required",
+      "email_invalid": "Enter a valid email address",
+      "password_label": "Password",
+      "password_placeholder": "At least 6 characters",
+      "password_required": "Password is required",
+      "password_minlength": "Password must be at least 6 characters",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "have_account": "Already have an account?",
+      "go_login": "Sign in",
+      "back_home": "Back to home"
+    },
+    "account": {
+      "seo": {
+        "title": "My account",
+        "description": "Manage your Superior Hypermarket account details."
+      },
+      "welcome": "Hi, {{name}}",
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Account type",
+        "joined": "Joined"
+      },
+      "roles": {
+        "customer": "Customer",
+        "admin": "Administrator"
+      },
+      "loading": "Loading your account...",
+      "logout": "Log out",
+      "back_home": "Back to home"
+    },
+    "errors": {
+      "invalid_credentials": "Incorrect email or password.",
+      "email_exists": "An account with that email already exists.",
+      "rate_limited": "Too many attempts. Please try again later.",
+      "session_expired": "Your session expired. Please sign in again.",
+      "unknown": "Something went wrong. Please try again."
+    }
+  },
   "header": {
     "_documentation": {
       "namespace": "header",
@@ -237,7 +317,14 @@
       "offers": "Offers",
       "contact": "Contact"
     },
-    "language": "Language"
+    "language": "Language",
+    "account": {
+      "account": "My account",
+      "login": "Sign in",
+      "register": "Sign up",
+      "logout": "Log out",
+      "open_account": "Open account menu"
+    }
   },
   "home": {
     "_documentation": {

@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { ViewportService } from '@core/services/viewport.service';
 import { ProductService } from '@features/products/services/product.service';
+import { AccountMenuComponent } from '../../../../shared/components/account-menu/account-menu.component';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,8 @@ import { ProductService } from '@features/products/services/product.service';
     RouterLink, TranslatePipe,
     DesktopNavComponent, HeaderSearchComponent,
     MobileNavComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    AccountMenuComponent
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']

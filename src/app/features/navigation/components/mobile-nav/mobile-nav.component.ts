@@ -5,6 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { IconComponent } from '../../../../shared/components/icons/icons.component';
 import { LanguageSelectorComponent } from '../../../../shared/components/language-selector/language-selector.component';
 import { ProductService } from '@features/products/services/product.service';
+import { AuthService } from '@features/auth/services/auth.service';
 import { getUrlFragment } from '../../../../core/utils/url.utils';
 
 @Component({
@@ -21,9 +22,17 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
 
   private platformId = inject(PLATFORM_ID);
   private readonly productService = inject(ProductService);
+  private readonly auth = inject(AuthService);
+
   protected readonly categories = this.productService.categories;
+  protected readonly authStatus = this.auth.status;
+  protected readonly user = this.auth.user;
   protected openCategory = signal<string | null>(null);
   protected openSubcategories = signal<string[]>([]);
+
+  logout(): void {
+    this.auth.logout().subscribe(() => this.close.emit());
+  }
 
   getFragment(href: string): string {
     return getUrlFragment(href);

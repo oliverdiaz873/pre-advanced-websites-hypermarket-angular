@@ -5,12 +5,14 @@ import { filter, map, startWith } from 'rxjs/operators';
 import { HeaderComponent } from '../../features/layout/components/header/header.component';
 import { FooterComponent } from '../../features/layout/components/footer/footer.component';
 import { ToastComponent } from '../../shared/components/toast/toast.component';
+import { AuthSessionToastComponent } from '../../shared/components/auth-session-toast/auth-session-toast.component';
 import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top.component';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'shop-layout',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, ToastComponent, ScrollToTopComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, ToastComponent, AuthSessionToastComponent, ScrollToTopComponent],
   template: `
     <div class="shell">
       <app-header></app-header>
@@ -21,6 +23,7 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
       <app-footer></app-footer>
     </div>
     <app-toast></app-toast>
+    <app-auth-session-toast></app-auth-session-toast>
     <app-scroll-to-top></app-scroll-to-top>
   `,
   styles: [`
@@ -54,6 +57,11 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
 })
 export class ShopLayoutComponent {
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
+
+  constructor() {
+    void this.auth.initialize();
+  }
 
   readonly isHome = toSignal(
     this.router.events.pipe(

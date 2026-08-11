@@ -213,6 +213,86 @@
       "terms": "Términos de Uso"
     }
   },
+  "auth": {
+    "_documentation": {
+      "namespace": "auth",
+      "description": "Autenticación: login, registro, cuenta de usuario y errores",
+      "usage": "Páginas /login, /register y /account",
+      "contains": "Formularios, estado de la cuenta, mensajes de error"
+    },
+    "login": {
+      "seo": {
+        "title": "Iniciar sesión",
+        "description": "Inicia sesión en Hipermercado Superior para gestionar tu cuenta."
+      },
+      "title": "Iniciar sesión",
+      "subtitle": "Accede a tu cuenta para continuar",
+      "email_label": "Correo electrónico",
+      "email_placeholder": "tucorreo@ejemplo.com",
+      "email_required": "El correo electrónico es obligatorio",
+      "email_invalid": "Introduce un correo electrónico válido",
+      "password_label": "Contraseña",
+      "password_placeholder": "Tu contraseña",
+      "password_required": "La contraseña es obligatoria",
+      "submit": "Entrar",
+      "submitting": "Ingresando...",
+      "no_account": "¿No tienes cuenta?",
+      "go_register": "Regístrate",
+      "back_home": "Volver al inicio"
+    },
+    "register": {
+      "seo": {
+        "title": "Crear cuenta",
+        "description": "Crea tu cuenta en Hipermercado Superior y compra más rápido."
+      },
+      "title": "Crear cuenta",
+      "subtitle": "Únete a Hipermercado Superior",
+      "name_label": "Nombre",
+      "name_placeholder": "Tu nombre",
+      "name_required": "El nombre es obligatorio",
+      "name_minlength": "El nombre debe tener al menos 2 caracteres",
+      "email_label": "Correo electrónico",
+      "email_placeholder": "tucorreo@ejemplo.com",
+      "email_required": "El correo electrónico es obligatorio",
+      "email_invalid": "Introduce un correo electrónico válido",
+      "password_label": "Contraseña",
+      "password_placeholder": "Mínimo 6 caracteres",
+      "password_required": "La contraseña es obligatoria",
+      "password_minlength": "La contraseña debe tener al menos 6 caracteres",
+      "submit": "Crear cuenta",
+      "submitting": "Creando cuenta...",
+      "have_account": "¿Ya tienes cuenta?",
+      "go_login": "Inicia sesión",
+      "back_home": "Volver al inicio"
+    },
+    "account": {
+      "seo": {
+        "title": "Mi cuenta",
+        "description": "Gestiona los datos de tu cuenta en Hipermercado Superior."
+      },
+      "welcome": "Hola, {{name}}",
+      "fields": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "role": "Tipo de cuenta",
+        "joined": "Registrado"
+      },
+      "roles": {
+        "customer": "Cliente",
+        "admin": "Administrador"
+      },
+      "loading": "Cargando tu cuenta...",
+      "logout": "Cerrar sesión",
+      "back_home": "Volver al inicio"
+    },
+    "errors": {
+      "invalid_credentials": "Correo o contraseña incorrectos.",
+      "email_exists": "Ya existe una cuenta con ese correo electrónico.",
+      "rate_limited": "Demasiados intentos. Inténtalo de nuevo más tarde.",
+      "session_expired": "Tu sesión expiró. Vuelve a iniciar sesión.",
+      "unknown": "Algo salió mal. Inténtalo de nuevo."
+    }
+  },
   "header": {
     "_documentation": {
       "namespace": "header",
@@ -237,7 +317,14 @@
       "offers": "Ofertas",
       "contact": "Contacto"
     },
-    "language": "Idioma"
+    "language": "Idioma",
+    "account": {
+      "account": "Mi cuenta",
+      "login": "Iniciar sesión",
+      "register": "Registrarse",
+      "logout": "Cerrar sesión",
+      "open_account": "Abrir menú de cuenta"
+    }
   },
   "home": {
     "_documentation": {

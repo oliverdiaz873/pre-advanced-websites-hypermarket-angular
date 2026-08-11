@@ -1,0 +1,70 @@
+<section class="auth-page">
+  <div class="auth-card max-w-md w-full mx-auto">
+    <h1 class="text-2xl font-bold text-center mb-2">{{ 'auth.register.title' | translate }}</h1>
+    <p class="text-center text-gray-600 mb-6">{{ 'auth.register.subtitle' | translate }}</p>
+
+    @if (submitError(); as error) {
+      <div class="auth-error mb-4" role="alert">{{ error }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4" novalidate>
+      <div class="input-box">
+        <label for="register-name">{{ 'auth.register.name_label' | translate }}</label>
+        <input
+          id="register-name"
+          formControlName="name"
+          type="text"
+          autocomplete="name"
+          [placeholder]="'auth.register.name_placeholder' | translate"
+          [class.invalid-value]="form.get('name')?.touched && form.get('name')?.invalid"
+        />
+        @if (getFieldError('name')) {
+          <div class="error-message text-red-500 text-sm mt-1">{{ getFieldError('name') }}</div>
+        }
+      </div>
+
+      <div class="input-box">
+        <label for="register-email">{{ 'auth.register.email_label' | translate }}</label>
+        <input
+          id="register-email"
+          formControlName="email"
+          type="email"
+          autocomplete="email"
+          [placeholder]="'auth.register.email_placeholder' | translate"
+          [class.invalid-value]="form.get('email')?.touched && form.get('email')?.invalid"
+        />
+        @if (getFieldError('email')) {
+          <div class="error-message text-red-500 text-sm mt-1">{{ getFieldError('email') }}</div>
+        }
+      </div>
+
+      <div class="input-box">
+        <label for="register-password">{{ 'auth.register.password_label' | translate }}</label>
+        <input
+          id="register-password"
+          formControlName="password"
+          type="password"
+          autocomplete="new-password"
+          [placeholder]="'auth.register.password_placeholder' | translate"
+          [class.invalid-value]="form.get('password')?.touched && form.get('password')?.invalid"
+        />
+        @if (getFieldError('password')) {
+          <div class="error-message text-red-500 text-sm mt-1">{{ getFieldError('password') }}</div>
+        }
+      </div>
+
+      <button type="submit" [disabled]="isSubmitting()" class="auth-submit w-full">
+        {{ isSubmitting() ? ('auth.register.submitting' | translate) : ('auth.register.submit' | translate) }}
+      </button>
+    </form>
+
+    <p class="text-center text-sm mt-6">
+      {{ 'auth.register.have_account' | translate }}
+      <a routerLink="/login" class="auth-link">{{ 'auth.register.go_login' | translate }}</a>
+    </p>
+
+    <p class="text-center text-sm mt-2">
+      <a routerLink="/" class="auth-link">{{ 'auth.register.back_home' | translate }}</a>
+    </p>
+  </div>
+</section>

@@ -6,7 +6,7 @@
  * - `storagePublicUrl`: base para resolver claves de imagen relativa de la seed
  *   (dev: `/uploads` servido por el backend; prod: base pública del CDN/R2).
  */
-const DEFAULT_API_BASE_URL = 'http://localhost:3000/api';
+const DEFAULT_API_BASE_URL = '/api';
 const DEFAULT_STORAGE_PUBLIC_URL = 'http://localhost:3000';
 
 export const API_CONFIG = {
