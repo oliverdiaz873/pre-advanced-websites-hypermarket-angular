@@ -13,7 +13,11 @@
     </div>
   </div>
 
-  <button class="cart-summary__pay-button" disabled title="Checkout will be available in the next phase">
+  <button
+    class="cart-summary__pay-button"
+    [routerLink]="['/checkout']"
+    [disabled]="!canCheckout()"
+  >
     {{ 'common.cart.summary.pay_button' | translate }}
   </button>
 </aside>
