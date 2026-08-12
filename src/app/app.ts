@@ -1,5 +1,5 @@
-﻿import { Component, DestroyRef, inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+﻿import { Component, DestroyRef, inject, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs/operators';
@@ -38,6 +38,7 @@ export class App {
   private readonly seo = inject(SeoService);
   private readonly translate = inject(TranslateService);
   private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly storage = inject(StorageService);
 
@@ -92,6 +93,12 @@ export class App {
           openGraph: { ...fallbackSeo.openGraph, ...seoConfig.openGraph },
           twitter: { ...fallbackSeo.twitter, ...seoConfig.twitter }
         });
+
+        if (isPlatformBrowser(this.platformId)) {
+          setTimeout(() => {
+            this.document.documentElement.dataset['hydrated'] = 'true';
+          }, 0);
+        }
       });
 
     this.translate.onLangChange
