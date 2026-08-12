@@ -1,0 +1,54 @@
+<ul class="address-list">
+  @for (address of addresses(); track address.id) {
+    <li class="address-list__item" [class.address-list__item--selected]="selectedId() === address.id">
+      <div
+        class="address-list__card"
+        [class.address-list__card--selectable]="selectable()"
+        [class.address-list__card--active]="selectedId() === address.id"
+        (click)="onSelect(address)"
+      >
+        <div class="address-list__header">
+          <span class="address-list__label">{{ address.label }}</span>
+          @if (address.isDefault) {
+            <span class="address-list__badge">{{ 'addresses.default_badge' | translate }}</span>
+          }
+          @if (selectable() && selectedId() === address.id) {
+            <span class="address-list__check" aria-hidden="true">✓</span>
+          }
+        </div>
+
+        <div class="address-list__body">
+          <p>{{ address.street }}</p>
+          <p>
+            {{ address.city }}{{ address.state ? ', ' + address.state : '' }}
+            {{ address.zipCode ? ' · ' + address.zipCode : '' }}
+          </p>
+          <p>{{ address.country }}</p>
+          @if (address.reference) {
+            <p class="address-list__reference">{{ address.reference }}</p>
+          }
+        </div>
+
+        @if (showActions()) {
+          <div class="address-list__actions">
+            <button type="button" class="address-list__action" (click)="edit.emit(address)">
+              {{ 'addresses.actions.edit' | translate }}
+            </button>
+            @if (!address.isDefault) {
+              <button type="button" class="address-list__action" (click)="setDefault.emit(address)">
+                {{ 'addresses.actions.set_default' | translate }}
+              </button>
+            }
+            <button
+              type="button"
+              class="address-list__action address-list__action--danger"
+              (click)="delete.emit(address)"
+            >
+              {{ 'addresses.actions.delete' | translate }}
+            </button>
+          </div>
+        }
+      </div>
+    </li>
+  }
+</ul>

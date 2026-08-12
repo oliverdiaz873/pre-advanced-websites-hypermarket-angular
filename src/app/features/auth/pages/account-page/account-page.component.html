@@ -30,6 +30,11 @@
         </div>
       </dl>
 
+      <nav class="account-links mb-6">
+        <a routerLink="/orders" class="auth-link">{{ 'auth.account.orders' | translate }}</a>
+        <a routerLink="/addresses" class="auth-link">{{ 'auth.account.addresses' | translate }}</a>
+      </nav>
+
       <button type="button" [disabled]="isLoggingOut()" class="auth-submit w-full" (click)="logout()">
         {{ 'auth.account.logout' | translate }}
       </button>

@@ -283,7 +283,9 @@
       },
       "loading": "Cargando tu cuenta...",
       "logout": "Cerrar sesión",
-      "back_home": "Volver al inicio"
+      "back_home": "Volver al inicio",
+      "orders": "Mis pedidos",
+      "addresses": "Mis direcciones"
     },
     "errors": {
       "invalid_credentials": "Correo o contraseña incorrectos.",
@@ -323,7 +325,9 @@
       "login": "Iniciar sesión",
       "register": "Registrarse",
       "logout": "Cerrar sesión",
-      "open_account": "Abrir menú de cuenta"
+      "open_account": "Abrir menú de cuenta",
+      "orders": "Mis pedidos",
+      "addresses": "Mis direcciones"
     }
   },
   "home": {
@@ -2631,6 +2635,147 @@
     "clickToEnlarge": "Haz clic para ampliar",
     "expandedImage": "Imagen ampliada de {{name}}",
     "closeModal": "Cerrar modal (ESC)"
+  },
+  "addresses": {
+    "seo": {
+      "title": "Mis direcciones",
+      "description": "Gestiona tus direcciones de envío en Hipermercado Superior."
+    },
+    "title": "Mis direcciones",
+    "loading": "Cargando direcciones...",
+    "empty": "Aún no tienes direcciones guardadas.",
+    "empty_action": "Agregar dirección",
+    "default_badge": "Predeterminada",
+    "actions": {
+      "add": "Agregar dirección",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "set_default": "Predeterminar",
+      "cancel": "Cancelar"
+    },
+    "form": {
+      "new_title": "Nueva dirección",
+      "edit_title": "Editar dirección",
+      "label": "Etiqueta",
+      "street": "Calle",
+      "city": "Ciudad",
+      "state": "Provincia / Estado",
+      "zip": "Código postal",
+      "country": "País",
+      "reference": "Referencia",
+      "default": "Usar como dirección predeterminada",
+      "create": "Guardar dirección",
+      "update": "Actualizar dirección",
+      "submitting": "Guardando...",
+      "cancel": "Cancelar"
+    },
+    "validation": {
+      "label_required": "La etiqueta es obligatoria",
+      "street_required": "La calle es obligatoria",
+      "city_required": "La ciudad es obligatoria",
+      "state_required": "La provincia / estado es obligatoria",
+      "zip_required": "El código postal es obligatorio",
+      "country_required": "El país es obligatorio"
+    },
+    "errors": {
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "load": "No se pudieron cargar las direcciones.",
+      "delete": "No se pudo eliminar la dirección.",
+      "validation": "Revisa los campos del formulario.",
+      "unauthenticated": "Tu sesión expiró. Inicia sesión de nuevo."
+    }
+  },
+  "checkout": {
+    "seo": {
+      "title": "Finalizar compra",
+      "description": "Completa tu pedido en Hipermercado Superior con tu dirección de envío."
+    },
+    "title": "Finalizar compra",
+    "loading": "Cargando...",
+    "empty": "Tu carrito está vacío.",
+    "empty_action": "Volver a la tienda",
+    "submitting": "Confirmando pedido...",
+    "submit": "Confirmar pedido",
+    "back_to_cart": "Volver al carrito",
+    "default_badge": "Predeterminada",
+    "shipping": {
+      "title": "Dirección de envío",
+      "no_addresses": "No tienes direcciones guardadas.",
+      "go_addresses": "Agrega una dirección",
+      "manage": "Gestionar direcciones",
+      "add_inline": "Agregar dirección"
+    },
+    "summary": {
+      "title": "Resumen del pedido",
+      "total": "Total",
+      "total_items": "Total de productos:"
+    },
+    "errors": {
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "unauthenticated": "Tu sesión expiró. Inicia sesión de nuevo.",
+      "no_address": "Selecciona una dirección de envío.",
+      "insufficient_stock": "No hay stock suficiente para uno o más productos.",
+      "cart_empty": "Tu carrito está vacío.",
+      "address_not_found": "La dirección seleccionada no existe."
+    }
+  },
+  "orders": {
+    "seo": {
+      "list": {
+        "title": "Mis pedidos",
+        "description": "Consulta el historial de tus pedidos en Hipermercado Superior."
+      },
+      "detail": {
+        "title": "Detalle del pedido",
+        "description": "Consulta el estado de tu pedido en Hipermercado Superior."
+      }
+    },
+    "list": {
+      "title": "Mis pedidos"
+    },
+    "loading": "Cargando pedidos...",
+    "empty": "Aún no has realizado pedidos.",
+    "order_number": "Pedido",
+    "date": "Fecha",
+    "status": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmado",
+      "processing": "Procesando",
+      "shipped": "Enviado",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    },
+    "payment": {
+      "title": "Pago",
+      "pending": "Pago pendiente",
+      "paid": "Pagado",
+      "failed": "Pago fallido",
+      "refunded": "Reembolsado"
+    },
+    "detail": {
+      "title": "Detalle del pedido",
+      "shipping": "Dirección de envío",
+      "items": "Artículos",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "total_items": "Total de productos:",
+      "status_history": "Historial de estados",
+      "not_found": "Pedido no encontrado",
+      "back_to_orders": "Volver a mis pedidos"
+    },
+    "actions": {
+      "pay": "Pagar ahora",
+      "cancel": "Cancelar pedido",
+      "processing": "Procesando...",
+      "view_detail": "Ver detalle"
+    },
+    "errors": {
+      "generic": "Algo salió mal. Inténtalo de nuevo.",
+      "cannot_pay": "Este pedido ya fue pagado o no se puede pagar en este estado.",
+      "cannot_cancel": "Este pedido ya no se puede cancelar.",
+      "unauthenticated": "Tu sesión expiró. Inicia sesión de nuevo.",
+      "not_found": "No encontramos el pedido solicitado."
+    }
   },
   "notFound": {
     "seo": {

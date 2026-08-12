@@ -1,0 +1,112 @@
+<section class="order-detail">
+  <header class="order-detail__header">
+    <a class="order-detail__back" [routerLink]="['/orders']">
+      ← {{ 'orders.detail.back_to_orders' | translate }}
+    </a>
+  </header>
+
+  @if (loading()) {
+    <div class="order-detail__state" role="status">{{ 'orders.loading' | translate }}</div>
+  } @else if (error() || !order()) {
+    <div class="order-detail__state order-detail__state--error" role="alert">
+      {{ 'orders.errors.not_found' | translate }}
+    </div>
+  } @else if (order(); as order) {
+    <article class="order-detail__card">
+      <header class="order-detail__title">
+        <h1 class="order-detail__heading">{{ order.orderNumber }}</h1>
+        <div class="order-detail__badges">
+          <span class="order-detail__badge">{{ 'orders.status.' + order.status | translate }}</span>
+          <span class="order-detail__badge order-detail__badge--payment">
+            {{ 'orders.payment.' + order.paymentStatus | translate }}
+          </span>
+        </div>
+      </header>
+
+      <p class="order-detail__date">{{ order.createdAt | date: 'medium' }}</p>
+
+      <h2 class="order-detail__subheading">{{ 'orders.detail.items' | translate }}</h2>
+      <ul class="order-detail__items">
+        @for (item of order.items; track item.productId) {
+          <li class="order-detail__item">
+            @if (resolveImage(item.image); as image) {
+              <img class="order-detail__thumb" [src]="image" [alt]="item.name" loading="lazy" />
+            } @else {
+              <div class="order-detail__thumb order-detail__thumb--empty" aria-hidden="true"></div>
+            }
+            <div class="order-detail__item-info">
+              <p class="order-detail__item-name">{{ item.name }}</p>
+              <p class="order-detail__item-meta">
+                {{ item.quantity }} × {{ getFormattedPrice(item.price) }}
+                @if (item.originalPrice && item.originalPrice > item.price) {
+                  <span class="order-detail__original">({{ getFormattedPrice(item.originalPrice) }})</span>
+                }
+                @if (item.unit) {
+                  <span> · {{ item.unit }}</span>
+                }
+              </p>
+            </div>
+            <span class="order-detail__item-total">{{ getFormattedPrice(item.price * item.quantity) }}</span>
+          </li>
+        }
+      </ul>
+
+      <div class="order-detail__totals">
+        <div class="order-detail__total-row">
+          <span>{{ 'orders.detail.total_items' | translate }}</span>
+          <span>{{ order.totalItems }}</span>
+        </div>
+        <div class="order-detail__total-row order-detail__total-row--grand">
+          <span>{{ 'orders.detail.total' | translate }}</span>
+          <span>{{ getFormattedPrice(order.subtotal) }}</span>
+        </div>
+      </div>
+
+      <h2 class="order-detail__subheading">{{ 'orders.detail.shipping' | translate }}</h2>
+      <address class="order-detail__address">
+        @if (order.shippingAddress.label) {
+          <strong>{{ order.shippingAddress.label }}</strong>
+        }
+        <span>{{ order.shippingAddress.street }}</span>
+        <span>
+          {{ order.shippingAddress.city }}{{ order.shippingAddress.state ? ', ' + order.shippingAddress.state : '' }}
+          {{ order.shippingAddress.zipCode ? ' · ' + order.shippingAddress.zipCode : '' }}
+        </span>
+        <span>{{ order.shippingAddress.country }}</span>
+        @if (order.shippingAddress.reference) {
+          <span class="order-detail__address-ref">{{ order.shippingAddress.reference }}</span>
+        }
+      </address>
+
+      @if (order.statusHistory.length > 0) {
+        <h2 class="order-detail__subheading">{{ 'orders.detail.status_history' | translate }}</h2>
+        <ul class="order-detail__history">
+          @for (entry of order.statusHistory; track entry.changedAt) {
+            <li class="order-detail__history-item">
+              <span class="order-detail__history-status">{{ 'orders.status.' + entry.status | translate }}</span>
+              <time class="order-detail__history-date">{{ entry.changedAt | date: 'medium' }}</time>
+            </li>
+          }
+        </ul>
+      }
+
+      <div class="order-detail__actions">
+        @if (canPay()) {
+          <button type="button" class="order-detail__button" [disabled]="isPaying()" (click)="onPay()">
+            {{ isPaying() ? ('orders.actions.processing' | translate) : ('orders.actions.pay' | translate) }}
+          </button>
+        }
+        @if (canCancel()) {
+          <button
+            type="button"
+            class="order-detail__button order-detail__button--danger"
+            [disabled]="isCancelling()"
+            (click)="onCancel()"
+          >
+            {{ isCancelling() ? ('orders.actions.processing' | translate) : ('orders.actions.cancel' | translate) }}
+          </button>
+        }
+      </div>
+    </article>
+  }
+</section>

@@ -1,0 +1,51 @@
+<section class="addresses-page">
+  <header class="addresses-page__header">
+    <h1 class="addresses-page__title">{{ 'addresses.title' | translate }}</h1>
+    <button type="button" class="addresses-page__add" (click)="openCreate()">
+      {{ 'addresses.actions.add' | translate }}
+    </button>
+  </header>
+
+  @if (loading()) {
+    <div class="addresses-page__loading" role="status">
+      {{ 'addresses.loading' | translate }}
+    </div>
+  } @else if (error()) {
+    <div class="addresses-page__error" role="alert">
+      <p>{{ 'addresses.errors.load' | translate }}</p>
+      <button type="button" class="addresses-page__retry" (click)="load()">
+        {{ 'common.error.retry' | translate }}
+      </button>
+    </div>
+  } @else if (addresses().length === 0 && !showForm()) {
+    <div class="addresses-page__empty">
+      <p>{{ 'addresses.empty' | translate }}</p>
+      <button type="button" class="addresses-page__add" (click)="openCreate()">
+        {{ 'addresses.empty_action' | translate }}
+      </button>
+    </div>
+  } @else {
+    <div class="addresses-page__content">
+      @if (addresses().length > 0) {
+        <app-address-list
+          [addresses]="addresses()"
+          (edit)="openEdit($event)"
+          (delete)="onDelete($event)"
+          (setDefault)="onSetDefault($event)"
+        ></app-address-list>
+      }
+    </div>
+  }
+
+  @if (showForm()) {
+    <div class="addresses-page__form">
+      @for (formKey of [editingAddress()?.id ?? 'new']; track formKey) {
+        <app-address-form
+          [address]="editingAddress()"
+          (submitted)="onSubmitted($event)"
+          (cancelled)="closeForm()"
+        ></app-address-form>
+      }
+    </div>
+  }
+</section>

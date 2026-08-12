@@ -1,0 +1,104 @@
+<form class="address-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <h3 class="address-form__title">
+    {{ isEditing ? ('addresses.form.edit_title' | translate) : ('addresses.form.new_title' | translate) }}
+  </h3>
+
+  <div class="address-form__grid">
+    <div class="address-form__field">
+      <label for="address-label">{{ 'addresses.form.label' | translate }}</label>
+      <input
+        id="address-label"
+        type="text"
+        formControlName="label"
+        [class.invalid-value]="form.get('label')?.touched && form.get('label')?.invalid"
+      />
+      @if (getFieldError('label')) {
+        <span class="address-form__error">{{ getFieldError('label') }}</span>
+      }
+    </div>
+
+    <div class="address-form__field address-form__field--full">
+      <label for="address-street">{{ 'addresses.form.street' | translate }}</label>
+      <input
+        id="address-street"
+        type="text"
+        formControlName="street"
+        [class.invalid-value]="form.get('street')?.touched && form.get('street')?.invalid"
+      />
+      @if (getFieldError('street')) {
+        <span class="address-form__error">{{ getFieldError('street') }}</span>
+      }
+    </div>
+
+    <div class="address-form__field">
+      <label for="address-city">{{ 'addresses.form.city' | translate }}</label>
+      <input
+        id="address-city"
+        type="text"
+        formControlName="city"
+        [class.invalid-value]="form.get('city')?.touched && form.get('city')?.invalid"
+      />
+      @if (getFieldError('city')) {
+        <span class="address-form__error">{{ getFieldError('city') }}</span>
+      }
+    </div>
+
+    <div class="address-form__field">
+      <label for="address-state">{{ 'addresses.form.state' | translate }}</label>
+      <input
+        id="address-state"
+        type="text"
+        formControlName="state"
+        [class.invalid-value]="form.get('state')?.touched && form.get('state')?.invalid"
+      />
+      @if (getFieldError('state')) {
+        <span class="address-form__error">{{ getFieldError('state') }}</span>
+      }
+    </div>
+
+    <div class="address-form__field">
+      <label for="address-zip">{{ 'addresses.form.zip' | translate }}</label>
+      <input
+        id="address-zip"
+        type="text"
+        formControlName="zipCode"
+        [class.invalid-value]="form.get('zipCode')?.touched && form.get('zipCode')?.invalid"
+      />
+      @if (getFieldError('zipCode')) {
+        <span class="address-form__error">{{ getFieldError('zipCode') }}</span>
+      }
+    </div>
+
+    <div class="address-form__field">
+      <label for="address-country">{{ 'addresses.form.country' | translate }}</label>
+      <input
+        id="address-country"
+        type="text"
+        formControlName="country"
+        [class.invalid-value]="form.get('country')?.touched && form.get('country')?.invalid"
+      />
+      @if (getFieldError('country')) {
+        <span class="address-form__error">{{ getFieldError('country') }}</span>
+      }
+    </div>
+
+    <div class="address-form__field address-form__field--full">
+      <label for="address-reference">{{ 'addresses.form.reference' | translate }}</label>
+      <input id="address-reference" type="text" formControlName="reference" />
+    </div>
+  </div>
+
+  <label class="address-form__default">
+    <input type="checkbox" formControlName="isDefault" />
+    <span>{{ 'addresses.form.default' | translate }}</span>
+  </label>
+
+  <div class="address-form__actions">
+    <button type="button" class="address-form__button address-form__button--ghost" (click)="cancel()">
+      {{ 'addresses.actions.cancel' | translate }}
+    </button>
+    <button type="submit" class="address-form__button" [disabled]="form.invalid">
+      {{ isEditing ? ('addresses.form.update' | translate) : ('addresses.form.create' | translate) }}
+    </button>
+  </div>
+</form>

@@ -24,6 +24,16 @@
             </a>
           </li>
           <li role="none">
+            <a routerLink="/orders" role="menuitem" (click)="isOpen.set(false)">
+              {{ 'header.account.orders' | translate }}
+            </a>
+          </li>
+          <li role="none">
+            <a routerLink="/addresses" role="menuitem" (click)="isOpen.set(false)">
+              {{ 'header.account.addresses' | translate }}
+            </a>
+          </li>
+          <li role="none">
             <button type="button" role="menuitem" (click)="logout()">
               {{ 'header.account.logout' | translate }}
             </button>

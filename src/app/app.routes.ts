@@ -186,6 +186,62 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'addresses',
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./features/addresses/pages/addresses-page/addresses-page.component').then(m => m.AddressesPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'addresses.seo.title',
+            descriptionKey: 'addresses.seo.description',
+            canonicalPath: '/addresses',
+            robots: 'noindex, nofollow',
+            jsonLd: null
+          })
+        }
+      },
+      {
+        path: 'checkout',
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./features/orders/pages/checkout-page/checkout-page.component').then(m => m.CheckoutPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'checkout.seo.title',
+            descriptionKey: 'checkout.seo.description',
+            canonicalPath: '/checkout',
+            robots: 'noindex, nofollow',
+            jsonLd: null
+          })
+        }
+      },
+      {
+        path: 'orders',
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./features/orders/pages/orders-page/orders-page.component').then(m => m.OrdersPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'orders.seo.list.title',
+            descriptionKey: 'orders.seo.list.description',
+            canonicalPath: '/orders',
+            robots: 'noindex, nofollow',
+            jsonLd: null
+          })
+        }
+      },
+      {
+        path: 'orders/:id',
+        canActivate: [requireAuthGuard],
+        loadComponent: () => import('./features/orders/pages/order-detail-page/order-detail-page.component').then(m => m.OrderDetailPageComponent),
+        data: {
+          seo: seo({
+            titleKey: 'orders.seo.detail.title',
+            descriptionKey: 'orders.seo.detail.description',
+            canonicalPath: '/orders/:id',
+            robots: 'noindex, nofollow',
+            jsonLd: null
+          })
+        }
+      },
+      {
         path: '**',
         loadComponent: () => import('./features/not-found/not-found-page.component').then(m => m.NotFoundPageComponent),
         data: {

@@ -1,0 +1,101 @@
+<section class="checkout-page">
+  <h1 class="checkout-page__title">{{ 'checkout.title' | translate }}</h1>
+
+  @if (isCartEmpty()) {
+    <div class="checkout-page__state">
+      <p>{{ 'checkout.empty' | translate }}</p>
+      <a class="checkout-page__button" [routerLink]="['/cart']">{{ 'checkout.back_to_cart' | translate }}</a>
+    </div>
+  } @else {
+    <div class="checkout-page__layout">
+      <div class="checkout-page__shipping">
+        <h2 class="checkout-page__subheading">{{ 'checkout.shipping.title' | translate }}</h2>
+
+        @if (loadingAddresses()) {
+          <div class="checkout-page__state" role="status">{{ 'checkout.loading' | translate }}</div>
+        } @else if (addressesError()) {
+          <div class="checkout-page__state checkout-page__state--error" role="alert">
+            <p>{{ 'addresses.errors.load' | translate }}</p>
+            <button type="button" class="checkout-page__retry" (click)="loadAddresses()">
+              {{ 'common.error.retry' | translate }}
+            </button>
+          </div>
+        } @else {
+          @if (addresses().length > 0) {
+            <app-address-list
+              [addresses]="addresses()"
+              [selectable]="true"
+              [selectedId]="selectedAddressId()"
+              [showActions]="false"
+              (select)="selectedAddressId.set($event.id)"
+            ></app-address-list>
+
+            <div class="checkout-page__shipping-actions">
+              <button type="button" class="checkout-page__link-button" (click)="openForm()">
+                {{ 'checkout.shipping.add_inline' | translate }}
+              </button>
+              <a class="checkout-page__link-button" [routerLink]="['/addresses']">
+                {{ 'checkout.shipping.manage' | translate }}
+              </a>
+            </div>
+          } @else if (!showForm()) {
+            <div class="checkout-page__state">
+              <p>{{ 'checkout.shipping.no_addresses' | translate }}</p>
+              <button type="button" class="checkout-page__button" (click)="openForm()">
+                {{ 'checkout.shipping.go_addresses' | translate }}
+              </button>
+            </div>
+          }
+
+          @if (showForm()) {
+            <app-address-form
+              (submitted)="onAddressSubmitted($event)"
+              (cancelled)="closeForm()"
+            ></app-address-form>
+          }
+        }
+      </div>
+
+      <aside class="checkout-page__summary">
+        <h2 class="checkout-page__subheading">{{ 'checkout.summary.title' | translate }}</h2>
+
+        <ul class="checkout-page__items">
+          @for (item of cartItems(); track item.productId) {
+            <li class="checkout-page__item">
+              <span class="checkout-page__item-name">{{ item.name }}</span>
+              <span class="checkout-page__item-meta">
+                {{ item.quantity }} × {{ getFormattedPrice(item.unitPrice) }}
+              </span>
+            </li>
+          }
+        </ul>
+
+        <div class="checkout-page__totals">
+          <div class="checkout-page__total-row">
+            <span>{{ 'checkout.summary.total_items' | translate }}</span>
+            <span>{{ totalItems() }}</span>
+          </div>
+          <div class="checkout-page__total-row checkout-page__total-row--grand">
+            <span>{{ 'checkout.summary.total' | translate }}</span>
+            <span>{{ getFormattedPrice(subtotal()) }}</span>
+          </div>
+        </div>
+
+        @if (submitError(); as error) {
+          <div class="checkout-page__error" role="alert">{{ error }}</div>
+        }
+
+        <button
+          type="button"
+          class="checkout-page__confirm"
+          [disabled]="submitting() || !selectedAddressId()"
+          (click)="confirmOrder()"
+        >
+          {{ submitting() ? ('checkout.submitting' | translate) : ('checkout.submit' | translate) }}
+        </button>
+
+        <a class="checkout-page__back" [routerLink]="['/cart']">{{ 'checkout.back_to_cart' | translate }}</a>
+      </aside>
+    </div>
+  }
+</section>

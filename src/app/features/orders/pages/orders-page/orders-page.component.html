@@ -1,0 +1,36 @@
+<section class="orders-page">
+  <h1 class="orders-page__title">{{ 'orders.list.title' | translate }}</h1>
+
+  @if (loading()) {
+    <div class="orders-page__state" role="status">{{ 'orders.loading' | translate }}</div>
+  } @else if (error()) {
+    <div class="orders-page__state orders-page__state--error" role="alert">
+      <p>{{ 'orders.errors.generic' | translate }}</p>
+      <button type="button" class="orders-page__retry" (click)="load()">
+        {{ 'common.error.retry' | translate }}
+      </button>
+    </div>
+  } @else if (orders().length === 0) {
+    <div class="orders-page__state">{{ 'orders.empty' | translate }}</div>
+  } @else {
+    <ul class="orders-page__list">
+      @for (order of orders(); track order.id) {
+        <li class="orders-page__item">
+          <a class="orders-page__link" [routerLink]="['/orders', order.id]">
+            <div class="orders-page__row">
+              <span class="orders-page__number">{{ order.orderNumber }}</span>
+              <span class="orders-page__price">{{ getFormattedPrice(order.subtotal) }}</span>
+            </div>
+            <div class="orders-page__row">
+              <span class="orders-page__date">{{ order.createdAt | date: 'medium' }}</span>
+              <span class="orders-page__badges">
+                <span class="orders-page__badge">{{ 'orders.status.' + order.status | translate }}</span>
+                <span class="orders-page__badge">{{ 'orders.payment.' + order.paymentStatus | translate }}</span>
+              </span>
+            </div>
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</section>

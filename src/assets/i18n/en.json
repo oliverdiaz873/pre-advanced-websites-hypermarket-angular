@@ -283,7 +283,9 @@
       },
       "loading": "Loading your account...",
       "logout": "Log out",
-      "back_home": "Back to home"
+      "back_home": "Back to home",
+      "orders": "My orders",
+      "addresses": "My addresses"
     },
     "errors": {
       "invalid_credentials": "Incorrect email or password.",
@@ -323,7 +325,9 @@
       "login": "Sign in",
       "register": "Sign up",
       "logout": "Log out",
-      "open_account": "Open account menu"
+      "open_account": "Open account menu",
+      "orders": "My orders",
+      "addresses": "My addresses"
     }
   },
   "home": {
@@ -2631,6 +2635,147 @@
     "clickToEnlarge": "Click to enlarge",
     "expandedImage": "Expanded image of {{name}}",
     "closeModal": "Close modal (ESC)"
+  },
+  "addresses": {
+    "seo": {
+      "title": "My addresses",
+      "description": "Manage your shipping addresses at Superior Hypermarket."
+    },
+    "title": "My addresses",
+    "loading": "Loading addresses...",
+    "empty": "You don't have any saved addresses yet.",
+    "empty_action": "Add address",
+    "default_badge": "Default",
+    "actions": {
+      "add": "Add address",
+      "edit": "Edit",
+      "delete": "Delete",
+      "set_default": "Set as default",
+      "cancel": "Cancel"
+    },
+    "form": {
+      "new_title": "New address",
+      "edit_title": "Edit address",
+      "label": "Label",
+      "street": "Street",
+      "city": "City",
+      "state": "State / Province",
+      "zip": "Zip code",
+      "country": "Country",
+      "reference": "Reference",
+      "default": "Use as default address",
+      "create": "Save address",
+      "update": "Update address",
+      "submitting": "Saving...",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "label_required": "Label is required",
+      "street_required": "Street is required",
+      "city_required": "City is required",
+      "state_required": "State / Province is required",
+      "zip_required": "Zip code is required",
+      "country_required": "Country is required"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "load": "We couldn't load your addresses.",
+      "delete": "We couldn't delete the address.",
+      "validation": "Please review the form fields.",
+      "unauthenticated": "Your session expired. Please sign in again."
+    }
+  },
+  "checkout": {
+    "seo": {
+      "title": "Checkout",
+      "description": "Complete your order at Superior Hypermarket with your shipping address."
+    },
+    "title": "Checkout",
+    "loading": "Loading...",
+    "empty": "Your cart is empty.",
+    "empty_action": "Back to store",
+    "submitting": "Confirming order...",
+    "submit": "Confirm order",
+    "back_to_cart": "Back to cart",
+    "default_badge": "Default",
+    "shipping": {
+      "title": "Shipping address",
+      "no_addresses": "You don't have any saved addresses.",
+      "go_addresses": "Add an address",
+      "manage": "Manage addresses",
+      "add_inline": "Add address"
+    },
+    "summary": {
+      "title": "Order summary",
+      "total": "Total",
+      "total_items": "Total items:"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "unauthenticated": "Your session expired. Please sign in again.",
+      "no_address": "Please select a shipping address.",
+      "insufficient_stock": "There is not enough stock for one or more products.",
+      "cart_empty": "Your cart is empty.",
+      "address_not_found": "The selected address does not exist."
+    }
+  },
+  "orders": {
+    "seo": {
+      "list": {
+        "title": "My orders",
+        "description": "Check the history of your orders at Superior Hypermarket."
+      },
+      "detail": {
+        "title": "Order details",
+        "description": "Check the status of your order at Superior Hypermarket."
+      }
+    },
+    "list": {
+      "title": "My orders"
+    },
+    "loading": "Loading orders...",
+    "empty": "You haven't placed any orders yet.",
+    "order_number": "Order",
+    "date": "Date",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "payment": {
+      "title": "Payment",
+      "pending": "Payment pending",
+      "paid": "Paid",
+      "failed": "Payment failed",
+      "refunded": "Refunded"
+    },
+    "detail": {
+      "title": "Order details",
+      "shipping": "Shipping address",
+      "items": "Items",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "total_items": "Total items:",
+      "status_history": "Status history",
+      "not_found": "Order not found",
+      "back_to_orders": "Back to my orders"
+    },
+    "actions": {
+      "pay": "Pay now",
+      "cancel": "Cancel order",
+      "processing": "Processing...",
+      "view_detail": "View details"
+    },
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "cannot_pay": "This order was already paid or cannot be paid in its current state.",
+      "cannot_cancel": "This order can no longer be cancelled.",
+      "unauthenticated": "Your session expired. Please sign in again.",
+      "not_found": "We couldn't find the requested order."
+    }
   },
   "notFound": {
     "seo": {
