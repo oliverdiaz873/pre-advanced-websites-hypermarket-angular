@@ -275,6 +275,16 @@
         "description": "Manage your Superior Hypermarket account details."
       },
       "welcome": "Hi, {{name}}",
+      "edit_title": "Edit your details",
+      "name_label": "Name",
+      "name_placeholder": "Your name",
+      "name_required": "Name is required",
+      "name_minlength": "Name must be at least 2 characters",
+      "phone_label": "Phone",
+      "phone_placeholder": "Your phone (optional)",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "saved": "Changes saved",
       "fields": {
         "name": "Name",
         "email": "Email",
@@ -296,6 +306,7 @@
       "email_exists": "An account with that email already exists.",
       "rate_limited": "Too many attempts. Please try again later.",
       "session_expired": "Your session expired. Please sign in again.",
+      "update_failed": "Could not save your changes.",
       "unknown": "Something went wrong. Please try again."
     }
   },

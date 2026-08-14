@@ -95,6 +95,19 @@ export class AuthService {
     );
   }
 
+  /**
+   * Actualiza el perfil (PATCH /auth/me) y refleja el usuario devuelto en el
+   * estado local tras el éxito. El payload se limita a `{ name, phone }`, que
+   * es lo único que el backend permite auto-actualizar.
+   */
+  updateProfile(data: { name?: string; phone?: string }): Observable<AuthUser> {
+    return this.api.updateProfile(data).pipe(
+      tap((user) => {
+        this._user.set(user);
+      }),
+    );
+  }
+
   /** Sesión perdida a mitad de uso (401 global del interceptor). */
   expireSession(): void {
     this._user.set(null);

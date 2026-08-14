@@ -60,4 +60,16 @@ describe('AuthApiService', () => {
     req.flush({ success: true, data: { id: '1', email: 'a@b.com' } });
     expect(result).toEqual({ id: '1', email: 'a@b.com' });
   });
+
+  it('updateProfile PATCHes only name/phone to /api/auth/me and unwraps the envelope', () => {
+    let result: unknown;
+    service.updateProfile({ name: 'Ana', phone: '123' }).subscribe((r) => (result = r));
+
+    const req = httpTesting.expectOne('/api/auth/me');
+    expect(req.request.method).toBe('PATCH');
+    expect(req.request.body).toEqual({ name: 'Ana', phone: '123' });
+
+    req.flush({ success: true, data: { id: '1', name: 'Ana', phone: '123' } });
+    expect(result).toEqual({ id: '1', name: 'Ana', phone: '123' });
+  });
 });

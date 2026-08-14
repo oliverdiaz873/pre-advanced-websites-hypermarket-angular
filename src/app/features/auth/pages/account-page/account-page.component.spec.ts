@@ -1,5 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
@@ -17,34 +18,90 @@ const user: AuthUser = {
 
 describe('AccountPageComponent', () => {
   let component: AccountPageComponent;
-  let authMock: { logout: ReturnType<typeof vi.fn> };
+  let fixture: ComponentFixture<AccountPageComponent>;
+  let authMock: { logout: ReturnType<typeof vi.fn>; updateProfile: ReturnType<typeof vi.fn> };
   const navigateByUrl = vi.fn();
 
   beforeEach(async () => {
-    authMock = { logout: vi.fn() };
+    authMock = { logout: vi.fn(), updateProfile: vi.fn() };
     navigateByUrl.mockReset();
 
     TestBed.configureTestingModule({
       imports: [AccountPageComponent],
       providers: [
-        { provide: AuthService, useValue: { user: () => user, logout: authMock.logout } },
-        { provide: Router, useValue: { navigateByUrl, createUrlTree: vi.fn(() => ({})), serializeUrl: vi.fn(() => '') } },
-        { provide: ActivatedRoute, useValue: { snapshot: { queryParamMap: { get: () => null } }, url: of(null) } },
-        { provide: TranslateService, useValue: { instant: (key: string): string => key, translate: (key: string) => () => key } },
+        {
+          provide: AuthService,
+          useValue: { user: () => user, logout: authMock.logout, updateProfile: authMock.updateProfile },
+        },
+        {
+          provide: Router,
+          useValue: {
+            navigateByUrl,
+            createUrlTree: vi.fn(() => ({})),
+            serializeUrl: vi.fn(() => ''),
+          },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParamMap: { get: () => null } }, url: of(null) },
+        },
+        {
+          provide: TranslateService,
+          useValue: {
+            instant: (key: string): string => key,
+            translate: (key: string) => () => key,
+          },
+        },
       ],
     });
 
     await TestBed.compileComponents();
-    component = TestBed.createComponent(AccountPageComponent).componentInstance;
+    fixture = TestBed.createComponent(AccountPageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('renders the current user details', () => {
-    const fixture = TestBed.createComponent(AccountPageComponent);
-    fixture.detectChanges();
-
     const text = fixture.nativeElement.textContent as string;
-    expect(text).toContain('Ana');
     expect(text).toContain('a@b.com');
+    const nameInput = fixture.nativeElement.querySelector('#account-name') as HTMLInputElement;
+    expect(nameInput.value).toBe('Ana López');
+  });
+
+  it('prefills the form with the current user name and phone', () => {
+    expect(component.form.getRawValue()).toEqual({ name: 'Ana López', phone: '' });
+  });
+
+  it('saves name and phone via updateProfile and marks as saved', () => {
+    authMock.updateProfile.mockReturnValue(of({ ...user, name: 'Ana María', phone: '123' }));
+
+    component.form.setValue({ name: 'Ana María', phone: '123' });
+    component.save();
+
+    expect(authMock.updateProfile).toHaveBeenCalledWith({ name: 'Ana María', phone: '123' });
+    expect(component.isSubmitting()).toBe(false);
+    expect(component.saved()).toBe(true);
+    expect(component.submitError()).toBeNull();
+  });
+
+  it('does not call updateProfile when the form is invalid', () => {
+    component.form.setValue({ name: '', phone: '' });
+    component.save();
+
+    expect(authMock.updateProfile).not.toHaveBeenCalled();
+  });
+
+  it('shows an error message when the update fails', () => {
+    authMock.updateProfile.mockReturnValue(
+      throwError(() => new HttpErrorResponse({ status: 400, error: { code: 'VALIDATION_ERROR' } })),
+    );
+
+    component.form.setValue({ name: 'Ana', phone: '' });
+    component.save();
+
+    expect(component.isSubmitting()).toBe(false);
+    expect(component.submitError()).toBe('auth.errors.update_failed');
+    expect(component.saved()).toBe(false);
   });
 
   it('calls logout and navigates back home on success', () => {

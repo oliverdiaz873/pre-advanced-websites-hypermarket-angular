@@ -39,4 +39,11 @@ export class AuthApiService {
       .get<ApiEnvelope<AuthUser>>(`${this.baseUrl}/me`)
       .pipe(map((envelope) => envelope.data));
   }
+
+  /** Actualiza el perfil propio. El backend solo acepta `name` y `phone`. */
+  updateProfile(data: { name?: string; phone?: string }): Observable<AuthUser> {
+    return this.http
+      .patch<ApiEnvelope<AuthUser>>(`${this.baseUrl}/me`, data)
+      .pipe(map((envelope) => envelope.data));
+  }
 }

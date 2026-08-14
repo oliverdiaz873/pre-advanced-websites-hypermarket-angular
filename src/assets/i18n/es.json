@@ -275,6 +275,16 @@
         "description": "Gestiona los datos de tu cuenta en Hipermercado Superior."
       },
       "welcome": "Hola, {{name}}",
+      "edit_title": "Edita tus datos",
+      "name_label": "Nombre",
+      "name_placeholder": "Tu nombre",
+      "name_required": "El nombre es obligatorio",
+      "name_minlength": "El nombre debe tener al menos 2 caracteres",
+      "phone_label": "Teléfono",
+      "phone_placeholder": "Tu teléfono (opcional)",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "saved": "Cambios guardados",
       "fields": {
         "name": "Nombre",
         "email": "Correo electrónico",
@@ -296,6 +306,7 @@
       "email_exists": "Ya existe una cuenta con ese correo electrónico.",
       "rate_limited": "Demasiados intentos. Inténtalo de nuevo más tarde.",
       "session_expired": "Tu sesión expiró. Vuelve a iniciar sesión.",
+      "update_failed": "No se pudieron guardar los cambios.",
       "unknown": "Algo salió mal. Inténtalo de nuevo."
     }
   },

@@ -22,11 +22,12 @@ describe('AuthService', () => {
     login: ReturnType<typeof vi.fn>;
     register: ReturnType<typeof vi.fn>;
     logout: ReturnType<typeof vi.fn>;
+    updateProfile: ReturnType<typeof vi.fn>;
   };
   let platformMock: { isBrowser: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
-    apiMock = { me: vi.fn(), login: vi.fn(), register: vi.fn(), logout: vi.fn() };
+    apiMock = { me: vi.fn(), login: vi.fn(), register: vi.fn(), logout: vi.fn(), updateProfile: vi.fn() };
     platformMock = { isBrowser: vi.fn(() => true) };
 
     TestBed.configureTestingModule({
@@ -152,6 +153,34 @@ describe('AuthService', () => {
       service.logout().subscribe({ error: () => undefined });
 
       expect(service.status()).toBe('authenticated');
+    });
+  });
+
+  describe('updateProfile', () => {
+    it('sends only name/phone and updates the local user on success', () => {
+      apiMock.login.mockReturnValue(of({ token: 't', user: fakeUser }));
+      service.login({ email: 'a@b.com', password: 'secret' }).subscribe();
+
+      const updated: AuthUser = { ...fakeUser, name: 'Ana María', phone: '123' };
+      apiMock.updateProfile.mockReturnValue(of(updated));
+
+      let result: AuthUser | undefined;
+      service.updateProfile({ name: 'Ana María', phone: '123' }).subscribe((u) => (result = u));
+
+      expect(apiMock.updateProfile).toHaveBeenCalledWith({ name: 'Ana María', phone: '123' });
+      expect(result).toEqual(updated);
+      expect(service.user()).toEqual(updated);
+    });
+
+    it('keeps the current user when the update fails', () => {
+      apiMock.login.mockReturnValue(of({ token: 't', user: fakeUser }));
+      service.login({ email: 'a@b.com', password: 'secret' }).subscribe();
+
+      apiMock.updateProfile.mockReturnValue(throwError(() => new HttpErrorResponse({ status: 400 })));
+
+      service.updateProfile({ name: 'X' }).subscribe({ error: () => undefined });
+
+      expect(service.user()).toEqual(fakeUser);
     });
   });
 
