@@ -166,7 +166,11 @@
         "submit": "Send",
         "submitting": "Sending..."
       },
-      "success_toast": "✓ Message sent successfully!"
+      "success_toast": "✓ Message sent successfully!",
+      "error": {
+        "submit_failed": "Unable to send your message. Please try again.",
+        "rate_limited": "You have sent too many messages. Please wait a moment and try again."
+      }
     },
     "validation": {
       "email": {

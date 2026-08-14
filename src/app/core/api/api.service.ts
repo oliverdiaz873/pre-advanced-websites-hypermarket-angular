@@ -5,13 +5,24 @@ import { getApiBaseUrl } from './api.config';
 import {
   ApiCategory,
   ApiCollection,
+  ApiContactMessage,
+  ApiContactPayload,
   ApiEnvelope,
   ApiOffer,
   ApiPaginationParams,
   ApiProduct,
 } from './api-types';
 
-export type { ApiCategory, ApiCollection, ApiEnvelope, ApiOffer, ApiPaginationParams, ApiProduct };
+export type {
+  ApiCategory,
+  ApiCollection,
+  ApiContactMessage,
+  ApiContactPayload,
+  ApiEnvelope,
+  ApiOffer,
+  ApiPaginationParams,
+  ApiProduct,
+};
 
 /**
  * Cliente tipado del backend (F5.1). La base URL se toma de api.config y el
@@ -61,5 +72,13 @@ export class ApiService {
 
   getCategories(): Observable<ApiEnvelope<ApiCategory[]>> {
     return this.http.get<ApiEnvelope<ApiCategory[]>>(`${getApiBaseUrl()}/categories`);
+  }
+
+  /** E4.5: envía un mensaje de contacto (POST /api/contact, limitado a 10/60s por IP). */
+  sendContactMessage(payload: ApiContactPayload): Observable<ApiEnvelope<ApiContactMessage>> {
+    return this.http.post<ApiEnvelope<ApiContactMessage>>(
+      `${getApiBaseUrl()}/contact`,
+      payload,
+    );
   }
 }

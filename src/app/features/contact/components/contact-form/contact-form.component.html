@@ -68,6 +68,12 @@
     }
   </div>
 
+  @if (submitError) {
+    <div class="error-message text-red-400 text-sm mt-1 mb-4">
+      {{ submitError }}
+    </div>
+  }
+
   <button
     type="submit"
     [disabled]="isSubmitting"

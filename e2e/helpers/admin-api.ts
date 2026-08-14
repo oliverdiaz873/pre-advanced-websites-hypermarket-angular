@@ -14,8 +14,7 @@ export const API = 'http://localhost:3000/api'
 export const ADMIN_EMAIL = 'oliver@email.com'
 export const ADMIN_PASSWORD = '123456'
 
-export interface OrderEvidence {
-  orderId: string
+export interface OrderEvidence {  orderId: string
   orderNumber: string
   productId: string
   quantity: number
@@ -130,4 +129,27 @@ export async function assertAdminOrderState(
     )
   }
   return order
+}
+
+export interface ContactMessage {
+  id: string
+  name: string
+  email: string
+  phone?: string
+  message: string
+  status: string
+}
+
+export async function getContacts(
+  request: APIRequestContext,
+  token: string,
+): Promise<ContactMessage[]> {
+  const res = await request.get(`${API}/admin/contact`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok()) {
+    throw new Error(`admin contact list failed: ${res.status()} ${await res.text()}`)
+  }
+  const body = (await res.json()) as { data?: ContactMessage[] }
+  return body.data ?? []
 }

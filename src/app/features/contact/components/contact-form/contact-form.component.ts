@@ -3,10 +3,12 @@
  *
  * Handles the contact form UI, validation, and submission flow.
  * Uses Reactive Forms with custom validators matching the original Next.js implementation.
- * Emits `onSuccess` after a simulated 1.5s async submission.
+ * Submits the message to the real backend (POST /api/contact) and emits `onSuccess`
+ * only when the message is persisted (HTTP 201).
  *
  * Dependencies:
  *  - ContactFormService for validation rules and error translation
+ *  - ApiService (core/api) for the real POST /api/contact
  *  - TranslateService (@ngx-translate/core) for i18n error messages
  *  - ToastService for success notifications (handled by parent via onSuccess)
  *
@@ -16,10 +18,12 @@
  *  - telefono: optional, 8-15 digits (strips spaces, dashes, parentheses)
  *  - mensaje: required, 10-500 chars
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NgClass } from '@angular/common';
+import { ApiService } from '@core/api/api.service';
 import { ContactFormService } from '../../services/contact-form.service';
 
 @Component({
@@ -34,10 +38,12 @@ export class ContactFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly translate = inject(TranslateService);
   private readonly validation = inject(ContactFormService);
+  private readonly api = inject(ApiService);
 
   readonly onSuccess = output<void>();
 
   isSubmitting = false;
+  submitError = '';
 
   readonly form = this.fb.nonNullable.group({
     nombre: ['', [this.validation.trimmedRequired(), Validators.minLength(2), Validators.maxLength(50), this.validation.alphabeticValidator]],
@@ -55,17 +61,42 @@ export class ContactFormComponent {
 
     if (this.form.invalid) return;
 
+    const { nombre, email, telefono, mensaje } = this.form.getRawValue();
+
+    this.submitError = '';
     this.isSubmitting = true;
 
-    setTimeout(() => {
-      this.isSubmitting = false;
-      this.form.reset({
-        nombre: '',
-        email: '',
-        telefono: '',
-        mensaje: ''
-      });
-      this.onSuccess.emit();
-    }, 1500);
+    this.api.sendContactMessage({
+      name: nombre.trim(),
+      email: email.trim(),
+      phone: telefono?.trim() || undefined,
+      message: mensaje.trim()
+    }).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.form.reset({
+          nombre: '',
+          email: '',
+          telefono: '',
+          mensaje: ''
+        });
+        this.onSuccess.emit();
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isSubmitting = false;
+        this.submitError = this.resolveSubmitError(error);
+      }
+    });
+  }
+
+  private resolveSubmitError(error: HttpErrorResponse): string {
+    if (error.status === 429) {
+      return this.translate.instant('contact.form.error.rate_limited');
+    }
+    const backendMessage = error.error?.message;
+    if (typeof backendMessage === 'string' && backendMessage.length > 0) {
+      return backendMessage;
+    }
+    return this.translate.instant('contact.form.error.submit_failed');
   }
 }

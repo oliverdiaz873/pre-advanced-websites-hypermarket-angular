@@ -63,6 +63,26 @@ export interface ApiOffer {
   unitQuantity?: number;
 }
 
+/** Contrato E4.5: mensaje de contacto tal y como lo devuelve POST /api/contact. */
+export interface ApiContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+  status: 'pending' | 'read' | 'answered';
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Cuerpo de POST /api/contact. */
+export interface ApiContactPayload {
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+}
+
 export interface ApiPaginationParams {
   page?: number;
   limit?: number;

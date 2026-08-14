@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { ContactFormComponent } from './contact-form.component';
 import { TranslateService } from '@ngx-translate/core';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { ApiService } from '@core/api/api.service';
 
 function createValidForm(component: ContactFormComponent): void {
   component.form.setValue({
@@ -14,6 +16,7 @@ function createValidForm(component: ContactFormComponent): void {
 
 describe('ContactFormComponent', () => {
   let translateService: Record<string, unknown>;
+  let apiService: { sendContactMessage: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     const onEvent = { subscribe: vi.fn() };
@@ -39,10 +42,13 @@ describe('ContactFormComponent', () => {
       stream: vi.fn((key: string) => key),
     };
 
+    apiService = { sendContactMessage: vi.fn() };
+
     TestBed.configureTestingModule({
       imports: [ContactFormComponent],
       providers: [
-        { provide: TranslateService, useValue: translateService }
+        { provide: TranslateService, useValue: translateService },
+        { provide: ApiService, useValue: apiService }
       ]
     });
 
@@ -147,22 +153,35 @@ describe('ContactFormComponent', () => {
       expect(onSuccessSpy).not.toHaveBeenCalled();
     });
 
-    it('should set isSubmitting to true and register 1500ms timeout on valid submit', () => {
-      vi.useFakeTimers();
+    it('should set isSubmitting and POST the mapped payload on valid submit', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       createValidForm(component);
 
-      const setTimeoutSpy = vi.spyOn(window, 'setTimeout');
+      apiService.sendContactMessage.mockReturnValue(of({ success: true, data: {} as never }));
+
       component.submit();
 
-      expect(component.isSubmitting).toBe(true);
-      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 1500);
+      expect(apiService.sendContactMessage).toHaveBeenCalledWith({
+        name: 'Juan Pérez',
+        email: 'juan@example.com',
+        phone: '(809) 555-5555',
+        message: 'Mensaje de prueba con al menos 10 caracteres'
+      });
+      expect(component.isSubmitting).toBe(false);
+    });
 
-      // Execute the timeout callback manually to avoid template rendering
-      const callback = setTimeoutSpy.mock.calls[0][0] as () => void;
-      callback();
+    it('should emit onSuccess, reset the form and stop submitting after a successful POST', () => {
+      const fixture = TestBed.createComponent(ContactFormComponent);
+      const component = fixture.componentInstance;
+      const onSuccessSpy = vi.fn();
+      component.onSuccess.subscribe(onSuccessSpy);
+      createValidForm(component);
 
+      apiService.sendContactMessage.mockReturnValue(of({ success: true, data: {} as never }));
+      component.submit();
+
+      expect(onSuccessSpy).toHaveBeenCalledTimes(1);
       expect(component.isSubmitting).toBe(false);
       expect(component.form.getRawValue()).toEqual({
         nombre: '',
@@ -170,25 +189,57 @@ describe('ContactFormComponent', () => {
         telefono: '',
         mensaje: ''
       });
-      vi.useRealTimers();
     });
 
-    it('should emit onSuccess after timeout callback executes', () => {
-      vi.useFakeTimers();
+    it('should not emit onSuccess when the POST fails with 429 (rate limit)', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       const onSuccessSpy = vi.fn();
       component.onSuccess.subscribe(onSuccessSpy);
       createValidForm(component);
 
-      const setTimeoutSpy = vi.spyOn(window, 'setTimeout');
+      apiService.sendContactMessage.mockReturnValue(
+        throwError(() => new HttpErrorResponse({ status: 429, error: { message: 'Too many messages' } }))
+      );
+
       component.submit();
 
-      const callback = setTimeoutSpy.mock.calls[0][0] as () => void;
-      callback();
+      expect(onSuccessSpy).not.toHaveBeenCalled();
+      expect(component.isSubmitting).toBe(false);
+      expect(component.submitError).toBe('contact.form.error.rate_limited');
+      expect(component.form.getRawValue().mensaje).not.toBe('');
+    });
 
-      expect(onSuccessSpy).toHaveBeenCalledTimes(1);
-      vi.useRealTimers();
+    it('should surface the backend validation message on a 400 response', () => {
+      const fixture = TestBed.createComponent(ContactFormComponent);
+      const component = fixture.componentInstance;
+      createValidForm(component);
+
+      apiService.sendContactMessage.mockReturnValue(
+        throwError(() =>
+          new HttpErrorResponse({
+            status: 400,
+            error: { message: 'Message must be between 10 and 500 characters' }
+          })
+        )
+      );
+
+      component.submit();
+
+      expect(component.submitError).toBe('Message must be between 10 and 500 characters');
+    });
+
+    it('should not call the API when the form is invalid', () => {
+      const fixture = TestBed.createComponent(ContactFormComponent);
+      const component = fixture.componentInstance;
+      const onSuccessSpy = vi.fn();
+      component.onSuccess.subscribe(onSuccessSpy);
+
+      component.submit();
+
+      expect(component.isSubmitting).toBe(false);
+      expect(apiService.sendContactMessage).not.toHaveBeenCalled();
+      expect(onSuccessSpy).not.toHaveBeenCalled();
     });
 
     it('should block submit when nombre contains only whitespace', () => {
