@@ -3,12 +3,30 @@
   <app-categories-skeleton></app-categories-skeleton>
   <app-offers-grid-skeleton [count]="7"></app-offers-grid-skeleton>
   <app-products-grid-skeleton [count]="7"></app-products-grid-skeleton>
+} @else if (error()) {
+  <div class="flex flex-col items-center justify-center gap-4 px-4 py-16 text-center" role="alert">
+    <p class="text-gray-700">{{ 'home.sections.featured_error' | translate }}</p>
+    <button
+      type="button"
+      (click)="retry()"
+      class="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+    >
+      {{ 'home.sections.featured_retry' | translate }}
+    </button>
+  </div>
 } @else {
   <app-hero-carousel></app-hero-carousel>
 
   <app-product-carousel-section [title]="'home.sections.offers' | translate" [products]="offers()" [id]="'ofertas'" [idPrefix]="'offers'"></app-product-carousel-section>
 
-  <app-product-carousel-section [title]="'home.sections.featured' | translate" [products]="featured()" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-destacados'" [idPrefix]="'featured'"></app-product-carousel-section>
+  @if (featured().length > 0) {
+    <app-product-carousel-section [title]="'home.sections.featured' | translate" [products]="featured()" [sectionClass]="'mt-6 md:mt-8'" [id]="'productos-destacados'" [idPrefix]="'featured'"></app-product-carousel-section>
+  } @else {
+    <section class="mt-6 md:mt-8 px-2 md:px-8 py-2 md:py-6 w-full border-t border-gray-200" id="productos-destacados">
+      <h2 class="mb-4 md:mb-6">{{ 'home.sections.featured' | translate }}</h2>
+      <p class="text-gray-600">{{ 'home.sections.featured_empty' | translate }}</p>
+    </section>
+  }
 
   <app-category-banners-section></app-category-banners-section>
 

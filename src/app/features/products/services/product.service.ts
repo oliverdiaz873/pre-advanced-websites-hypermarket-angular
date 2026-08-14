@@ -101,38 +101,24 @@ export class ProductService {
   }
 
   /**
-   * Carga productos destacados por id mediante requests específicos
-   * (GET /products/:id). No se aplanan 184 productos en el home (decisión F5.0).
+   * Carga los productos destacados desde la API real (E4.6):
+   * GET /products?featured=true. El backend decide qué productos están
+   * destacados (`featured`), sin IDs hardcodeados en el frontend.
    */
-  loadFeatured(featuredIds: string[]): void {
+  loadFeatured(): void {
     this._productsLoading.set(true);
     this._error.set(null);
 
-    if (featuredIds.length === 0) {
-      this._featuredRaw.set([]);
-      this._productsLoading.set(false);
-      return;
-    }
-
-    let pending = featuredIds.length;
-    const collected: ProductUI[] = [];
-
-    featuredIds.forEach((id) => {
-      this.api.getProduct(id).subscribe({
-        next: (envelope) => {
-          collected.push(toProductUI(mapApiProductToProductUI(envelope.data)));
-          if (--pending === 0) {
-            this._featuredRaw.set(collected);
-            this._productsLoading.set(false);
-          }
-        },
-        error: () => {
-          if (--pending === 0) {
-            this._featuredRaw.set(collected);
-            this._productsLoading.set(false);
-          }
-        },
-      });
+    this.api.getProducts({ featured: true, limit: 100 }).subscribe({
+      next: (collection) => {
+        this._featuredRaw.set(mapApiProductsToProductUI(collection.data).map(toProductUI));
+        this._productsLoading.set(false);
+      },
+      error: () => {
+        this._featuredRaw.set([]);
+        this._error.set('No se pudieron cargar los productos destacados.');
+        this._productsLoading.set(false);
+      },
     });
   }
 

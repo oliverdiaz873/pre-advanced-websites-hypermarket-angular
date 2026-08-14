@@ -124,4 +124,37 @@ describe('ProductService (categories F5.3.1)', () => {
       expect(service.categorySections()['alimentos'][0].products).toHaveLength(3);
     });
   });
+
+  describe('loadFeatured (E4.6)', () => {
+    it('consume GET /products?featured=true sin IDs hardcodeados', () => {
+      service.loadFeatured();
+
+      const req = httpMock.expectOne(
+        (r: HttpRequest<unknown>) =>
+          r.url === `${getApiBaseUrl()}/products` && r.params.get('featured') === 'true'
+      );
+      expect(req.request.method).toBe('GET');
+
+      const featuredProduct = buildProduct('destacado-1');
+      req.flush({ success: true, data: [featuredProduct], pagination: { page: 1, limit: 100, total: 1, pages: 1 } });
+
+      expect(service.featured()).toHaveLength(1);
+      expect(service.featured()[0].id).toBe('destacado-1');
+      expect(service.productsLoading()).toBe(false);
+    });
+
+    it('marca error y vacía featured cuando falla el request', () => {
+      service.loadFeatured();
+
+      const req = httpMock.expectOne(
+        (r: HttpRequest<unknown>) =>
+          r.url === `${getApiBaseUrl()}/products` && r.params.get('featured') === 'true'
+      );
+      req.flush({ success: false }, { status: 500, statusText: 'Error' });
+
+      expect(service.featured()).toEqual([]);
+      expect(service.error()).toBe('No se pudieron cargar los productos destacados.');
+      expect(service.productsLoading()).toBe(false);
+    });
+  });
 });

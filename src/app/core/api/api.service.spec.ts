@@ -31,6 +31,22 @@ describe('ApiService', () => {
     req.flush({ success: true, data: [], pagination: { page: 2, limit: 20, total: 0, pages: 1 } });
   });
 
+  it('getProducts propaga ?featured=true (E4.6)', () => {
+    service.getProducts({ featured: true }).subscribe();
+
+    const req = httpMock.expectOne((r) => r.url === `${getApiBaseUrl()}/products`);
+    expect(req.request.params.get('featured')).toBe('true');
+    req.flush({ success: true, data: [], pagination: { page: 1, limit: 50, total: 0, pages: 1 } });
+  });
+
+  it('getProducts omite featured cuando no se indica', () => {
+    service.getProducts({ page: 1 }).subscribe();
+
+    const req = httpMock.expectOne((r) => r.url === `${getApiBaseUrl()}/products`);
+    expect(req.request.params.has('featured')).toBe(false);
+    req.flush({ success: true, data: [], pagination: { page: 1, limit: 50, total: 0, pages: 1 } });
+  });
+
   it('getProduct codifica el id y apunta a /products/:id', () => {
     service.getProduct('manzanas_verdes').subscribe();
 

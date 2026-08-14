@@ -353,7 +353,10 @@
     },
     "sections": {
       "offers": "Ofertas de la Semana",
-      "featured": "Productos Destacados"
+      "featured": "Productos Destacados",
+      "featured_empty": "No hay productos destacados disponibles en este momento.",
+      "featured_error": "No se pudieron cargar los productos destacados.",
+      "featured_retry": "Reintentar"
     },
     "about_us": {
       "title": "Sobre Nosotros",

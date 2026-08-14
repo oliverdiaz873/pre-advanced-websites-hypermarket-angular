@@ -34,6 +34,7 @@ export interface ApiProduct {
   unitQuantity?: number;
   status: 'active' | 'inactive';
   isAvailable: boolean;
+  featured?: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -89,6 +90,7 @@ export interface ApiPaginationParams {
   q?: string;
   category?: string;
   brand?: string;
+  featured?: boolean;
   sortBy?: 'name' | 'price' | 'createdAt' | 'updatedAt';
   sortOrder?: 'asc' | 'desc';
 }

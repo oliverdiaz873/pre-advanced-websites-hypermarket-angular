@@ -51,6 +51,7 @@ export class ApiService {
       q: query.q,
       category: query.category,
       brand: query.brand,
+      featured: query.featured === true ? 'true' : undefined,
       sortBy: query.sortBy,
       sortOrder: query.sortOrder,
     };

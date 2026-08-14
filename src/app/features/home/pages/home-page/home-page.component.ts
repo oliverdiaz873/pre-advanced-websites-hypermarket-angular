@@ -11,16 +11,6 @@ import { CategoriesSkeletonComponent } from '@shared/components/skeleton/categor
 import { ProductsGridSkeletonComponent } from '@shared/components/skeleton/products-grid-skeleton.component';
 import { OffersGridSkeletonComponent } from '@shared/components/skeleton/offers-grid-skeleton.component';
 
-const FEATURED_IDS = [
-  'televisor_samsung_75_pulgadas',
-  'nevera_lg',
-  'ventilador_daiwa',
-  'sofa_cama_blanco',
-  'carne_de_res_para_hamburguesas',
-  'pollo_entero_don_pollo',
-  'atun_dimar',
-];
-
 @Component({
   selector: 'app-home-page',
   standalone: true,
@@ -38,11 +28,16 @@ export class HomePageComponent {
   private offerService = inject(OfferService);
 
   protected readonly loading = this.productService.productsLoading;
+  protected readonly error = this.productService.error;
   protected readonly offers = this.offerService.offers;
   protected readonly featured = this.productService.featured;
 
   constructor() {
-    this.productService.loadFeatured(FEATURED_IDS);
+    this.productService.loadFeatured();
     this.offerService.loadAll();
+  }
+
+  retry(): void {
+    this.productService.loadFeatured();
   }
 }

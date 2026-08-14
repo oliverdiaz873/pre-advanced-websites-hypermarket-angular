@@ -353,7 +353,10 @@
     },
     "sections": {
       "offers": "Weekly Offers",
-      "featured": "Featured Products"
+      "featured": "Featured Products",
+      "featured_empty": "There are no featured products available right now.",
+      "featured_error": "Featured products could not be loaded.",
+      "featured_retry": "Retry"
     },
     "about_us": {
       "title": "About Us",
