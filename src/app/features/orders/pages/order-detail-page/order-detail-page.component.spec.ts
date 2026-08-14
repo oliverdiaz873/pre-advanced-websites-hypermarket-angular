@@ -64,7 +64,7 @@ describe('OrderDetailPageComponent', () => {
       cancel: vi.fn(() => of(baseOrder)),
     };
     toast = { error: vi.fn(), success: vi.fn() };
-    translate = { instant: vi.fn((key: string) => key) };
+    translate = { instant: vi.fn((key: string) => key), translate: (key: string) => () => key };
   });
 
   it('loads and renders the order detail', () => {
@@ -105,8 +105,12 @@ describe('OrderDetailPageComponent', () => {
 
   it('pay() calls POST /pay and refreshes from the server', () => {
     const paidOrder = { ...baseOrder, paymentStatus: 'paid' as const };
-    api.pay = vi.fn(() => of(paidOrder));
-    api.getById = vi.fn(() => of(paidOrder));
+    let current: Order = baseOrder;
+    api.pay = vi.fn(() => {
+      current = paidOrder;
+      return of(paidOrder);
+    });
+    api.getById = vi.fn(() => of(current));
     configure(baseOrder);
     const fixture = TestBed.createComponent(OrderDetailPageComponent);
     fixture.detectChanges();
@@ -117,6 +121,8 @@ describe('OrderDetailPageComponent', () => {
   });
 
   it('pay() does nothing when paymentStatus is not pending', () => {
+    const paidOrder = { ...baseOrder, paymentStatus: 'paid' as const };
+    api.getById = vi.fn(() => of(paidOrder));
     configure({ ...baseOrder, paymentStatus: 'paid' });
     const fixture = TestBed.createComponent(OrderDetailPageComponent);
     fixture.detectChanges();
@@ -131,8 +137,12 @@ describe('OrderDetailPageComponent', () => {
       status: 'cancelled' as const,
       paymentStatus: 'refunded' as const,
     };
-    api.cancel = vi.fn(() => of(cancelledOrder));
-    api.getById = vi.fn(() => of(cancelledOrder));
+    let current: Order = baseOrder;
+    api.cancel = vi.fn(() => {
+      current = cancelledOrder;
+      return of(cancelledOrder);
+    });
+    api.getById = vi.fn(() => of(current));
     configure(baseOrder);
     const fixture = TestBed.createComponent(OrderDetailPageComponent);
     fixture.detectChanges();
@@ -144,6 +154,8 @@ describe('OrderDetailPageComponent', () => {
   });
 
   it('cancel() does nothing when the order can no longer be cancelled', () => {
+    const completedOrder = { ...baseOrder, status: 'completed' as const };
+    api.getById = vi.fn(() => of(completedOrder));
     configure({ ...baseOrder, status: 'completed' });
     const fixture = TestBed.createComponent(OrderDetailPageComponent);
     fixture.detectChanges();

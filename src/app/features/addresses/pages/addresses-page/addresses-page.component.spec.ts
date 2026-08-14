@@ -50,6 +50,7 @@ describe('AddressesPageComponent', () => {
     toast = { error: vi.fn() };
     translate = {
       instant: vi.fn((key: string) => key),
+      translate: (key: string) => () => key,
     };
   });
 

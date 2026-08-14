@@ -38,7 +38,7 @@ describe('OrdersPageComponent', () => {
 
   beforeEach(() => {
     api = { list: vi.fn(() => of([order])) };
-    translate = { instant: vi.fn((key: string) => key) };
+    translate = { instant: vi.fn((key: string) => key), translate: (key: string) => () => key };
   });
 
   it('shows the empty history when there are no orders', () => {

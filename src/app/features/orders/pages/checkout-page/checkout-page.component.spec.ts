@@ -3,7 +3,6 @@ import { provideRouter } from '@angular/router';
 import { Router } from '@angular/router';
 import { computed, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { fakeAsync, tick } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { CheckoutPageComponent } from './checkout-page.component';
 import { OrderApiService } from '../../services/order-api.service';
@@ -67,7 +66,10 @@ describe('CheckoutPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [CheckoutPageComponent],
       providers: [
-        provideRouter([]),
+        provideRouter([
+          { path: 'login', children: [] },
+          { path: 'orders/:id', children: [] },
+        ]),
         { provide: OrderApiService, useValue: api },
         { provide: AddressApiService, useValue: addressApi },
         { provide: CartService, useValue: cartServiceMock(cartItems) },
@@ -84,7 +86,7 @@ describe('CheckoutPageComponent', () => {
       create: vi.fn(() => of(address)),
     };
     toast = { error: vi.fn() };
-    translate = { instant: vi.fn((key: string) => key) };
+    translate = { instant: vi.fn((key: string) => key), translate: (key: string) => () => key };
   });
 
   it('generates an idempotencyKey on mount and it exists', () => {
@@ -151,7 +153,7 @@ describe('CheckoutPageComponent', () => {
     expect(fixture.componentInstance.submitError()).toBe('checkout.errors.cart_empty');
   });
 
-  it('navigates to login with returnUrl on 401', fakeAsync(() => {
+  it('navigates to login with returnUrl on 401', async () => {
     api.create = vi.fn(() => throwError(() => httpError(401)));
     configure();
     const fixture = TestBed.createComponent(CheckoutPageComponent);
@@ -159,25 +161,25 @@ describe('CheckoutPageComponent', () => {
     const router = TestBed.inject(Router);
 
     fixture.componentInstance.confirmOrder();
-    tick();
+    await fixture.whenStable();
 
     expect(router.url).toContain('/login');
     expect(router.url).toContain('returnUrl');
     expect(router.url).toContain(encodeURIComponent('/checkout'));
-  }));
+  });
 
-  it('navigates to the order detail on success', fakeAsync(() => {
+  it('navigates to the order detail on success', async () => {
     configure();
     const fixture = TestBed.createComponent(CheckoutPageComponent);
     fixture.detectChanges();
     const router = TestBed.inject(Router);
 
     fixture.componentInstance.confirmOrder();
-    tick();
+    await fixture.whenStable();
 
     expect(api.create).toHaveBeenCalledWith({ addressId: 'addr-1', idempotencyKey: fixture.componentInstance.idempotencyKey });
     expect(router.url).toContain('/orders/ord-1');
-  }));
+  });
 
   it('blocks confirmation when the cart is empty', () => {
     configure([]);
@@ -191,7 +193,7 @@ describe('CheckoutPageComponent', () => {
     expect(component.submitError()).toBe('checkout.errors.cart_empty');
   });
 
-  it('requires a selected address before confirming', fakeAsync(() => {
+  it('requires a selected address before confirming', async () => {
     addressApi.list = vi.fn(() => of([]));
     configure();
     const fixture = TestBed.createComponent(CheckoutPageComponent);
@@ -200,8 +202,8 @@ describe('CheckoutPageComponent', () => {
     const component = fixture.componentInstance;
     expect(component.selectedAddressId()).toBeNull();
     component.confirmOrder();
-    tick();
+    await fixture.whenStable();
     expect(api.create).not.toHaveBeenCalled();
     expect(component.submitError()).toBe('checkout.errors.no_address');
-  }));
+  });
 });

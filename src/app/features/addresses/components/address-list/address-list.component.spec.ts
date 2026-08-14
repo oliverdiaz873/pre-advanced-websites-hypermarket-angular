@@ -32,7 +32,12 @@ describe('AddressListComponent', () => {
   function create(inputs?: { addresses?: Address[]; selectable?: boolean; showActions?: boolean }) {
     TestBed.configureTestingModule({
       imports: [AddressListComponent],
-      providers: [{ provide: TranslateService, useValue: { instant: (k: string) => k } }],
+      providers: [
+        {
+          provide: TranslateService,
+          useValue: { instant: (k: string) => k, translate: (k: string) => () => k },
+        },
+      ],
     });
     const fixture = TestBed.createComponent(AddressListComponent);
     if (inputs?.addresses !== undefined) fixture.componentRef.setInput('addresses', inputs.addresses);
@@ -43,7 +48,7 @@ describe('AddressListComponent', () => {
   }
 
   it('renders each address card', () => {
-    const { fixture } = create();
+    const { fixture } = create({ addresses });
     const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
     expect(text).toContain('Casa');
     expect(text).toContain('Oficina');

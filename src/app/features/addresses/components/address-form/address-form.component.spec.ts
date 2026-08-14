@@ -9,6 +9,7 @@ describe('AddressFormComponent', () => {
   beforeEach(() => {
     translate = {
       instant: vi.fn((key: string) => key),
+      translate: (key: string) => () => key,
     };
   });
 
