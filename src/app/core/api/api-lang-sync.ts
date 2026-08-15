@@ -1,7 +1,6 @@
 import { Injectable, Provider, inject, APP_INITIALIZER } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiLangService } from '@core/api/api-lang.service';
-import type { ApiLang } from '@core/api/api-types';
 
 /**
  * Puente entre ngx-translate (fuente de idioma del storefront) y ApiLangService.

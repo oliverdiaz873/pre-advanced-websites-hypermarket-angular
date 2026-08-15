@@ -27,7 +27,7 @@
               [selectable]="true"
               [selectedId]="selectedAddressId()"
               [showActions]="false"
-              (select)="selectedAddressId.set($event.id)"
+              (addressSelected)="selectedAddressId.set($event.id)"
             ></app-address-list>
 
             <div class="checkout-page__shipping-actions">

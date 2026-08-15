@@ -8,7 +8,6 @@ import { JsonLdSchema, SeoConfig } from '@core/types/seo';
 import { SeoService } from '@core/services/seo.service';
 import { StorageService } from '@core/services/storage.service';
 import { BRAND_NAME } from '@core/constants';
-import { SUPPORTED_LANGS } from '@core/i18n/i18n.config';
 
 const fallbackSeo: SeoConfig = {
   title: BRAND_NAME,

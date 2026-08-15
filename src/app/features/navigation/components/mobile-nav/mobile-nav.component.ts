@@ -18,7 +18,7 @@ import { getUrlFragment } from '../../../../core/utils/url.utils';
 export class MobileNavComponent implements OnChanges, OnDestroy {
   @Input({ required: true }) isOpen = false;
   @Input() showLanguage = true;
-  @Output() close = new EventEmitter<void>();
+  @Output() menuClosed = new EventEmitter<void>();
 
   private platformId = inject(PLATFORM_ID);
   private readonly productService = inject(ProductService);
@@ -31,7 +31,7 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
   protected openSubcategories = signal<string[]>([]);
 
   logout(): void {
-    this.auth.logout().subscribe(() => this.close.emit());
+    this.auth.logout().subscribe(() => this.menuClosed.emit());
   }
 
   getFragment(href: string): string {

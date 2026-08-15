@@ -30,7 +30,7 @@ import { isPlatformBrowser } from '@angular/common';
  */
 export class ScrollScaleDirective implements OnInit, OnDestroy {
   private frameId = 0;
-  private timer: any;
+  private timer: number | undefined;
   private isBrowser: boolean;
 
   // Spring State Variables
@@ -50,7 +50,7 @@ export class ScrollScaleDirective implements OnInit, OnDestroy {
     private el: ElementRef<HTMLElement>,
     private ngZone: NgZone,
     private renderer: Renderer2,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -103,7 +103,7 @@ export class ScrollScaleDirective implements OnInit, OnDestroy {
     const sectionHeight = rect.height || 1;
     const mobile = this.isMobile();
 
-    let progress = 0;
+    let progress: number;
 
     if (mobile) {
       // Mobile: ["start 90%", "start 35%"]

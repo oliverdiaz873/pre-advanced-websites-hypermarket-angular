@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { OfferService } from '@features/offers';
-import { ProductUI } from '../../../products/models/product-ui.interface';
 import { SeoService } from '../../../../core/services/seo.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ProductGridComponent } from '../../../products/components/product-grid/product-grid.component';

@@ -2,7 +2,6 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiService } from '@core/api/api.service';
-import type { ApiProduct } from '@core/api/api-types';
 import { mapApiCategoriesToCategories } from '@core/api/category.mapper';
 import type { Category } from '@core/types/category.interface';
 import type { CategorySection } from '@data/catalog.helpers';

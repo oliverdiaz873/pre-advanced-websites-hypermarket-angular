@@ -129,7 +129,7 @@ export class CategoryPageComponent implements AfterViewInit {
 
     effect(() => {
       const category = this.category();
-      const sections = this.sections();
+      this.sections();
       if (category && !this.productService.categoriesLoading()) {
         this.applyCategorySeo();
       }

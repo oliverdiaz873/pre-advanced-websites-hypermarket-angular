@@ -8,7 +8,6 @@ import {
   AfterViewInit,
   OnDestroy,
   inject,
-  DestroyRef,
   PLATFORM_ID
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';

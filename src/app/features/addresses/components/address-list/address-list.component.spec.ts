@@ -63,7 +63,7 @@ describe('AddressListComponent', () => {
   it('emits select on card click when selectable', () => {
     const { component } = create({ selectable: true });
     let selected: Address | undefined;
-    component.select.subscribe((a) => (selected = a));
+    component.addressSelected.subscribe((a) => (selected = a));
     component.onSelect(addresses[1]);
     expect(selected?.id).toBe('addr-2');
   });
@@ -71,7 +71,7 @@ describe('AddressListComponent', () => {
   it('does not emit select when not selectable', () => {
     const { component } = create();
     let emitted = false;
-    component.select.subscribe(() => (emitted = true));
+    component.addressSelected.subscribe(() => (emitted = true));
     component.onSelect(addresses[1]);
     expect(emitted).toBe(false);
   });

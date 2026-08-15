@@ -87,7 +87,7 @@ describe('MobileNavComponent (account links)', () => {
     const fixture = TestBed.createComponent(MobileNavComponent);
     fixture.detectChanges();
     const close = vi.fn();
-    fixture.componentInstance.close.subscribe(close);
+    fixture.componentInstance.menuClosed.subscribe(close);
 
     fixture.componentInstance.logout();
 

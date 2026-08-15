@@ -47,6 +47,6 @@
   <app-mobile-nav
     [isOpen]="isMobileMenuOpen()"
     [showLanguage]="showDrawerLanguage()"
-    (close)="isMobileMenuOpen.set(false)">
+    (menuClosed)="isMobileMenuOpen.set(false)">
   </app-mobile-nav>
 </div>

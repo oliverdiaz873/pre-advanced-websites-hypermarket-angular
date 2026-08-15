@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal, computed, OnInit, OnDestroy, HostListener, PLATFORM_ID } from '@angular/core';
+import { Component, Input, inject, signal, OnInit, OnDestroy, HostListener, PLATFORM_ID } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';

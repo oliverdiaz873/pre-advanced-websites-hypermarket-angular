@@ -145,7 +145,7 @@ describe('ContactFormComponent', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       const onSuccessSpy = vi.fn();
-      component.onSuccess.subscribe(onSuccessSpy);
+      component.success.subscribe(onSuccessSpy);
 
       component.submit();
 
@@ -175,7 +175,7 @@ describe('ContactFormComponent', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       const onSuccessSpy = vi.fn();
-      component.onSuccess.subscribe(onSuccessSpy);
+      component.success.subscribe(onSuccessSpy);
       createValidForm(component);
 
       apiService.sendContactMessage.mockReturnValue(of({ success: true, data: {} as never }));
@@ -195,7 +195,7 @@ describe('ContactFormComponent', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       const onSuccessSpy = vi.fn();
-      component.onSuccess.subscribe(onSuccessSpy);
+      component.success.subscribe(onSuccessSpy);
       createValidForm(component);
 
       apiService.sendContactMessage.mockReturnValue(
@@ -233,7 +233,7 @@ describe('ContactFormComponent', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       const onSuccessSpy = vi.fn();
-      component.onSuccess.subscribe(onSuccessSpy);
+      component.success.subscribe(onSuccessSpy);
 
       component.submit();
 
@@ -246,7 +246,7 @@ describe('ContactFormComponent', () => {
       const fixture = TestBed.createComponent(ContactFormComponent);
       const component = fixture.componentInstance;
       const onSuccessSpy = vi.fn();
-      component.onSuccess.subscribe(onSuccessSpy);
+      component.success.subscribe(onSuccessSpy);
 
       component.form.setValue({
         nombre: '   ',

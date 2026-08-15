@@ -2,7 +2,7 @@
 <div
   class="mobile-backdrop"
   [class.is-open]="isOpen"
-  (click)="close.emit()"
+  (click)="menuClosed.emit()"
 ></div>
 
 <!-- Mobile Menu Panel -->
@@ -14,7 +14,7 @@
 >
   <ul class="mobile-nav-list">
     <li class="mobile-nav-item">
-      <a routerLink="/" class="mobile-nav-link" (click)="close.emit()">
+      <a routerLink="/" class="mobile-nav-link" (click)="menuClosed.emit()">
         {{ 'header.nav.home' | translate }}
       </a>
     </li>
@@ -66,7 +66,7 @@
                         [routerLink]="['/category', cat.id]"
                         [fragment]="getFragment(sub.href)"
                         class="mobile-submenu-link"
-                        (click)="close.emit()"
+                        (click)="menuClosed.emit()"
                       >
                         {{ 'categories.sub.' + getFragment(sub.href) | translate }}
                       </a>
@@ -81,13 +81,13 @@
     </li>
 
     <li class="mobile-nav-item">
-      <a routerLink="/offers" class="mobile-nav-link" (click)="close.emit()">
+      <a routerLink="/offers" class="mobile-nav-link" (click)="menuClosed.emit()">
         {{ 'header.nav.offers' | translate }}
       </a>
     </li>
 
     <li class="mobile-nav-item">
-      <a routerLink="/contact" class="mobile-nav-link" (click)="close.emit()">
+      <a routerLink="/contact" class="mobile-nav-link" (click)="menuClosed.emit()">
         {{ 'header.nav.contact' | translate }}
       </a>
     </li>
@@ -99,7 +99,7 @@
       @case ('authenticated') {
         @if (user(); as user) {
           <li class="mobile-nav-item">
-            <a routerLink="/account" class="mobile-nav-link" (click)="close.emit()">
+            <a routerLink="/account" class="mobile-nav-link" (click)="menuClosed.emit()">
               <span class="mobile-user-avatar" aria-hidden="true">{{ user.name.charAt(0).toUpperCase() }}</span>
               {{ 'header.account.account' | translate }}
             </a>
@@ -113,12 +113,12 @@
       }
       @case ('anonymous') {
         <li class="mobile-nav-item">
-          <a routerLink="/login" class="mobile-nav-link" (click)="close.emit()">
+          <a routerLink="/login" class="mobile-nav-link" (click)="menuClosed.emit()">
             {{ 'header.account.login' | translate }}
           </a>
         </li>
         <li class="mobile-nav-item">
-          <a routerLink="/register" class="mobile-nav-link" (click)="close.emit()">
+          <a routerLink="/register" class="mobile-nav-link" (click)="menuClosed.emit()">
             {{ 'header.account.register' | translate }}
           </a>
         </li>

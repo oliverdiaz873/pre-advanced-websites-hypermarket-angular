@@ -40,7 +40,7 @@ export class ContactFormComponent {
   private readonly validation = inject(ContactFormService);
   private readonly api = inject(ApiService);
 
-  readonly onSuccess = output<void>();
+  readonly success = output<void>();
 
   isSubmitting = false;
   submitError = '';
@@ -80,7 +80,7 @@ export class ContactFormComponent {
           telefono: '',
           mensaje: ''
         });
-        this.onSuccess.emit();
+        this.success.emit();
       },
       error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;

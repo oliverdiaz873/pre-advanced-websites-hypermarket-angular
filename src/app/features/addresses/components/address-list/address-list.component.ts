@@ -25,13 +25,13 @@ export class AddressListComponent {
   readonly showActions = input(true);
 
   /** Selecciona una dirección (solo con `selectable`). */
-  readonly select = output<Address>();
+  readonly addressSelected = output<Address>();
   readonly edit = output<Address>();
   readonly delete = output<Address>();
   readonly setDefault = output<Address>();
 
   onSelect(address: Address): void {
     if (!this.selectable()) return;
-    this.select.emit(address);
+    this.addressSelected.emit(address);
   }
 }
