@@ -2,10 +2,26 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { accountErrorKey } from './account-error.util';
 
 describe('accountErrorKey', () => {
-  it('maps VALIDATION_ERROR to update_failed', () => {
+  it('maps name validation to a specific message', () => {
     const error = new HttpErrorResponse({
       status: 400,
       error: { code: 'VALIDATION_ERROR', message: 'Name must be a non-empty string' },
+    });
+    expect(accountErrorKey(error)).toBe('auth.errors.name_invalid');
+  });
+
+  it('maps phone validation to a specific message', () => {
+    const error = new HttpErrorResponse({
+      status: 400,
+      error: { code: 'VALIDATION_ERROR', message: 'Phone must be a string' },
+    });
+    expect(accountErrorKey(error)).toBe('auth.errors.phone_invalid');
+  });
+
+  it('keeps update_failed as fallback for unknown validation messages', () => {
+    const error = new HttpErrorResponse({
+      status: 400,
+      error: { code: 'VALIDATION_ERROR', message: 'Nothing to update' },
     });
     expect(accountErrorKey(error)).toBe('auth.errors.update_failed');
   });

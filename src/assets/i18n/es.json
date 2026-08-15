@@ -306,6 +306,8 @@
       "email_exists": "Ya existe una cuenta con ese correo electrónico.",
       "rate_limited": "Demasiados intentos. Inténtalo de nuevo más tarde.",
       "session_expired": "Tu sesión expiró. Vuelve a iniciar sesión.",
+      "name_invalid": "Introduce un nombre válido.",
+      "phone_invalid": "Introduce un teléfono válido.",
       "update_failed": "No se pudieron guardar los cambios.",
       "unknown": "Algo salió mal. Inténtalo de nuevo."
     }
