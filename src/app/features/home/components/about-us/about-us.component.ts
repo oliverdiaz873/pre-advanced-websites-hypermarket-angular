@@ -19,5 +19,7 @@ import { ScrollScaleDirective } from '../../directives/scroll-scale.directive';
  * with rAF-throttled scroll progress and mobile-aware easing.
  */
 export class AboutUsComponent {
-  protected readonly getAssetUrl = getAssetUrl;
+  protected getAssetUrl(path: string): string {
+    return getAssetUrl(path);
+  }
 }

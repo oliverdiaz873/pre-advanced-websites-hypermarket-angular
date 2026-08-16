@@ -18,9 +18,13 @@ npm install
 
 ## Environment Variables
 
-No environment variables are currently required by the application.
+No environment variables are required at runtime or build time by the application.
 
-The codebase does not read from `process.env`, and there are no tracked `.env` files in the project. If future integrations require secrets or deployment-specific configuration, add them through standard Angular environment files and document them here.
+The codebase does not read from `process.env` (nor from `.env` files): API
+configuration lives in `src/app/core/api/api.config.ts`. The tracked
+`.env.example` only documents the deployment variables (`ANGULAR_API_BASE_URL`,
+`ANGULAR_STORAGE_PUBLIC_URL`) that must be applied there before a production
+build — the app does not load them automatically.
 
 ## Available Commands
 

@@ -27,9 +27,13 @@ export class ProductCardComponent {
   @Input() oldPrice?: string;
   @Input() discountPercentage?: number;
 
-  public readonly cleanPrice = cleanPrice;
-  public readonly getAssetUrl = getAssetUrl;
-  public readonly unitLabel = unitLabel;
+  public cleanPrice(text: string): string {
+    return cleanPrice(text);
+  }
+
+  public getAssetUrl(path: string): string {
+    return getAssetUrl(path);
+  }
 
   public get isOffer(): boolean {
     return !!this.oldPrice;

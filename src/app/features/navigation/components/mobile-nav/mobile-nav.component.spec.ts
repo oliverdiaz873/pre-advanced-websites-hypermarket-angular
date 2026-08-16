@@ -57,9 +57,14 @@ describe('MobileNavComponent (account links)', () => {
   };
 
   it('shows login and register links when anonymous', () => {
-    const { text } = render();
-    expect(text).toContain('header.account.login');
-    expect(text).toContain('header.account.register');
+    vi.useFakeTimers();
+    try {
+      const { text } = render();
+      expect(text).toContain('header.account.login');
+      expect(text).toContain('header.account.register');
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('shows account and logout when authenticated', () => {

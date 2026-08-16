@@ -66,7 +66,11 @@ describe('SearchPageComponent', () => {
 
   async function flush(): Promise<void> {
     fixture.detectChanges();
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    if (vi.isFakeTimers()) {
+      await vi.advanceTimersByTimeAsync(0);
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
   }
 
   beforeEach(() => {
@@ -101,19 +105,24 @@ describe('SearchPageComponent', () => {
   });
 
   it('fetches exactly once for a new query and does NOT refetch when results change', async () => {
-    paramMap$.next(convertToParamMap({ q: 'coca' }));
-    fixture = TestBed.createComponent(SearchPageComponent);
-    await flush();
+    vi.useFakeTimers();
+    try {
+      paramMap$.next(convertToParamMap({ q: 'coca' }));
+      fixture = TestBed.createComponent(SearchPageComponent);
+      await flush();
 
-    expect(fetchCalls()).toEqual(['coca']);
+      expect(fetchCalls()).toEqual(['coca']);
 
-    searchService.searchQueryResults.set([fakeProduct(), fakeProduct()]);
-    await flush();
-    expect(fetchCalls()).toEqual(['coca']);
+      searchService.searchQueryResults.set([fakeProduct(), fakeProduct()]);
+      await flush();
+      expect(fetchCalls()).toEqual(['coca']);
 
-    paramMap$.next(convertToParamMap({ q: 'pan' }));
-    await flush();
-    expect(fetchCalls()).toEqual(['coca', 'pan']);
+      paramMap$.next(convertToParamMap({ q: 'pan' }));
+      await flush();
+      expect(fetchCalls()).toEqual(['coca', 'pan']);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('does not issue a fetch when the query is empty, regardless of results changes', async () => {
