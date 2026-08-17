@@ -23,6 +23,9 @@ hypermarket-next          hypermarket-angular         hypermarket
                                       |
                                       ▼
                                  MongoDB
+
+                 hypermarket-superior-e2e (Playwright)
+                 Central E2E infrastructure for the ecosystem
 ```
 
 | Repository | Type | Technology | Purpose |
@@ -31,9 +34,20 @@ hypermarket-next          hypermarket-angular         hypermarket
 | pre-advanced-websites-hypermarket-next | Customer Frontend | Next.js + React | Public storefront |
 | pre-advanced-websites-hypermarket-angular | Customer Frontend | Angular | Alternative public storefront |
 | dashboard-websites-hypermarket | Admin Frontend | Angular + Material + NgRx Signals | Admin dashboard |
+| hypermarket-superior-e2e | E2E Harness | Playwright | Centralized end-to-end testing infrastructure |
 
 **Backend Dependency** — This application requires the backend repository
 `backend-advanced-websites-hypermarket-express-mongodb`, which provides the centralized REST API for the ecosystem.
+
+### Centralized E2E Harness
+
+`hypermarket-superior-e2e` is the ecosystem's independent **End-to-End testing
+repository (Playwright)**. It contains no business logic: it is validation
+infrastructure that orchestrates and validates several repositories at once,
+exercising full flows (frontend → backend → persistence → dashboard) while
+centralizing fixtures, helpers, configuration, and E2E specs.
+
+[Centralized E2E Harness - hypermarket-superior-e2e](https://github.com/oliverdiaz873/hypermarket-superior-e2e)
 
 ```
 Storefronts (Next · Angular) · Admin Dashboard
