@@ -21,6 +21,12 @@ describe('resolveProductImageUrl', () => {
     );
   });
 
+  it('preserva una URL relativa /uploads sin duplicar el prefijo', () => {
+    expect(resolveProductImageUrl('/uploads/products/p1/image.png?v=1')).toBe(
+      '/uploads/products/p1/image.png?v=1'
+    );
+  });
+
   it('resuelve contra la base pública CDN/R2 en prod', () => {
     expect(resolveProductImageUrl('products/bebidas/coca-cola.avif', 'https://cdn.hipermercadosuperior.com')).toBe(
       'https://cdn.hipermercadosuperior.com/uploads/products/bebidas/coca-cola.avif'

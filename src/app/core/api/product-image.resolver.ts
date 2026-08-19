@@ -20,6 +20,10 @@ export const resolveProductImageUrl = (
     return image;
   }
 
+  if (image.startsWith('/uploads/')) {
+    return image;
+  }
+
   const raw = image.startsWith('/') ? image.slice(1) : image;
   return `${storagePublicUrl}/uploads/${raw}`;
 };
