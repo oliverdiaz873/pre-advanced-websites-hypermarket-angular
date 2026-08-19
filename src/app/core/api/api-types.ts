@@ -27,7 +27,9 @@ export interface ApiProduct {
   price: number;
   image: string | null;
   categoryId: string;
+  subcategoryId?: string | null;
   category: { name: string; slug: string };
+  subcategory?: { name: string; slug: string } | null;
   brandId?: string;
   brand?: { name: string; slug: string };
   unit?: string;
@@ -89,6 +91,8 @@ export interface ApiPaginationParams {
   limit?: number;
   q?: string;
   category?: string;
+  categoryId?: string;
+  subcategoryId?: string;
   brand?: string;
   featured?: boolean;
   sortBy?: 'name' | 'price' | 'createdAt' | 'updatedAt';

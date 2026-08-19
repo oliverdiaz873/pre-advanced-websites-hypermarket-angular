@@ -24,6 +24,11 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'category/:id/:subcategory',
+        loadComponent: () => import('./features/category/category-page.component').then(m => m.CategoryPageComponent),
+        data: { seo: seo({ jsonLd: null }) }
+      },
+      {
         path: 'category/:id',
         loadComponent: () => import('./features/category/category-page.component').then(m => m.CategoryPageComponent),
         data: {

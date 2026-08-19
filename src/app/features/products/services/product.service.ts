@@ -78,7 +78,7 @@ export class ProductService {
    * Carga una página de productos (GET /products). El limit por defecto es el del
    * backend; nunca se eleva MAX_LIMIT (decisión F5.0).
    */
-  loadProducts(options: { page?: number; limit?: number; category?: string; q?: string } = {}): void {
+  loadProducts(options: { page?: number; limit?: number; category?: string; categoryId?: string; subcategoryId?: string; q?: string } = {}): void {
     this._productsLoading.set(true);
     this._error.set(null);
 
@@ -86,6 +86,8 @@ export class ProductService {
       page: options.page,
       limit: options.limit,
       category: options.category,
+      categoryId: options.categoryId,
+      subcategoryId: options.subcategoryId,
       q: options.q,
     }).subscribe({
       next: (collection) => {
@@ -204,10 +206,10 @@ export class ProductService {
    *  nunca asume que una sola respuesta contiene todos los productos (decisión
    *  F5.0; se pagen todas las páginas con el límite permitido).
    */
-  private fetchAllProductsInCategory(slug: string): Observable<ProductUI[]> {
+  private fetchAllProductsInCategory(categorySlug: string, subcategoryId?: string): Observable<ProductUI[]> {
     const LIMIT = 100;
 
-    return this.api.getProducts({ category: slug, page: 1, limit: LIMIT }).pipe(
+    return this.api.getProducts({ category: categorySlug, subcategoryId, page: 1, limit: LIMIT }).pipe(
       switchMap((first) => {
         const total = first.pagination?.total ?? first.data.length;
         const pages = Math.max(1, Math.ceil(total / LIMIT));
@@ -218,7 +220,7 @@ export class ProductService {
 
         const remaining: Observable<typeof first>[] = [];
         for (let page = 2; page <= pages; page++) {
-          remaining.push(this.api.getProducts({ category: slug, page, limit: LIMIT }));
+          remaining.push(this.api.getProducts({ category: categorySlug, subcategoryId, page, limit: LIMIT }));
         }
 
         return forkJoin(remaining).pipe(
@@ -249,7 +251,7 @@ export class ProductService {
 
     let pending = subs.length;
     subs.forEach((sub, index) => {
-      this.fetchAllProductsInCategory(sub.slug).subscribe({
+      this.fetchAllProductsInCategory(category.id, sub.slug).subscribe({
         next: (products) => {
           sections[index] = { id: sub.slug, name: sub.name, products };
           if (--pending === 0) {

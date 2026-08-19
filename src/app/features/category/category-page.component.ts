@@ -90,6 +90,7 @@ export class CategoryPageComponent implements AfterViewInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly langVersion = signal(0);
   readonly categoryId = signal('');
+  readonly subcategoryId = signal<string | null>(null);
 
   protected readonly loading = this.productService.categorySectionsLoading;
 
@@ -145,6 +146,7 @@ export class CategoryPageComponent implements AfterViewInit {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
       const id = params.get('id') ?? '';
       this.categoryId.set(id);
+      this.subcategoryId.set(params.get('subcategory'));
       this.applyCategorySeo();
     });
   }
@@ -178,7 +180,9 @@ export class CategoryPageComponent implements AfterViewInit {
   }
 
   sections(): CategorySection[] {
-    return this.productService.categorySections()[this.categoryId()] ?? [];
+    const sections = this.productService.categorySections()[this.categoryId()] ?? [];
+    const subcategory = this.subcategoryId();
+    return subcategory ? sections.filter((section) => section.id === subcategory) : sections;
   }
 
   sectionTitle(sectionId: string): string {

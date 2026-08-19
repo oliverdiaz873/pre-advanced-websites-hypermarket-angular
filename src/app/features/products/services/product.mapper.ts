@@ -28,6 +28,7 @@ export function mapApiProductToProductUI(api: ApiProduct): Product {
     description: api.description,
     url: `/product/${encodeURIComponent(api.id)}`,
     categoria: api.category.slug,
+    subcategoryId: api.subcategoryId ?? null,
     precio: api.price,
     precioTexto,
     imagen,

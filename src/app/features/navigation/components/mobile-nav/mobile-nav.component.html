@@ -64,7 +64,7 @@
                     <li>
                       <a
                         [routerLink]="['/category', cat.id]"
-                        [fragment]="getFragment(sub.href)"
+                        [routerLink]="['/category', cat.id, getFragment(sub.href)]"
                         class="mobile-submenu-link"
                         (click)="menuClosed.emit()"
                       >

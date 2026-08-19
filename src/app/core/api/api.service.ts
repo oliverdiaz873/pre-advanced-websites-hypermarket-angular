@@ -50,6 +50,8 @@ export class ApiService {
       limit: query.limit,
       q: query.q,
       category: query.category,
+      categoryId: query.categoryId,
+      subcategoryId: query.subcategoryId,
       brand: query.brand,
       featured: query.featured === true ? 'true' : undefined,
       sortBy: query.sortBy,
