@@ -30,7 +30,7 @@ export class TabletNavComponent {
   }
 
   getFragment(href: string): string {
-    return getUrlFragment(href);
+    return getUrlFragment(href) || href.split('/').filter(Boolean).pop() || '';
   }
 
   private isTablet(): boolean {

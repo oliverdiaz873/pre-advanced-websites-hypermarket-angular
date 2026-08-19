@@ -4,12 +4,17 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiService } from '@core/api/api.service';
 import { mapApiCategoriesToCategories } from '@core/api/category.mapper';
 import type { Category } from '@core/types/category.interface';
-import type { CategorySection } from '@data/catalog.helpers';
-import { subcategorySlugFromHref } from '@data/category-section-map.data';
+export interface CategorySection {
+  id: string;
+  name: string;
+  products: ProductUI[];
+}
 import { OfferService } from '@features/offers';
 import { ProductUI } from '../models/product-ui.interface';
 import { Product } from '@core/types/product.interface';
 import { mapApiProductToProductUI, mapApiProductsToProductUI, toProductUI } from './product.mapper';
+
+const subcategorySlugFromHref = (href: string): string => href.split('/').filter(Boolean).pop() ?? '';
 
 /**
  * ProductService - orquesta productos de la API real (F5.2).

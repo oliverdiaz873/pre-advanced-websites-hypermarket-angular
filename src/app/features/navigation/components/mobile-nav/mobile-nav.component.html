@@ -63,12 +63,11 @@
                   @for (sub of cat.subcategories; track sub.href) {
                     <li>
                       <a
-                        [routerLink]="['/category', cat.id]"
                         [routerLink]="['/category', cat.id, getFragment(sub.href)]"
                         class="mobile-submenu-link"
                         (click)="menuClosed.emit()"
                       >
-                        {{ 'categories.sub.' + getFragment(sub.href) | translate }}
+                        {{ sub.name }}
                       </a>
                     </li>
                   }

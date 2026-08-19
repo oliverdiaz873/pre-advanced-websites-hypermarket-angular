@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { Category } from '@core/types/category.interface';
-import type { CategorySection } from '@data/catalog.helpers';
+import type { CategorySection } from '@features/products/services/product.service';
 import { SeoService } from '@core/services/seo.service';
 import { BRAND_NAME } from '@core/constants';
 import { getCategoryName, getSubcategoryName } from '@core/utils';

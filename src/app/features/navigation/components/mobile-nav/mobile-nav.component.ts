@@ -35,7 +35,7 @@ export class MobileNavComponent implements OnChanges, OnDestroy {
   }
 
   getFragment(href: string): string {
-    return getUrlFragment(href);
+    return getUrlFragment(href) || href.split('/').filter(Boolean).pop() || '';
   }
 
   toggleCategory(name: string): void {
