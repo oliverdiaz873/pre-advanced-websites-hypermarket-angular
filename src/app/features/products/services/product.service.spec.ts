@@ -18,7 +18,7 @@ const category: Category = {
   id: 'alimentos',
   name: 'Alimentos',
   href: '/category/alimentos',
-  subcategories: [{ name: 'Bebidas', href: '/category/alimentos#bebidas' }],
+  subcategories: [{ name: 'Bebidas', href: '/category/alimentos/bebidas' }],
 };
 
 function buildProduct(id: string): ApiProduct {
@@ -95,7 +95,8 @@ describe('ProductService (categories F5.3.1)', () => {
 
       const productsUrl = (page: number) => (req: HttpRequest<unknown>) =>
         req.url === `${getApiBaseUrl()}/products` &&
-        req.params.get('category') === 'bebidas' &&
+        req.params.get('category') === 'alimentos' &&
+        req.params.get('subcategoryId') === 'bebidas' &&
         req.params.get('page') === String(page);
 
       const req1 = httpMock.expectOne(productsUrl(1));

@@ -7,8 +7,10 @@ export function sectionSlugToProductCategoria(slug: string): string {
     return slug
 }
 
-/** Extrae el fragmento #seccion de un href como "/category/foo#bar" -> "bar" */
+/**
+ * Extrae el slug de subcategoría de un href de navegación, sea de ruta
+ * ("/category/foo/bar" -> "bar") o de fragmento hash ("/category/foo#bar" -> "bar").
+ */
 export function subcategorySlugFromHref(href: string): string {
-    const hash = href.split('#')[1]
-    return hash ?? ''
+    return href.split(/[/#]/).filter(Boolean).pop() ?? ''
 }

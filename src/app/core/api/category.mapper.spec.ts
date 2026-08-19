@@ -20,9 +20,9 @@ describe('category.mapper', () => {
     expect(category.href).toBe('/category/alimentos');
     expect(category.subcategories[0]).toEqual({
       name: 'Bebidas',
-      href: '/category/alimentos#bebidas',
+      href: '/category/alimentos/bebidas',
     });
-    expect(category.subcategories[1].href).toBe('/category/alimentos#frutas-y-verduras');
+    expect(category.subcategories[1].href).toBe('/category/alimentos/frutas-y-verduras');
   });
 
   it('nunca usa el id backend como identidad de navegación', () => {
